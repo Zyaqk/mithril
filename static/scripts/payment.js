@@ -46,7 +46,7 @@ function displayCategories(categories) {
         80273, // ЛОРД
         80274, // КОРОЛЬ
         80275, // ИМПЕРАТОР
-        80281 // ФРИЛЫ
+        80281  // ФРИЛЫ
     ];
 
     // Объект с изображениями категорий
@@ -57,11 +57,22 @@ function displayCategories(categories) {
         80281: 'images/frills.png'
     };
 
+    // Объект с цветами фона для категорий
+    const categoryColors = {
+        80273: '#eb7e35', // ЛОРД
+        80274: '#fdc357', // КОРОЛЬ
+        80275: '#fb4b42', // ИМПЕРАТОР
+        80281: '#97ee7a'  // ФРИЛЫ
+    };
+
     sortedCategoryIds.forEach(id => {
         const category = categories[id];
         if (category.minPrice !== Infinity) {
             const categoryItem = document.createElement('div');
             categoryItem.className = 'itemCategorie';
+
+            // Устанавливаем цвет фона для категории
+            categoryItem.style.backgroundColor = categoryColors[id];
 
             categoryItem.innerHTML = `
                 <img src="${categoryImages[id]}" alt="${category.name}"> 
