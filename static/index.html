@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+
+    <title>MITHRIL - Главная</title>
+
+    <link rel="icon" href="images/icon.png" type="image/x-icon">
+    <link rel='stylesheet' type='text/css' media='screen' href='style.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='media.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="toggleMenu">
+        <button id="toggleMenu"><i class="fa-solid fa-bars"></i></button>
+    </div>
+    <div class="listHeaderPC container" id="listHeader">
+        <div class="listButton">
+            <ul>
+                <li id="closeMenu"><i class="fa-solid fa-xmark"></i></li>
+                <li class="main"><a href="#">МАГАЗИН</a></li>
+                <li><a href="http://45.93.200.9:18591/" target="_blank">КАРТА</a></li>
+            </ul>
+        </div>
+        <div class="listInfo">
+            <ul>
+                <li><button onclick="" class="discordPC"><i class="fa-brands fa-discord"></i></button></li>
+                <li><button class="ipPC" id="ip" onclick="copyIp()">MITHRIL.RU-MC.RU <span id="online"></span></button></li>
+            </ul>
+        </div>
+    </div>
+    <div class="listImagePC container">
+        <img src="images/body.png">
+        <div class="textImage">
+            <h1>MITHRIL</h1>
+            <h2>МАГАЗИН</h2>
+        </div>
+    </div>
+    <div id="listProducts" class="listProducts container"></div>
+    <footer class="footer container">
+        <div class="topFooter">
+            <div class="leftFooterTop">
+                <button id="ip" onclick="copyIp()">MITHRIL.RU-MC.RU</button>
+                <span id="online"></span>
+            </div>
+            <div class="rightFooterTop">
+                <ul>
+                    <li><a href="https://discord.gg/Z4AqKyUuY7" target="_blank"><i class="fa-brands fa-discord"></i></a></li>
+                    <li><a target="_blank"><i class="fa-brands fa-youtube"></i></a></li>
+                    <li><a href="https://vk.com/mithrilrealm" target="_blank"><i class="fa-brands fa-vk"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="bottomFooter">
+            <div class="leftFooterBottom">
+                <p style="color: #842d18;">Проект MITHRIL не имеет никакого отношения к Mojang, AB.</p>
+                <p style="color: black;">Любое копирование материала запрещено.</p>
+                <p style="color:black;">Покупка любых донатов только через: <a href="#" style="text-decoration: underline; color: black;">mithril.net</a></p>
+            </div>
+            <div class="rightFooterBottom">
+                <p style="color: #565656;">MITHRIL© 2023-2024</p>
+                <p style="color: #565656;">Все Права Защищены.</p>
+            </div>
+        </div>
+    </footer>
+    <div id="notification"></div>
+    <button id="mail"><i class="fa-regular fa-envelope"></i></button>
+    <button id="coupon"><i class="fa-solid fa-ticket-simple"></i></button>
+    <button id="nickname"><img src="images/profile.png"></button>
+    <div class="couponWindown" id="couponWindown">
+        <div class="closedCoupon">
+            <h1>КУПОН ДЛЯ ПОКУПОК</h1>
+            <button id="closeCoupon"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="notificationCoupon" class="containerModal"></div>
+        <div class="inputCoupon containerModal">
+            <input type="text" id="inputCoupon">
+            <button id="addCoupon" onclick="addCoupon()">ДОБАВИТЬ КУПОН</button>
+        </div>
+        <div class="descriptionCoupon containerModal">
+            <h2>Что такое купон и для чего нужен?</h2>
+            <p>Купон - это скидочный код или сертификат, который даёт возможность купить товар или услугу со скидкой. Он используется для привлечения новых клиентов, повышения лояльности и увеличения продаж.</p>
+        </div>
+    </div>
+
+    <div class="nicknameWindown" id="nicknameWindown" style="display: none;">
+        <div class="closedNickname">
+            <h1>ВАШ НИКНЕЙМ</h1>
+            <button id="closeNickname"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="notificationNickname" class="containerModal"></div>
+        <div class="inputNickname containerModal">
+            <input type="text" id="inputNickname">
+            <button id="addNickname" onclick="addNickname()">ДОБАВИТЬ НИК</button>
+        </div>
+        <div class="descriptionNickname containerModal">
+            <h2>Что такое ник Майнкрафт?</h2>
+            <p>Ник в Майнкрафт - это уникальное имя пользователя, под которым игроки идентифицируются в игре. Он используется для общения и взаимодействия с другими игроками. Выбор ника важен, так как он будет с игроком на протяжении всей игры.</p>
+        </div>
+    </div>
+
+    <div class="mailWindown" id="mailWindown" style="display: none;">
+        <div class="closedMail">
+            <h1>ВАША ПОЧТА</h1>
+            <button id="closeMail"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="notificationMail" class="containerModal"></div>
+        <div class="inputMail containerModal">
+            <input type="text" id="inputMail">
+            <button id="addMail" onclick="addMail()">ДОБАВИТЬ ПОЧТУ</button>
+        </div>
+        <div class="descriptionMail containerModal">
+            <h2>Зачем нужна почта?</h2>
+            <p>Почта нужна для получения чека и информации о заказе, а также для связи с магазином, если возникнут вопросы.</p>
+        </div>
+    </div>
+
+    <div id="termDonate">
+        <button id="closeTerm"><i class="fa-solid fa-xmark"></i></button>
+        <div class="infoTerm">
+            <h1>MITHRIL RPG</h1>
+            <h3  id="categoryName">ЛОРД</h3>
+            <p>Выберете срок действия:</p>
+        </div>
+        <div class="termList containerList" id="termList">
+            <div class="itemTerm"></div>
+        </div>
+        <p class="containerList">Если у вас есть купон, обязательно активируйте его! С ним вы сможете купить товар по более выгодной цене.</p>
+    </div>
+
+    <script src='scripts/main.js'></script>
+    <script src='scripts/payment.js'></script>
+</body>
+</html>

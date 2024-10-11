@@ -1,0 +1,197 @@
+@media (max-width: 1230px) {
+    .listHeaderPC, .listImagePC, .listProducts {
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    .listHeaderPC {
+        padding: 20px 10px;
+    }
+
+    .listProducts {
+        padding: 130px 10px 0px 10px;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        grid-gap: 30px;
+    }
+}
+
+@media (max-width: 1080px) {
+    .footer {
+        border-radius: 0;
+        margin: 60px 0 0 0;
+    }
+    
+    .ipPC {
+        margin-right: 10px;
+    }
+
+    .main {
+        margin-left: 10px;
+    }
+}
+
+@media (max-width: 920px) {
+    #termDonate {
+        width: 600px;
+        height: 720px;
+    }
+
+    .containerList {
+        max-width: 560px;
+    }
+
+    .termList {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    #termDonate p {
+        padding-bottom: 10px;
+    }
+
+    .itemTerm {
+        height: 360px;
+    }
+}
+
+@media (min-width: 800px) {
+    .listButton ul li, .listInfo ul li {
+        display: inline;
+    }
+    
+    .listButton ul {
+        display: flex;
+        justify-content: center; 
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+    
+    .listButton ul li {
+        margin-right: 10px;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 17px;
+        box-sizing: border-box;
+        border-radius: 5px;
+        transition: 0.11s ease-in-out;
+        cursor: pointer;
+    }
+
+    .listHeaderPC {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        font-size: 20px;
+        letter-spacing: 1.8px;
+        width: 100%;
+        height: auto;
+        padding: 20px 0;
+        margin-top: 18px;
+    }
+}
+
+@media (max-width: 800px) {
+    .listHeaderPC {
+        z-index: 9;
+        background-color: black;
+        height: 400px;
+        flex-direction: column;
+        top: -100%; /* Initially hidden */
+        position: fixed;
+        margin-top: 0;
+        display: none;
+        transition: top 0.5s ease-in-out;
+    }
+
+    .toggleMenu {
+        display: block;
+    }
+
+    #closeMenu {
+        display: block;
+    }
+
+    .listButton ul {
+        display: flex !important;
+        flex-direction: column;
+    }
+
+    #closeMenu {
+        display: block;
+        position: relative;
+        padding: 0 10px;
+    }
+
+    .listButton ul li:not(#closeMenu) {
+        margin-top: 17px;
+        padding: 20px 10px;
+        border-radius: 5px;
+    }
+
+    #nickname {
+        top: 20px;
+        z-index: 10;
+    }
+    #coupon {
+        top: 100px;
+        z-index: 10;
+    }
+    #mail {
+        top: 180px;
+        z-index: 10;
+    }
+
+    .main {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 690px) {
+    .bottomFooter {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 20px 10px;
+        height: auto;
+    }
+
+    .topFooter {
+        padding: 0 10px;
+    }
+
+    .rightFooterBottom {
+        padding-top: 10px;
+    }
+
+    footer {
+        height: auto;
+    }
+
+    .couponWindown, .nicknameWindown, .mailWindown {
+        width: 400px;
+        height: 630px;
+    }
+
+    .containerModal {
+        max-width: 350px;
+        width: 100%;
+        padding-right: calc(var(--bs-gutter-x) * .5);
+        padding-left: calc(var(--bs-gutter-x) * .5);
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 485px) {
+    .leftFooterTop {
+        display: none;
+    }
+
+    .rightFooterTop ul li {
+        margin: 0 20px;
+    }
+
+    .textImage {
+        left: 0;
+    }
+}
