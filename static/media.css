@@ -182,6 +182,20 @@
     }
 }
 
+@media (max-width: 610px) {
+    #termDonate {
+        width: 470px;
+    }
+
+    .containerList {
+        max-width: 450px;
+    }
+
+    .termList {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+}
+
 @media (max-width: 485px) {
     .leftFooterTop {
         display: none;
@@ -193,5 +207,17 @@
 
     .textImage {
         left: 0;
+    }
+
+    #termDonate {
+        width: 370px;
+    }
+
+    .containerList {
+        max-width: 350px;
+    }
+
+    .termList {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
 }
