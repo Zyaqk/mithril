@@ -67,9 +67,8 @@ function displayCategories(categories) {
                 <img src="${categoryImages[id]}" alt="${category.name}"> 
                 <div class="descriptionCategorie">
                     <h1>${category.name}</h1>
-                    <h2>ОТ ${category.minPrice} ДО ${category.maxPrice} руб.</h2>
                 </div>
-                <button onclick="handleButtonClick(${id})"><i class="fa-solid fa-cart-shopping"></i>ПРИОБРЕСТИ</button>
+                <button onclick="handleButtonClick(${id})"><i class="fa-solid fa-cart-shopping"></i>ОТ ${category.minPrice} ДО ${category.maxPrice} руб.</button>
             `;
 
             listProducts.appendChild(categoryItem);
