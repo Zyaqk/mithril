@@ -156,10 +156,21 @@ function displayProducts(products, selectedCategoryId) {
     termList.innerHTML = '';
     const filteredProducts = products.filter(product => product.category_id === selectedCategoryId);
 
+    // Объект с цветами фона для категорий
+    const categoryColors = {
+        80273: '#eb7e35', // ЛОРД
+        80274: '#fdc357', // КОРОЛЬ
+        80275: '#fb4b42', // ИМПЕРАТОР
+        80281: '#97ee7a'  // ФРИЛЫ
+    };
+
     if (filteredProducts.length > 0) {
         filteredProducts.forEach(product => {
             const itemTerm = document.createElement('div');
             itemTerm.className = 'itemTerm';
+
+            // Устанавливаем цвет фона для itemTerm в зависимости от категории товара
+            itemTerm.style.backgroundColor = categoryColors[product.category_id];
 
             itemTerm.innerHTML = `
                 <img src="${product.image}" alt="${product.name}"> 
@@ -173,6 +184,7 @@ function displayProducts(products, selectedCategoryId) {
         termList.innerHTML = '<p>Нет товаров в этой категории.</p>';
     }
 }
+
 
 
 document.getElementById('closeTerm').addEventListener('click', function() {
