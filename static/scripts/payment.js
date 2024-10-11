@@ -151,11 +151,9 @@ function displayProducts(products, selectedCategoryId) {
             itemTerm.className = 'itemTerm';
 
             itemTerm.innerHTML = `
-                <p style="color:black;font-size:26px;font-weight:700">${product.name}</p> 
                 <img src="${product.image}" alt="${product.name}"> 
-                <span>Стоимость:</span>
-                <h3>${product.price} руб.</h3> 
-                <button onclick="buyProduct(${product.id})">КУПИТЬ</button>
+                <h3>${product.name}</h3> 
+                <button onclick="buyProduct(${product.id})">${product.price} руб.</button>
             `;
 
             termList.appendChild(itemTerm);
