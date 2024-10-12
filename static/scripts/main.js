@@ -1,13 +1,19 @@
 function copyIp() {
     const ipText = "mithril.ru-mc.ru";
 
-    navigator.clipboard.writeText(ipText).then(function() {
-        document.getElementById('notification').style.display = "block";
-        document.getElementById('notification').innerHTML = '<span>АЙПИ СКОПИРОВАН В БУФЕР ОБМЕНА!</span>';
-        setTimeout(function() {
-            document.getElementById('notification').style.display = "none";
-        }, 3000)
-    })
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(ipText).then(function() {
+            document.getElementById('notification').style.display = "block";
+            document.getElementById('notification').innerHTML = '<span>АЙПИ СКОПИРОВАН В БУФЕР ОБМЕНА!</span>';
+            setTimeout(function() {
+                document.getElementById('notification').style.display = "none";
+            }, 3000);
+        }).catch(function(error) {
+            console.error('Ошибка при копировании:', error);
+        });
+    } else {
+        console.error('Буфер обмена недоступен');
+    }
 }
 
 
