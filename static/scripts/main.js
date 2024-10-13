@@ -19,13 +19,13 @@ function copyIp() {
 
 async function getServerOnline() {
     try {
-        const response = await fetch('https://api.mcsrvstat.us/3/mithril.ru-mc.ru');
+        const response = await fetch('https://api.trademc.org/shop.getOnline?shop=225880&v3');
         const data = await response.json();
         const statusElements = document.querySelectorAll('#online');
 
         statusElements.forEach(element => {
-            if (data.online) {
-                element.innerHTML = `${data.players.online}`;
+            if (data.response && data.response.players !== undefined) {
+                element.innerHTML = `${data.response.players}`;
             } else {
                 element.innerHTML = `-`;
             }
@@ -39,6 +39,7 @@ async function getServerOnline() {
 }
 getServerOnline();
 setInterval(getServerOnline, 30000);
+
 
 
 function toggleMenu() {
