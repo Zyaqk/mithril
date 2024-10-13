@@ -12,10 +12,10 @@ async function fetchProducts() {
 
         if (data.success) {
             categories = {
-                80273: { name: 'ЛОРД', minPrice: Infinity, maxPrice: -Infinity },
-                80274: { name: 'КОРОЛЬ', minPrice: Infinity, maxPrice: -Infinity },
-                80275: { name: 'ИМПЕРАТОР', minPrice: Infinity, maxPrice: -Infinity },
-                80281: { name: 'ФРИЛЫ', minPrice: Infinity, maxPrice: -Infinity },
+                80286: { name: 'ЛОРД', minPrice: Infinity, maxPrice: -Infinity },
+                80287: { name: 'КОРОЛЬ', minPrice: Infinity, maxPrice: -Infinity },
+                80288: { name: 'ИМПЕРАТОР', minPrice: Infinity, maxPrice: -Infinity },
+                80289: { name: 'ФРИЛЫ', minPrice: Infinity, maxPrice: -Infinity },
             };
 
             data.response.forEach(product => {
@@ -43,26 +43,26 @@ function displayCategories(categories) {
     listProducts.innerHTML = '';
 
     const sortedCategoryIds = [
-        80273, // ЛОРД
-        80274, // КОРОЛЬ
-        80275, // ИМПЕРАТОР
-        80281  // ФРИЛЫ
+        80286, // ЛОРД
+        80287, // КОРОЛЬ
+        80288, // ИМПЕРАТОР
+        80289  // ФРИЛЫ
     ];
 
     // Объект с изображениями категорий
     const categoryImages = {
-        80273: 'images/lord.png',
-        80274: 'images/king.png',
-        80275: 'images/emperor.png',
-        80281: 'images/frills.png'
+        80286: 'images/lord.png',
+        80287: 'images/king.png',
+        80288: 'images/emperor.png',
+        80289: 'images/frills.png'
     };
 
     // Объект с цветами фона для категорий
     const categoryColors = {
-        80273: '#eb7e35', // ЛОРД
-        80274: '#fdc357', // КОРОЛЬ
-        80275: '#fb4b42', // ИМПЕРАТОР
-        80281: '#97ee7a'  // ФРИЛЫ
+        80286: '#eb7e35', // ЛОРД
+        80287: '#fdc357', // КОРОЛЬ
+        80288: '#fb4b42', // ИМПЕРАТОР
+        80289: '#97ee7a'  // ФРИЛЫ
     };
 
     sortedCategoryIds.forEach(id => {
@@ -156,10 +156,10 @@ function displayProducts(products, selectedCategoryId) {
     termList.innerHTML = '';
     const filteredProducts = products.filter(product => product.category_id === selectedCategoryId);
     const categoryColors = {
-        80273: '#eb7e35', // ЛОРД
-        80274: '#fdc357', // КОРОЛЬ
-        80275: '#fb4b42', // ИМПЕРАТОР
-        80281: '#97ee7a'  // ФРИЛЫ
+        80286: '#eb7e35', // ЛОРД
+        80287: '#fdc357', // КОРОЛЬ
+        80288: '#fb4b42', // ИМПЕРАТОР
+        80289: '#97ee7a'  // ФРИЛЫ
     };
 
     if (filteredProducts.length > 0) {

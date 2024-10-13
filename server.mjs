@@ -104,7 +104,6 @@ app.get('/api/shop/payment/create', async (req, res) => {
             method: 'GET',
             headers: { 'Shop-Key': shopKey }
         });
-        
         res.json(data);
     } catch (error) {
         console.error('Ошибка при выполнении запроса:', error);
