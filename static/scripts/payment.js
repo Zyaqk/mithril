@@ -199,7 +199,7 @@ function buyProduct(id) {
     const coupon = document.getElementById('inputCoupon').value.trim();
     const notification = document.getElementById('notification');
 
-    fetch(`/api/shop/payment/create?customer=${nickname}&server_id=92777&products={"${id}" :1}&email=${mail}&coupon=${coupon}&success_url=https://mirhril.fun`)
+    fetch(`/api/shop/payment/create?customer=${nickname}&server_id=92777&products={"${id}" :1}&email=${mail}&coupon=${coupon}&success_url=https://mithril.fun`)
         .then(response => response.json())
         .then(data => {
             if (data.success) {
