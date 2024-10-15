@@ -16,6 +16,7 @@ async function fetchProducts() {
                 80287: { name: 'КОРОЛЬ', minPrice: Infinity, maxPrice: -Infinity },
                 80288: { name: 'ИМПЕРАТОР', minPrice: Infinity, maxPrice: -Infinity },
                 80289: { name: 'ФРИЛЫ', minPrice: Infinity, maxPrice: -Infinity },
+                80543: { name: 'НАБОРЫ', minPrice: Infinity, maxPrice: -Infinity },
             };
 
             data.response.forEach(product => {
@@ -46,7 +47,8 @@ function displayCategories(categories) {
         80286, // ЛОРД
         80287, // КОРОЛЬ
         80288, // ИМПЕРАТОР
-        80289  // ФРИЛЫ
+        80289, // ФРИЛЫ
+        80543  // НАБОРЫ
     ];
 
     // Объект с изображениями категорий
@@ -54,7 +56,8 @@ function displayCategories(categories) {
         80286: 'images/lord.png',
         80287: 'images/king.png',
         80288: 'images/emperor.png',
-        80289: 'images/frills.png'
+        80289: 'images/frills.png',
+        80543: 'images/kits.png'
     };
 
     // Объект с цветами фона для категорий
@@ -62,7 +65,8 @@ function displayCategories(categories) {
         80286: '#eb7e35', // ЛОРД
         80287: '#fdc357', // КОРОЛЬ
         80288: '#fb4b42', // ИМПЕРАТОР
-        80289: '#97ee7a'  // ФРИЛЫ
+        80289: '#97ee7a', // ФРИЛЫ
+        80543: '#efc3c3'  // НАБОРЫ
     };
 
     sortedCategoryIds.forEach(id => {
@@ -159,7 +163,8 @@ function displayProducts(products, selectedCategoryId) {
         80286: '#eb7e35', // ЛОРД
         80287: '#fdc357', // КОРОЛЬ
         80288: '#fb4b42', // ИМПЕРАТОР
-        80289: '#97ee7a'  // ФРИЛЫ
+        80289: '#97ee7a', // ФРИЛЫ
+        80543: '#efc3c3'  // НАБОРЫ
     };
 
     if (filteredProducts.length > 0) {
