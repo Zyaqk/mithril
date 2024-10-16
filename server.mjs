@@ -59,7 +59,7 @@ app.get('/api/shop/coupon/:code', async (req, res) => {
     try {
         const data = await fetchWithRetry(`https://easydonate.ru/api/v3/shop/coupons?where_active=true`, {
             method: 'GET',
-            headers: { 'Shop-Key': shopKey }
+            headers: { 'Shop-Key': '9cd6e6cf7bbeec9a8e5672243f00ac6a' }
         });
 
         if (!data.response || !Array.isArray(data.response)) {

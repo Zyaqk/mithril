@@ -51,7 +51,6 @@ function displayCategories(categories) {
         80543  // НАБОРЫ
     ];
 
-    // Объект с изображениями категорий
     const categoryImages = {
         80286: 'images/lord.png',
         80287: 'images/king.png',
@@ -60,7 +59,6 @@ function displayCategories(categories) {
         80543: 'images/kits.png'
     };
 
-    // Объект с цветами фона для категорий
     const categoryColors = {
         80286: '#eb7e35', // ЛОРД
         80287: '#fdc357', // КОРОЛЬ
@@ -75,7 +73,6 @@ function displayCategories(categories) {
             const categoryItem = document.createElement('div');
             categoryItem.className = 'itemCategorie';
 
-            // Устанавливаем цвет фона для категории
             categoryItem.style.backgroundColor = categoryColors[id];
 
             categoryItem.innerHTML = `
@@ -167,16 +164,41 @@ function displayProducts(products, selectedCategoryId) {
         80543: '#efc3c3'  // НАБОРЫ
     };
 
+    const infoTermText = {
+        80286: 'Выберете срок действия:', // ЛОРД 
+        80287: 'Выберете срок действия:', // КОРОЛЬ
+        80288: 'Выберете срок действия:', // ИМПЕРАТОР
+        80289: 'Выберете сумму:', // ФРИЛЫ 
+        80543: 'Выберете набор:'  // НАБОРЫ
+    };
+
+    const infoTermParagraph = document.querySelector('.infoTerm p');
+    if (infoTermText[selectedCategoryId]) {
+        infoTermParagraph.innerText = infoTermText[selectedCategoryId];
+    }
+
     if (filteredProducts.length > 0) {
         filteredProducts.forEach(product => {
             const itemTerm = document.createElement('div');
             itemTerm.className = 'itemTerm';
             itemTerm.style.backgroundColor = categoryColors[product.category_id];
-            itemTerm.innerHTML = `
-                <img src="${product.image}" alt="${product.name}"> 
-                <h3>${product.name}</h3> 
-                <button onclick="buyProduct(${product.id})">${product.price} руб.</button>
-            `;
+            
+            if (product.category_id === 80543 || 80288 || 80287 || 80286) {
+                itemTerm.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <button onclick="buyProduct(${product.id})">${product.price} руб.</button>
+                    <button id="infoProduct" onclick="infoProduct(${product.id})">
+                        <i class="fa-solid fa-circle-question"></i>
+                    </button>
+                `;
+            } else {
+                itemTerm.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <button onclick="buyProduct(${product.id})">${product.price} руб.</button>
+                `;
+            }
 
             termList.appendChild(itemTerm);
         });
@@ -186,6 +208,42 @@ function displayProducts(products, selectedCategoryId) {
 }
 
 
+function infoProduct(productId) {
+    const descriptionBlock = document.getElementById('descriptionProduct');
+    const closeDescriptionBtn = document.getElementById('closeDesProduct');
+    const descriptionContent = document.getElementById('descriptProduct');
+    descriptionContent.innerHTML = '';
+    fetch(`/api/shop/products`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const product = data.response.find(item => item.id === productId);
+                if (product) {
+                    if (product.description) {
+                        const descriptionHtml = product.description
+                            .split(/[\r\n]+/)
+                            .map(line => `<p>${line.trim()}</p>`)
+                            .join('');
+                        descriptionContent.innerHTML = descriptionHtml;
+                    } else {
+                        descriptionContent.innerHTML = 'Описание отсутствует.';
+                    }
+                } else {
+                    descriptionContent.innerHTML = 'Товар не найден.';
+                }
+            } else {
+                console.error(data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка при получении товаров:', error);
+        });
+    descriptionBlock.style.display = 'block';
+
+    closeDescriptionBtn.addEventListener('click', function () {
+        descriptionBlock.style.display = 'none';
+    });
+}
 
 document.getElementById('closeTerm').addEventListener('click', function() {
     document.getElementById('termDonate').style.display = 'none';
