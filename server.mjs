@@ -21,7 +21,7 @@ async function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function fetchWithRetry(url, options, retries = 3, delay = 710) {
+async function fetchWithRetry(url, options, retries = 3, delay = 1000) {
     let attempt = 0;
     while (attempt < retries) {
         try {
@@ -59,7 +59,7 @@ app.get('/api/shop/coupon/:code', async (req, res) => {
     try {
         const data = await fetchWithRetry(`https://easydonate.ru/api/v3/shop/coupons?where_active=true`, {
             method: 'GET',
-            headers: { 'Shop-Key': '9cd6e6cf7bbeec9a8e5672243f00ac6a' }
+            headers: { 'Shop-Key': shopKey }
         });
 
         if (!data.response || !Array.isArray(data.response)) {
