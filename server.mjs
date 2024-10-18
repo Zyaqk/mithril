@@ -21,7 +21,7 @@ async function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function fetchWithRetry(url, options, retries = 3, delay = 650) {
+async function fetchWithRetry(url, options, retries = 3, delay = 710) {
     let attempt = 0;
     while (attempt < retries) {
         try {
