@@ -17,6 +17,10 @@ const shopKey = process.env.SHOP_KEY;
 app.use(express.static(path.join(__dirname, 'static')));
 app.use(bodyParser.json());
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 async function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }

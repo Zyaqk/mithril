@@ -17,6 +17,8 @@ async function fetchProducts() {
                 80288: { name: 'ИМПЕРАТОР', minPrice: Infinity, maxPrice: -Infinity },
                 80289: { name: 'ФРИЛЫ', minPrice: Infinity, maxPrice: -Infinity },
                 80543: { name: 'НАБОРЫ', minPrice: Infinity, maxPrice: -Infinity },
+                80660: { name: 'ТОЧЕЧНЫЕ ШАРЫ', minPrice: Infinity, maxPrice: -Infinity },
+                80661: { name: 'ПОЛОСАТЫЕ ШАРЫ', minPrice: Infinity, maxPrice: -Infinity },
             };
 
             data.response.forEach(product => {
@@ -48,7 +50,9 @@ function displayCategories(categories) {
         80287, // КОРОЛЬ
         80288, // ИМПЕРАТОР
         80289, // ФРИЛЫ
-        80543  // НАБОРЫ
+        80543, // НАБОРЫ
+        80660, // ШАРЫ ТОЧЕЧНЫЕ
+        80661  // ШАРЫ ПОЛОСАТЫЕ
     ];
 
     const categoryImages = {
@@ -56,15 +60,19 @@ function displayCategories(categories) {
         80287: 'images/king.png',
         80288: 'images/emperor.png',
         80289: 'images/frills.png',
-        80543: 'images/kits.png'
+        80543: 'images/kits.png',
+        80660: 'images/dotballs.png',
+        80661: 'images/stripedballs.png'
     };
 
     const categoryColors = {
-        80286: '#eb7e35', // ЛОРД
-        80287: '#fdc357', // КОРОЛЬ
-        80288: '#fb4b42', // ИМПЕРАТОР
-        80289: '#97ee7a', // ФРИЛЫ
-        80543: '#efc3c3'  // НАБОРЫ
+        80286: '#f1ddca', // ЛОРД
+        80287: '#f1ddca', // КОРОЛЬ
+        80288: '#f1ddca', // ИМПЕРАТОР
+        80289: '#f1ddca', // ФРИЛЫ
+        80543: '#f1ddca', // НАБОРЫ
+        80660: '#f1ddca', // ШАРЫ ТОЧЕЧНЫЕ
+        80661: '#f1ddca'  // ШАРЫ ПОЛОСАТЫЕ
     };
 
     sortedCategoryIds.forEach(id => {
@@ -75,18 +83,25 @@ function displayCategories(categories) {
 
             categoryItem.style.backgroundColor = categoryColors[id];
 
+            const priceText = category.minPrice === category.maxPrice 
+                ? `ДО ${category.maxPrice} руб.` 
+                : `ОТ ${category.minPrice} ДО ${category.maxPrice} руб.`;
+
             categoryItem.innerHTML = `
                 <img src="${categoryImages[id]}" alt="${category.name}"> 
                 <div class="descriptionCategorie">
-                    <h1>${category.name}</h1>
+                    <center>
+                        <h1>${category.name}</h1>
+                    </center>
                 </div>
-                <button onclick="handleButtonClick(${id})"><i class="fa-solid fa-cart-shopping"></i>ОТ ${category.minPrice} ДО ${category.maxPrice} руб.</button>
+                <button onclick="handleButtonClick(${id})"><i class="fa-solid fa-cart-shopping"></i>${priceText}</button>
             `;
 
             listProducts.appendChild(categoryItem);
         }
     });
 }
+
 
 
 function handleButtonClick(categoryId) {
@@ -157,19 +172,23 @@ function displayProducts(products, selectedCategoryId) {
     termList.innerHTML = '';
     const filteredProducts = products.filter(product => product.category_id === selectedCategoryId);
     const categoryColors = {
-        80286: '#eb7e35', // ЛОРД
-        80287: '#fdc357', // КОРОЛЬ
-        80288: '#fb4b42', // ИМПЕРАТОР
-        80289: '#97ee7a', // ФРИЛЫ
-        80543: '#efc3c3'  // НАБОРЫ
+        80286: '#f1ddca', // ЛОРД
+        80287: '#f1ddca', // КОРОЛЬ
+        80288: '#f1ddca', // ИМПЕРАТОР
+        80289: '#f1ddca', // ФРИЛЫ
+        80543: '#f1ddca', // НАБОРЫ
+        80660: '#f1ddca', // ШАРЫ ТОЧЕЧНЫЕ
+        80661: '#f1ddca'  // ШАРЫ ПОЛОСАТЫЕ
     };
 
     const infoTermText = {
         80286: 'Выберете срок действия:', // ЛОРД 
         80287: 'Выберете срок действия:', // КОРОЛЬ
         80288: 'Выберете срок действия:', // ИМПЕРАТОР
-        80289: 'Выберете сумму:', // ФРИЛЫ 
-        80543: 'Выберете набор:'  // НАБОРЫ
+        80289: 'Выберете сумму:',         // ФРИЛЫ 
+        80543: 'Выберете набор:',         // НАБОРЫ
+        80660: 'Выберете шар:',           // ШАРЫ ТОЧЕЧНЫЕ
+        80661: 'Выберете шар:'            // ШАРЫ ПОЛОСАТЫЕ
     };
 
     const infoTermParagraph = document.querySelector('.infoTerm p');
@@ -183,7 +202,34 @@ function displayProducts(products, selectedCategoryId) {
             itemTerm.className = 'itemTerm';
             itemTerm.style.backgroundColor = categoryColors[product.category_id];
             
-            if (product.category_id === 80543 || 80288 || 80287 || 80286) {
+            if (product.category_id === 80543) {
+                itemTerm.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <button onclick="buyProduct(${product.id})">${product.price} руб.</button>
+                    <button id="infoProduct" onclick="infoProduct(${product.id})">
+                        <i class="fa-solid fa-circle-question"></i>
+                    </button>
+                `;
+            } else if (product.category_id === 80288) {
+                itemTerm.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <button onclick="buyProduct(${product.id})">${product.price} руб.</button>
+                    <button id="infoProduct" onclick="infoProduct(${product.id})">
+                        <i class="fa-solid fa-circle-question"></i>
+                    </button>
+                `;
+            } else if (product.category_id === 80287) {
+                itemTerm.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <button onclick="buyProduct(${product.id})">${product.price} руб.</button>
+                    <button id="infoProduct" onclick="infoProduct(${product.id})">
+                        <i class="fa-solid fa-circle-question"></i>
+                    </button>
+                `;
+            } else if (product.category_id === 80286) {
                 itemTerm.innerHTML = `
                     <img src="${product.image}" alt="${product.name}">
                     <h3>${product.name}</h3>
