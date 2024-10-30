@@ -117,7 +117,7 @@ function addonNickname() {
     nicknameWindow.style.display = 'none';
     nicknameWindow.style.opacity = 0;
     nicknameWindow.style.transform = 'translate(-50%, -50%) scale(0.9)';
-}
+}addonNickname();
 
 function addonMail() {
     const mailButton = document.getElementById('mail');
@@ -145,9 +145,8 @@ function addonMail() {
     mailWindow.style.transform = 'translate(-50%, -50%) scale(0.9)';
 }
 
-addonCoupon()
-addonNickname();
-addonMail()
+addonCoupon();
+addonMail();
 
 
 function addCoupon() {
@@ -189,16 +188,20 @@ function addNickname() {
     if (nickname === "") {
         notification.style.display = 'block';
         notification.innerHTML = 'Пожалуйста, введите свой никнейм!';
+    } else if (nickname.includes(" ")) {
+        notification.style.display = 'block';
+        notification.innerHTML = 'Никнейм не должен содержать пробелы!';
     } else {
         notification.style.display = 'none';
         window.style.display = 'none';
         notificationAll.style.display = 'block';
-        notificationAll.innerHTML = `<span>НИКНЕЙМ ДОБАВЛЕН: ${nickname}</span>`
+        notificationAll.innerHTML = `<span>НИКНЕЙМ ДОБАВЛЕН: ${nickname}</span>`;
         setTimeout(function() {
             notificationAll.style.display = "none";
         }, 3000);
     }
 }
+
 
 function addMail() {
     const window = document.getElementById('mailWindown');

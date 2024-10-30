@@ -49,8 +49,6 @@ function displayCategories(categories) {
         80288, // ИМПЕРАТОР
         80289, // ФРИЛЫ
         80543, // НАБОРЫ
-        80660, // ШАРЫ ТОЧЕЧНЫЕ
-        80661  // ШАРЫ ПОЛОСАТЫЕ
     ];
 
     const categoryImages = {
@@ -58,9 +56,7 @@ function displayCategories(categories) {
         80287: 'images/king.png',
         80288: 'images/emperor.png',
         80289: 'images/frills.png',
-        80543: 'images/kits.png',
-        80660: 'images/dotballs.png',
-        80661: 'images/stripedballs.png'
+        80543: 'images/kits.png'
     };
 
     const categoryColors = {
@@ -68,9 +64,7 @@ function displayCategories(categories) {
         80287: '#f1ddca', // КОРОЛЬ
         80288: '#f1ddca', // ИМПЕРАТОР
         80289: '#f1ddca', // ФРИЛЫ
-        80543: '#f1ddca', // НАБОРЫ
-        80660: '#f1ddca', // ШАРЫ ТОЧЕЧНЫЕ
-        80661: '#f1ddca'  // ШАРЫ ПОЛОСАТЫЕ
+        80543: '#f1ddca'  // НАБОРЫ
     };
 
     sortedCategoryIds.forEach(id => {
@@ -105,28 +99,21 @@ function displayCategories(categories) {
 function handleButtonClick(categoryId) {
     const inputNickname = document.getElementById('inputNickname').value;
     const inputMail = document.getElementById('inputMail').value;
-    const notification = document.getElementById('notification');
+    const nicknameWindow = document.querySelector('.nicknameWindown');
+    const mailWindow = document.querySelector('.mailWindown');
 
     if (inputNickname == "") {
-        notification.style.display = 'block';
-        notification.style.backgroundColor = 'red';
-        notification.innerHTML = '<span>ДОБАВЬТЕ СВОЙ НИКНЕЙМ!</span>'
-        setTimeout(() => {
-            notification.style.display = 'none';
-        }, 2000);
-        setTimeout(() => {
-            notification.style.backgroundColor = '#16a34a';
-        }, 3000);
+        nicknameWindow.style.display = 'block';
+        requestAnimationFrame(() => {
+            nicknameWindow.style.opacity = 1;
+            nicknameWindow.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
     } else if (inputMail == "") {
-        notification.style.display = 'block';
-        notification.style.backgroundColor = 'red';
-        notification.innerHTML = '<span>ДОБАВЬТЕ СВОЮ ПОЧТУ!</span>'
-        setTimeout(() => {
-            notification.style.display = 'none';
-        }, 2000);
-        setTimeout(() => {
-            notification.style.backgroundColor = '#16a34a';
-        }, 3000);
+        mailWindow.style.display = 'block';
+        requestAnimationFrame(() => {
+            mailWindow.style.opacity = 1;
+            mailWindow.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
     } else {
         const categoryName = categories[categoryId].name;
         const categoryDisplay = document.getElementById('categoryName');
@@ -174,9 +161,7 @@ function displayProducts(products, selectedCategoryId) {
         80287: '#f1ddca', // КОРОЛЬ
         80288: '#f1ddca', // ИМПЕРАТОР
         80289: '#f1ddca', // ФРИЛЫ
-        80543: '#f1ddca', // НАБОРЫ
-        80660: '#f1ddca', // ШАРЫ ТОЧЕЧНЫЕ
-        80661: '#f1ddca'  // ШАРЫ ПОЛОСАТЫЕ
+        80543: '#f1ddca'  // НАБОРЫ
     };
 
     const infoTermText = {
@@ -184,9 +169,7 @@ function displayProducts(products, selectedCategoryId) {
         80287: 'Выберете срок действия:', // КОРОЛЬ
         80288: 'Выберете срок действия:', // ИМПЕРАТОР
         80289: 'Выберете сумму:',         // ФРИЛЫ 
-        80543: 'Выберете набор:',         // НАБОРЫ
-        80660: 'Выберете шар:',           // ШАРЫ ТОЧЕЧНЫЕ
-        80661: 'Выберете шар:'            // ШАРЫ ПОЛОСАТЫЕ
+        80543: 'Выберете набор:'          // НАБОРЫ
     };
 
     const infoTermParagraph = document.querySelector('.infoTerm p');
@@ -297,6 +280,33 @@ document.getElementById('closeTerm').addEventListener('click', function() {
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchProducts();
+
+    fetch('/api/shop/custommessages')
+    .then(response => response.json())
+    .then(data => {
+        if (data.success && data.response.enabled) {
+            const notificationHTML = `
+                    <div id="message">
+                        <div class="container">
+                            <p>${data.response.message}</p>
+                            <button id="messagebtn">${data.response.buttonCaption}</button>
+                        </div>
+                    </div>
+            `;
+
+            document.body.insertAdjacentHTML('beforeend', notificationHTML);
+
+            const notification = document.getElementById('message');
+            const button = document.getElementById('messagebtn');
+
+            button.addEventListener('click', () => {
+                if (data.response.buttonUrl) {
+                    window.open(`${data.response.buttonUrl}`, '_blank');
+                    notification.style.display = 'none';
+                }
+            });
+        }
+    });
 });
 
 
