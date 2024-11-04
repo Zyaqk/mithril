@@ -17,7 +17,7 @@ async function fetchProducts() {
                 80288: { name: 'ИМПЕРАТОР', minPrice: Infinity, maxPrice: -Infinity },
                 80289: { name: 'ФРИЛЫ', minPrice: Infinity, maxPrice: -Infinity },
                 80543: { name: 'НАБОРЫ', minPrice: Infinity, maxPrice: -Infinity },
-                null: { name: 'ДРУГОЕ', minPrice: Infinity, maxPrice: -Infinity },
+                null: { name: 'ЧАНКИ', minPrice: Infinity, maxPrice: -Infinity },
             };
 
             data.response.forEach(product => {
