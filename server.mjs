@@ -25,7 +25,7 @@ async function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function fetchWithRetry(url, options, retries = 4, delay = 580) {
+async function fetchWithRetry(url, options, retries = 3, delay = 680) {
     let attempt = 0;
     while (attempt < retries) {
         try {
@@ -42,7 +42,6 @@ async function fetchWithRetry(url, options, retries = 4, delay = 580) {
         }
     }
 }
-
 
 let lastFetchTime = 0;
 
@@ -67,18 +66,17 @@ app.get('/api/shop/coupon/:code', async (req, res) => {
         });
 
         if (!data.response || !Array.isArray(data.response)) {
-            return res.status(500).json({ success: false, error: 'Invalid data structure' });
+            return res.status(500).json({ success: false, error: 'Неверная структура данных' });
         }
 
         const coupon = data.response.find(coupon => coupon.code === req.params.code);
         if (coupon) {
             res.json({ success: true, coupon });
         } else {
-            res.status(404).json({ success: false, error: 'Coupon not found' });
+            res.status(404).json({ success: false, error: 'Такого купона в магазине не существует' });
         }
     } catch (error) {
-        console.error('Error fetching coupon data:', error);
-        res.status(500).json({ success: false, error: 'Failed to fetch data' });
+        res.status(500).json({ success: false, error: 'Ошибка получение данных с API' });
     }
 });
 
@@ -92,7 +90,7 @@ app.get('/api/shop/products', async (req, res) => {
         });
         res.json(data);
     } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch data' });
+        res.status(500).json({ error: 'Ошибка получение данных с API' });
     }
 });
 
@@ -105,7 +103,7 @@ app.get('/api/shop/custommessages', async (req, res) => {
         });
         res.json(data);
     } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch data' });
+        res.status(500).json({ error: 'Ошибка получение данных с API' });
     }
 });
 
@@ -114,7 +112,7 @@ app.get('/api/shop/payment/create', async (req, res) => {
     try {
         const { customer, products, coupon, email } = req.query;
         if (!customer || !products || !email) {
-            return res.status(400).json({ error: 'Missing required parameters' });
+            return res.status(400).json({ error: 'Неверные параметры для создание оплаты.' });
         }
 
         const data = await fetchWithRetry(`https://easydonate.ru/api/v3/shop/payment/create?customer=${customer}&server_id=${process.env.SERVER_ID}&products=${products}&coupon=${coupon}&email=${email}&success_url=https://mithril.fun`, {
@@ -123,8 +121,7 @@ app.get('/api/shop/payment/create', async (req, res) => {
         });
         res.json(data);
     } catch (error) {
-        console.error('Ошибка при выполнении запроса:', error);
-        res.status(500).json({ error: 'Failed to fetch data' });
+        res.status(500).json({ error: 'Ошибка получение данных с API' });
     }
 });
 
@@ -141,7 +138,7 @@ app.get('/api/shop/payment/:id', async (req, res) => {
         });
         res.json(data);
     } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch data' });
+        res.status(500).json({ error: 'Ошибка получение данных с API' });
     }
 });
 

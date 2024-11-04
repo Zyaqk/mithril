@@ -199,6 +199,20 @@ function addNickname() {
         setTimeout(function() {
             notificationAll.style.display = "none";
         }, 3000);
+
+        const inputmail = document.getElementById('inputMail');
+        const mail = inputmail.value.trim();
+        const mailWindow = document.querySelector('.mailWindown');
+        const notificationMail = document.getElementById('notificationMail');
+        if (mail === "") {
+            mailWindow.style.display = 'block';
+            notificationMail.style.display = 'block';
+            notificationMail.innerHTML = 'Пожалуйста, введите свою почту!';
+            requestAnimationFrame(() => {
+                mailWindow.style.opacity = 1;
+                mailWindow.style.transform = 'translate(-50%, -50%) scale(1)';
+            });
+        }
     }
 }
 

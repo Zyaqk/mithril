@@ -17,6 +17,7 @@ async function fetchProducts() {
                 80288: { name: 'ИМПЕРАТОР', minPrice: Infinity, maxPrice: -Infinity },
                 80289: { name: 'ФРИЛЫ', minPrice: Infinity, maxPrice: -Infinity },
                 80543: { name: 'НАБОРЫ', minPrice: Infinity, maxPrice: -Infinity },
+                null: { name: 'ДРУГОЕ', minPrice: Infinity, maxPrice: -Infinity },
             };
 
             data.response.forEach(product => {
@@ -49,6 +50,7 @@ function displayCategories(categories) {
         80288, // ИМПЕРАТОР
         80289, // ФРИЛЫ
         80543, // НАБОРЫ
+        null, // ДРУГОЕ
     ];
 
     const categoryImages = {
@@ -56,7 +58,8 @@ function displayCategories(categories) {
         80287: 'images/king.png',
         80288: 'images/emperor.png',
         80289: 'images/frills.png',
-        80543: 'images/kits.png'
+        80543: 'images/kits.png',
+        null: 'images/other.png'
     };
 
     const categoryColors = {
@@ -64,7 +67,8 @@ function displayCategories(categories) {
         80287: '#f1ddca', // КОРОЛЬ
         80288: '#f1ddca', // ИМПЕРАТОР
         80289: '#f1ddca', // ФРИЛЫ
-        80543: '#f1ddca'  // НАБОРЫ
+        80543: '#f1ddca', // НАБОРЫ
+        null: '#f1ddca'  // ДРУГОЕ
     };
 
     sortedCategoryIds.forEach(id => {
@@ -161,7 +165,8 @@ function displayProducts(products, selectedCategoryId) {
         80287: '#f1ddca', // КОРОЛЬ
         80288: '#f1ddca', // ИМПЕРАТОР
         80289: '#f1ddca', // ФРИЛЫ
-        80543: '#f1ddca'  // НАБОРЫ
+        80543: '#f1ddca', // НАБОРЫ
+        null: '#f1ddca'  // ДРУГОЕ
     };
 
     const infoTermText = {
@@ -169,7 +174,8 @@ function displayProducts(products, selectedCategoryId) {
         80287: 'Выберете срок действия:', // КОРОЛЬ
         80288: 'Выберете срок действия:', // ИМПЕРАТОР
         80289: 'Выберете сумму:',         // ФРИЛЫ 
-        80543: 'Выберете набор:'          // НАБОРЫ
+        80543: 'Выберете набор:',         // НАБОРЫ
+        null: 'Выберете количество'      // ДРУГОЕ
     };
 
     const infoTermParagraph = document.querySelector('.infoTerm p');
