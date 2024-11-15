@@ -17,7 +17,7 @@ async function fetchProducts() {
                 80288: { name: 'ИМПЕРАТОР', minPrice: Infinity, maxPrice: -Infinity },
                 80289: { name: 'ФРИЛЫ', minPrice: Infinity, maxPrice: -Infinity },
                 80543: { name: 'НАБОРЫ', minPrice: Infinity, maxPrice: -Infinity },
-                null: { name: 'ЧАНКИ', minPrice: Infinity, maxPrice: -Infinity },
+                82100: { name: 'ЧАНКИ', minPrice: Infinity, maxPrice: -Infinity },
             };
 
             data.response.forEach(product => {
@@ -50,7 +50,7 @@ function displayCategories(categories) {
         80288, // ИМПЕРАТОР
         80289, // ФРИЛЫ
         80543, // НАБОРЫ
-        null, // ДРУГОЕ
+        82100, // ЧАНКИ
     ];
 
     const categoryImages = {
@@ -59,7 +59,7 @@ function displayCategories(categories) {
         80288: 'images/emperor.png',
         80289: 'images/frills.png',
         80543: 'images/kits.png',
-        null: 'images/other.png'
+        82100: 'images/other.png'
     };
 
     const categoryColors = {
@@ -68,7 +68,7 @@ function displayCategories(categories) {
         80288: '#f1ddca', // ИМПЕРАТОР
         80289: '#f1ddca', // ФРИЛЫ
         80543: '#f1ddca', // НАБОРЫ
-        null: '#f1ddca'  // ДРУГОЕ
+        82100: '#f1ddca'  // ЧАНКИ
     };
 
     sortedCategoryIds.forEach(id => {
@@ -166,7 +166,7 @@ function displayProducts(products, selectedCategoryId) {
         80288: '#f1ddca', // ИМПЕРАТОР
         80289: '#f1ddca', // ФРИЛЫ
         80543: '#f1ddca', // НАБОРЫ
-        null: '#f1ddca'  // ДРУГОЕ
+        82100: '#f1ddca'  // ЧАНКИ
     };
 
     const infoTermText = {
@@ -175,7 +175,7 @@ function displayProducts(products, selectedCategoryId) {
         80288: 'Выберете срок действия:', // ИМПЕРАТОР
         80289: 'Выберете сумму:',         // ФРИЛЫ 
         80543: 'Выберете набор:',         // НАБОРЫ
-        null: 'Выберете количество'      // ДРУГОЕ
+        82100: 'Выберете количество чанков:'// ЧАНКИ
     };
 
     const infoTermParagraph = document.querySelector('.infoTerm p');
