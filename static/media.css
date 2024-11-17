@@ -28,6 +28,14 @@
     .main {
         margin-left: 10px;
     }
+
+    .divImgAredo {
+        display: none;
+    }
+
+    .topFooter, .bottomFooter {
+        padding-left: 15px;
+    }
 }
 
 @media (max-width: 920px) {

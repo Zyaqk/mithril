@@ -18,6 +18,9 @@ async function fetchProducts() {
                 80289: { name: 'ФРИЛЫ', minPrice: Infinity, maxPrice: -Infinity },
                 80543: { name: 'НАБОРЫ', minPrice: Infinity, maxPrice: -Infinity },
                 82100: { name: 'ЧАНКИ', minPrice: Infinity, maxPrice: -Infinity },
+                81852: { name: 'КОМПАНЬОНЫ КУБЫ', minPrice: Infinity, maxPrice: -Infinity },
+                82215: { name: 'КОСМЕТИКА КЛАССЫ', minPrice: Infinity, maxPrice: -Infinity },
+                82216: { name: 'КОСМЕТИКА РАЗНОЕ', minPrice: Infinity, maxPrice: -Infinity },
             };
 
             data.response.forEach(product => {
@@ -51,6 +54,9 @@ function displayCategories(categories) {
         80289, // ФРИЛЫ
         80543, // НАБОРЫ
         82100, // ЧАНКИ
+        81852, // КОМПАНЬОНЫ КУБЫ
+        82215, // КОСМЕТИКА КЛАССЫ
+        82216, // КОСМЕТИКА РАЗНОЕ
     ];
 
     const categoryImages = {
@@ -59,7 +65,10 @@ function displayCategories(categories) {
         80288: 'images/emperor.png',
         80289: 'images/frills.png',
         80543: 'images/kits.png',
-        82100: 'images/other.png'
+        82100: 'images/other.png',
+        81852: 'images/companionCube.png',
+        82215: 'images/cosmeticOther.png',
+        82216: 'images/cosmeticClass.png'
     };
 
     const categoryColors = {
@@ -68,7 +77,10 @@ function displayCategories(categories) {
         80288: '#f1ddca', // ИМПЕРАТОР
         80289: '#f1ddca', // ФРИЛЫ
         80543: '#f1ddca', // НАБОРЫ
-        82100: '#f1ddca'  // ЧАНКИ
+        82100: '#f1ddca', // ЧАНКИ
+        81852: '#f1ddca', // КОМПАНЬОНЫ КУБЫ
+        82215: '#f1ddca', // КОСМЕТИКА КЛАССЫ
+        82216: '#f1ddca'  // КОСМЕТИКА РАЗНОЕ
     };
 
     sortedCategoryIds.forEach(id => {
@@ -97,7 +109,6 @@ function displayCategories(categories) {
         }
     });
 }
-
 
 
 function handleButtonClick(categoryId) {
@@ -166,16 +177,22 @@ function displayProducts(products, selectedCategoryId) {
         80288: '#f1ddca', // ИМПЕРАТОР
         80289: '#f1ddca', // ФРИЛЫ
         80543: '#f1ddca', // НАБОРЫ
-        82100: '#f1ddca'  // ЧАНКИ
+        82100: '#f1ddca', // ЧАНКИ
+        81852: '#f1ddca', // КОМПАНЬОНЫ КУБЫ
+        82215: '#f1ddca', // КОСМЕТИКА КЛАССЫ
+        82216: '#f1ddca'  // КОСМЕТИКА РАЗНОЕ
     };
 
     const infoTermText = {
-        80286: 'Выберете срок действия:', // ЛОРД 
-        80287: 'Выберете срок действия:', // КОРОЛЬ
-        80288: 'Выберете срок действия:', // ИМПЕРАТОР
-        80289: 'Выберете сумму:',         // ФРИЛЫ 
-        80543: 'Выберете набор:',         // НАБОРЫ
-        82100: 'Выберете количество чанков:'// ЧАНКИ
+        80286: 'Выберите срок действия:',     // ЛОРД 
+        80287: 'Выберите срок действия:',     // КОРОЛЬ
+        80288: 'Выберите срок действия:',     // ИМПЕРАТОР
+        80289: 'Выберите сумму:',             // ФРИЛЫ 
+        80543: 'Выберите набор:',             // НАБОРЫ
+        82100: 'Выберите количество чанков:', // ЧАНКИ
+        81852: 'Выберите компаньон куба:',    // КОМПАНЬОНЫ КУБЫ
+        82215: 'Выберите косметику класса:',  // КОСМЕТИКА КЛАССЫ
+        82216: 'Выберите косметику:'          // КОСМЕТИКА РАЗНОЕ
     };
 
     const infoTermParagraph = document.querySelector('.infoTerm p');

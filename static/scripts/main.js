@@ -16,6 +16,13 @@ function copyIp() {
     }
 }
 
+function clickDescription() {
+    document.getElementById('notification').style.display = "block";
+    document.getElementById('notification').innerHTML = '<span>В РАЗРАБОТКЕ!</span>';
+    setTimeout(function() {
+        document.getElementById('notification').style.display = "none";
+    }, 3000);
+}
 
 async function getServerOnline() {
     try {
@@ -27,13 +34,13 @@ async function getServerOnline() {
             if (data.response && data.response.players !== undefined) {
                 element.innerHTML = `${data.response.players}`;
             } else {
-                element.innerHTML = `-`;
+                element.innerHTML = `0`;
             }
         });
     } catch (error) {
         const statusElements = document.querySelectorAll('#online');
         statusElements.forEach(element => {
-            element.innerHTML = `-`;
+            element.innerHTML = `0`;
         });
     }
 }

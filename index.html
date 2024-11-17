@@ -26,53 +26,62 @@
             <ul>
                 <li id="closeMenu"><i class="fa-solid fa-xmark"></i></li>
                 <li class="main"><a href="#">МАГАЗИН</a></li>
-                <li><a href="http://45.93.200.9:18591/" target="_blank">КАРТА</a></li>
+                <li><a href="http://map.mithril.fun:25751/" target="_blank">КАРТА</a></li>
             </ul>
         </div>
         <div class="listInfo">
             <ul>
-                <li><button onclick="" class="discordPC"><i class="fa-brands fa-discord"></i></button></li>
-                <li><button class="ipPC" id="ip" onclick="copyIp()">MITHRIL.RU-MC.RU <span id="online"></span></button></li>
+                <li> <button class="ipPC" id="ip" onclick="copyIp()">MITHRIL.RU-MC.RU <span id="online"></span></button></li>
             </ul>
         </div>
     </div>
     <div class="listImagePC container">
         <img src="images/body.png">
-        <div class="textImage">
+        <!-- <div class="textImage">
             <h1>MITHRIL</h1>
             <h2>МАГАЗИН</h2>
-        </div>
+        </div> -->
+    </div>
+    <div class="howCommand container">
+        <button onclick="clickDescription()"><a class="howCommands">Какие возможности всех привилегий?</a></button>
     </div>
     <div id="listProducts" class="listProducts container"></div>
     <footer class="footer container">
-        <div class="topFooter">
-            <div class="leftFooterTop">
-                <button id="ip" onclick="copyIp()">MITHRIL.RU-MC.RU</button>
-                <span id="online"></span>
-            </div>
-            <div class="rightFooterTop">
-                <ul>
-                    <li><a href="https://discord.gg/Z4AqKyUuY7" target="_blank"><i class="fa-brands fa-discord"></i></a></li>
-                    <li><a href="https://vk.com/mithrilrealm" target="_blank"><i class="fa-brands fa-vk"></i></a></li>
-                </ul>
-            </div>
+        <div class="divImgAredo">
+            <img class="imgAredo" src="images/aredo.png">
         </div>
-        <div class="bottomFooter">
-            <div class="leftFooterBottom">
-                <p style="color: black;">Проект MITHRIL не имеет никакого отношения к Mojang, AB.</p>
-                <p style="color: black;">Любое копирование материала запрещено.</p>
-                <p style="color:black;">Покупка любых донатов только через: <a href="https://mithril.fun/" style="text-decoration: none; color: #842d18;">mithril.fun</a></p>
+        <div>  
+            <div class="topFooter">
+                <div class="leftFooterTop">
+                    <button id="ip" onclick="copyIp()">MITHRIL.RU-MC.RU</button>
+                    <span id="online"></span>
+                </div>
+                <div class="rightFooterTop">
+                    <ul>
+                        <li><a href="http://vk.mithril.fun" target="_blank"><i class="fa-brands fa-vk"></i></a></li>
+                        <li><a href="http://discord.mithril.fun" target="_blank"><i class="fa-brands fa-discord"></i></a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="rightFooterBottom">
-                <p style="color: #565656;">MITHRIL© 2023-2024</p>
-                <p style="color: #565656;">Все Права Защищены.</p>
+            <div class="bottomFooter">
+                <div class="leftFooterBottom">
+                    <p style="color: black;">Проект MITHRIL не имеет никакого отношения к Mojang, AB.</p>
+                    <p style="color: black;">Любое копирование материала запрещено.</p>
+                    <p style="color:black;">Покупка любых донатов только через: <a href="https://mithril.fun/" style="text-decoration: underline; color: black;">mithril.fun</a></p>
+                </div>
+                <div class="rightFooterBottom">
+                    <p style="color: rgb(27, 27, 27);">MITHRIL© 2023-2024</p>
+                    <p style="color: rgb(27, 27, 27);">Все Права Защищены.</p>
+                </div>
             </div>
         </div>
     </footer>
+
     <div id="notification"></div>
     <button id="mail"><i class="fa-regular fa-envelope"></i></button>
     <button id="coupon"><i class="fa-solid fa-ticket-simple"></i></button>
     <button id="nickname"><img src="images/profile.png"></button>
+
     <div class="couponWindown" id="couponWindown">
         <div class="closedCoupon">
             <h1>КУПОН ДЛЯ ПОКУПОК</h1>
@@ -124,22 +133,19 @@
     <div id="termDonate">
         <button id="closeTerm"><i class="fa-solid fa-xmark"></i></button>
         <div class="infoTerm">
-            <h1>MITHRIL RPG</h1>
-            <h3  id="categoryName">ЛОРД</h3>
-            <p>s</p>
+            <h3 id="categoryName">-</h3>
+            <p>-</p>
         </div>
-        <div class="termList containerList" id="termList">
-        </div>
+        <div class="termList containerList" id="termList"></div>
         <p class="containerList textAdvice">Если у вас есть купон, обязательно активируйте его! С ним вы сможете купить товар по более выгодной цене.</p>
     </div>
 
     <div class="descriptionProduct" id="descriptionProduct">
         <div class="closeAndTitleProduct">
-            <p>В НАБОР ВХОДИТ</p>
+            <p>В НАБОР ВХОДИТ:</p>
             <button id="closeDesProduct"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        <div id="descriptProduct">
-        </div>
+        <div id="descriptProduct"></div>
     </div>
 
     <script src="scripts/main.js"></script>
