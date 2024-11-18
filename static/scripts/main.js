@@ -1,5 +1,5 @@
 function copyIp() {
-    const ipText = "MC.MITHRIL.FUN";
+    const ipText = "MC.MITHRIL.FUN:25704";
 
     if (navigator.clipboard) {
         navigator.clipboard.writeText(ipText).then(function() {
