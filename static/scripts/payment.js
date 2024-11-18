@@ -67,8 +67,8 @@ function displayCategories(categories) {
         80543: 'images/kits.png',
         82100: 'images/other.png',
         81852: 'images/companionCube.png',
-        82215: 'images/cosmeticOther.png',
-        82216: 'images/cosmeticClass.png'
+        82215: 'images/cosmeticClass.png',
+        82216: 'images/cosmeticOther.png'
     };
 
     const categoryColors = {
