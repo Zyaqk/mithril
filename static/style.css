@@ -746,3 +746,13 @@ footer {
     color: rgb(182, 182, 182);
     transition: 0.11s ease-in-out;
 }
+
+#snowCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10100101;
+    pointer-events: none;
+}
