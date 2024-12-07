@@ -708,13 +708,6 @@ footer {
     transition: 0.05s ease-in-out;
 }
 
-.imgAredo:hover {
-    height: 172px;
-    width: 300px;
-    position: absolute;
-    transition: 0.05s ease-in-out;
-}
-
 .topFooter, .bottomFooter {
     padding-left: 150px;
 }
