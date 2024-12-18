@@ -65,7 +65,7 @@ function displayCategories(categories) {
         80288: 'images/emperor.png',
         80289: 'images/frills.png',
         80543: 'images/kits.png',
-        82100: 'images/other.png',
+        82100: 'images/chunks.png',
         81852: 'images/companionCube.png',
         82215: 'images/cosmeticClass.png',
         82216: 'images/cosmeticOther.png'
@@ -262,38 +262,124 @@ function infoProduct(productId) {
     const descriptionBlock = document.getElementById('descriptionProduct');
     const closeDescriptionBtn = document.getElementById('closeDesProduct');
     const descriptionContent = document.getElementById('descriptProduct');
-    descriptionContent.innerHTML = '';
-    fetch(`/api/shop/products`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                const product = data.response.find(item => item.id === productId);
-                if (product) {
-                    if (product.description) {
-                        const descriptionHtml = product.description
-                            .split(/[\r\n]+/)
-                            .map(line => `<p>${line.trim()}</p>`)
-                            .join('');
-                        descriptionContent.innerHTML = descriptionHtml;
+
+    if (descriptionBlock) {
+        if (closeDescriptionBtn) {
+            if (descriptionContent) {
+                descriptionContent.innerHTML = '';
+                if (productId) {
+                    if (typeof productId === 'number') {
+                        fetch(`/api/shop/products`)
+                            .then(response => {
+                                if (response.ok) {
+                                    return response.json();
+                                } else {
+                                    if (response.status >= 500) {
+                                        console.error('Ошибка сервера:', response.status);
+                                    } else if (response.status >= 400) {
+                                        console.error('Ошибка клиента:', response.status);
+                                    } else {
+                                        console.error('Неизвестная ошибка:', response.status);
+                                    }
+                                    throw new Error('Ошибка получения данных с сервера.');
+                                }
+                            })
+                            .then(data => {
+                                if (data) {
+                                    if (typeof data === 'object') {
+                                        if (data.success) {
+                                            if (Array.isArray(data.response)) {
+                                                const product = data.response.find(item => {
+                                                    if (item) {
+                                                        if (typeof item === 'object') {
+                                                            if (item.id) {
+                                                                return item.id === productId;
+                                                            } else {
+                                                                console.warn('У объекта товара отсутствует поле "id".');
+                                                            }
+                                                        } else {
+                                                            console.warn('Неверный формат товара.');
+                                                        }
+                                                    } else {
+                                                        console.warn('Найдена пустая запись в массиве.');
+                                                    }
+                                                    return false;
+                                                });
+
+                                                if (product) {
+                                                    if (product.description) {
+                                                        const descriptionHtml = product.description
+                                                            .split(/[\r\n]+/)
+                                                            .map(line => {
+                                                                if (line) {
+                                                                    return `<p>${line.trim()}</p>`;
+                                                                } else {
+                                                                    console.warn('Пустая строка в описании товара.');
+                                                                    return '';
+                                                                }
+                                                            })
+                                                            .join('');
+                                                        descriptionContent.innerHTML = descriptionHtml;
+                                                    } else {
+                                                        if (product.description === '') {
+                                                            console.warn('Описание товара пустое.');
+                                                        }
+                                                        descriptionContent.innerHTML = 'Описание отсутствует.';
+                                                    }
+                                                } else {
+                                                    console.warn('Товар с указанным ID не найден.');
+                                                    descriptionContent.innerHTML = 'Товар не найден.';
+                                                }
+                                            } else {
+                                                console.error('Ответ сервера не содержит массив "response".');
+                                            }
+                                        } else {
+                                            console.error('Сервер вернул ошибку:', data.error || 'Неизвестная ошибка.');
+                                        }
+                                    } else {
+                                        console.error('Некорректный формат ответа.');
+                                    }
+                                } else {
+                                    console.error('Сервер вернул пустой ответ.');
+                                }
+                            })
+                            .catch(error => {
+                                if (error.message) {
+                                    console.error('Ошибка:', error.message);
+                                } else {
+                                    console.error('Неизвестная ошибка во время запроса:', error);
+                                }
+                            });
                     } else {
-                        descriptionContent.innerHTML = 'Описание отсутствует.';
+                        console.error('ID продукта должен быть числом.');
+                        descriptionContent.innerHTML = 'Неверный идентификатор продукта.';
                     }
                 } else {
-                    descriptionContent.innerHTML = 'Товар не найден.';
+                    console.error('Отсутствует идентификатор продукта.');
+                    descriptionContent.innerHTML = 'Неверный идентификатор продукта.';
                 }
             } else {
-                console.error(data.error);
+                console.error('Не найден элемент descriptionContent.');
             }
-        })
-        .catch(error => {
-            console.error('Ошибка при получении товаров:', error);
-        });
-    descriptionBlock.style.display = 'block';
+        } else {
+            console.error('Не найден элемент closeDescriptionBtn.');
+        }
+    } else {
+        console.error('Не найден элемент descriptionBlock.');
+    }
 
-    closeDescriptionBtn.addEventListener('click', function () {
-        descriptionBlock.style.display = 'none';
-    });
+    if (descriptionBlock && closeDescriptionBtn) {
+        closeDescriptionBtn.addEventListener('click', function () {
+            if (descriptionBlock.style) {
+                descriptionBlock.style.display = 'none';
+            } else {
+                console.warn('У descriptionBlock отсутствует свойство style.');
+            }
+        });
+        descriptionBlock.style.display = 'block';
+    }
 }
+
 
 document.getElementById('closeTerm').addEventListener('click', function() {
     document.getElementById('termDonate').style.display = 'none';
