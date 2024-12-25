@@ -21,6 +21,19 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+app.get('/donate', (req, res) => {
+    res.sendFile(path.join(__dirname, 'donate.html'));
+});
+
+app.get('/vk', (req, res) => {
+    res.redirect('https://vk.com/mithril995');
+});
+
+app.get('/dsc', (req, res) => {
+    res.redirect('https://discord.gg/EHVqbmRkYf');
+});
+
+
 async function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -102,6 +115,23 @@ app.get('/api/shop/custommessages', async (req, res) => {
             headers: { 'Shop-Key': shopKey }
         });
         res.json(data);
+    } catch (error) {
+        res.status(500).json({ error: 'Ошибка получение данных с API' });
+    }
+});
+
+app.get('/api/shop/payments', async (req, res) => {
+    try {
+        const data = await fetchWithRetry('https://easydonate.ru/api/v3/shop/payments', {
+            method: 'GET',
+            headers: { 'Shop-Key': shopKey }
+        });
+        if (data.success && Array.isArray(data.response)) {
+            const lastTenPayments = data.response.slice(-6);
+            res.json({ success: true, response: lastTenPayments });
+        } else {
+            res.status(500).json({ error: 'Ошибка получение данных с API' });
+        }
     } catch (error) {
         res.status(500).json({ error: 'Ошибка получение данных с API' });
     }

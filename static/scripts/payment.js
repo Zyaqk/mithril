@@ -112,24 +112,6 @@ function displayCategories(categories) {
 
 
 function handleButtonClick(categoryId) {
-    const inputNickname = document.getElementById('inputNickname').value;
-    const inputMail = document.getElementById('inputMail').value;
-    const nicknameWindow = document.querySelector('.nicknameWindown');
-    const mailWindow = document.querySelector('.mailWindown');
-
-    if (inputNickname == "") {
-        nicknameWindow.style.display = 'block';
-        requestAnimationFrame(() => {
-            nicknameWindow.style.opacity = 1;
-            nicknameWindow.style.transform = 'translate(-50%, -50%) scale(1)';
-        });
-    } else if (inputMail == "") {
-        mailWindow.style.display = 'block';
-        requestAnimationFrame(() => {
-            mailWindow.style.opacity = 1;
-            mailWindow.style.transform = 'translate(-50%, -50%) scale(1)';
-        });
-    } else {
         const categoryName = categories[categoryId].name;
         const categoryDisplay = document.getElementById('categoryName');
 
@@ -157,7 +139,6 @@ function handleButtonClick(categoryId) {
                 console.error('Ошибка при получении товаров:', error);
             });
         document.getElementById('termDonate').style.display = 'block';
-    }
 }
 
 
@@ -205,50 +186,11 @@ function displayProducts(products, selectedCategoryId) {
             const itemTerm = document.createElement('div');
             itemTerm.className = 'itemTerm';
             itemTerm.style.backgroundColor = categoryColors[product.category_id];
-            
-            if (product.category_id === 80543) {
-                itemTerm.innerHTML = `
-                    <img src="${product.image}" alt="${product.name}">
-                    <h3>${product.name}</h3>
-                    <button onclick="buyProduct(${product.id})">${product.price} руб.</button>
-                    <button id="infoProduct" onclick="infoProduct(${product.id})">
-                        <i class="fa-solid fa-circle-question"></i>
-                    </button>
-                `;
-            } else if (product.category_id === 80288) {
-                itemTerm.innerHTML = `
-                    <img src="${product.image}" alt="${product.name}">
-                    <h3>${product.name}</h3>
-                    <button onclick="buyProduct(${product.id})">${product.price} руб.</button>
-                    <button id="infoProduct" onclick="infoProduct(${product.id})">
-                        <i class="fa-solid fa-circle-question"></i>
-                    </button>
-                `;
-            } else if (product.category_id === 80287) {
-                itemTerm.innerHTML = `
-                    <img src="${product.image}" alt="${product.name}">
-                    <h3>${product.name}</h3>
-                    <button onclick="buyProduct(${product.id})">${product.price} руб.</button>
-                    <button id="infoProduct" onclick="infoProduct(${product.id})">
-                        <i class="fa-solid fa-circle-question"></i>
-                    </button>
-                `;
-            } else if (product.category_id === 80286) {
-                itemTerm.innerHTML = `
-                    <img src="${product.image}" alt="${product.name}">
-                    <h3>${product.name}</h3>
-                    <button onclick="buyProduct(${product.id})">${product.price} руб.</button>
-                    <button id="infoProduct" onclick="infoProduct(${product.id})">
-                        <i class="fa-solid fa-circle-question"></i>
-                    </button>
-                `;
-            } else {
                 itemTerm.innerHTML = `
                     <img src="${product.image}" alt="${product.name}">
                     <h3>${product.name}</h3>
                     <button onclick="buyProduct(${product.id})">${product.price} руб.</button>
                 `;
-            }
 
             termList.appendChild(itemTerm);
         });
@@ -415,38 +357,108 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
+
+
+    fetch('/api/shop/payments')
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const payments = data.response;
+            const listPayment = document.getElementById("listPurchases");
+
+            // Функция для обрезки текста
+            function shortenText(text, maxLength) {
+                return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+            }
+
+            // Функция для форматирования даты
+            function formatDateTime(dateTime) {
+                const date = new Date(dateTime);
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                return `${day}/${month}/${year} ${hours}:${minutes}`;
+            }
+
+            payments.forEach(payment => {
+                const products = payment.products;
+                products.forEach(product => {
+                    const productName = shortenText(product.name, 10);
+                    const formattedDate = formatDateTime(payment.updated_at);
+
+                    const itemHTML = `
+                        <div class="lastPurchasesItem">
+                            <div class="PurchasesOne">
+                                <img src="https://mineskin.eu/helm/${payment.customer}">
+                            </div>
+                            <div class="PurchasesTwo">
+                                <ul>
+                                    <li>${payment.customer}</li>
+                                    <li class="purchasesdonate">${productName}</li>
+                                    <li class="purchasestime">${formattedDate}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `;
+                    listPayment.insertAdjacentHTML('beforeend', itemHTML);
+                });
+            });
+        } else {
+            console.error(data);
+        }
+    });
 });
 
 
 function buyProduct(id) {
-    const nickname = document.getElementById('inputNickname').value.trim();
-    const mail = document.getElementById('inputMail').value.trim();
-    const coupon = document.getElementById('inputCoupon').value.trim();
-    const notification = document.getElementById('notification');
-
-    fetch(`/api/shop/payment/create?customer=${nickname}&server_id=92777&products={"${id}" :1}&email=${mail}&coupon=${coupon}&success_url=https://mithril.fun`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                notification.style.display = 'block';
-                notification.innerHTML = '<span>ПЕРЕХОД К ОПЛАТЕ</span>'
-                setTimeout(() => {
-                    notification.style.display = 'none';
-                }, 1100)
-                window.location = data.response.url;
-            } else {
-                notification.style.display = 'block';
-                notification.innerHTML = '<span>ПОКУПКИ СЕЙЧАС НЕВОЗМОЖНЫ!</span>'
-                notification.style.backgroundColor = 'red';
-                setTimeout(() => {
-                    notification.style.display = 'none';
-                }, 1500)
-                setTimeout(() => {
-                    notification.style.backgroundColor = '#16a34a';
-                }, 2000)
-            }
-        })
-        .catch(error => {
-            console.error(error)
-        })
+    const inputNickname = document.getElementById('inputNickname').value;
+    const inputMail = document.getElementById('inputMail').value;
+    const nicknameWindow = document.querySelector('.nicknameWindown');
+    const mailWindow = document.querySelector('.mailWindown');
+    if (inputNickname == "") {
+        nicknameWindow.style.display = 'block';
+        requestAnimationFrame(() => {
+            nicknameWindow.style.opacity = 1;
+            nicknameWindow.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+    } else if (inputMail == "") {
+        mailWindow.style.display = 'block';
+        requestAnimationFrame(() => {
+            mailWindow.style.opacity = 1;
+            mailWindow.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+    } else {
+        const nickname = document.getElementById('inputNickname').value.trim();
+        const mail = document.getElementById('inputMail').value.trim();
+        const coupon = document.getElementById('inputCoupon').value.trim();
+        const notification = document.getElementById('notification');
+    
+        fetch(`/api/shop/payment/create?customer=${nickname}&server_id=92777&products={"${id}" :1}&email=${mail}&coupon=${coupon}&success_url=https://mithril.fun`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    notification.style.display = 'block';
+                    notification.innerHTML = '<span>ПЕРЕХОД К ОПЛАТЕ</span>'
+                    setTimeout(() => {
+                        notification.style.display = 'none';
+                    }, 1100)
+                    window.location = data.response.url;
+                } else {
+                    notification.style.display = 'block';
+                    notification.innerHTML = '<span>ПОКУПКИ СЕЙЧАС НЕВОЗМОЖНЫ!</span>'
+                    notification.style.backgroundColor = 'red';
+                    setTimeout(() => {
+                        notification.style.display = 'none';
+                    }, 1500)
+                    setTimeout(() => {
+                        notification.style.backgroundColor = '#16a34a';
+                    }, 2000)
+                }
+            })
+            .catch(error => {
+                console.error(error)
+            })
+    }
 }

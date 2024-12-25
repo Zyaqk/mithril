@@ -57,7 +57,7 @@ a {
 
 .listButton ul li:not(#closeMenu):hover {
     background: #3b82f6;
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
 }
 
 #closeMenu {
@@ -76,19 +76,19 @@ a {
     padding: 12px 17px;
     border: none;
     outline: none;
-    background-color: #52cb00;
+    background-color: #81c716;
     color: #173d14;
     cursor: pointer;
     border-radius: 5px;
     font-weight: 600;
     font-size: 20px;
     letter-spacing: 1.8px;
-    transition: 0.11s ease-in-out;
+    transition: 0.09s ease-in-out;
 }
 
 .ipPC:hover {
-    background-color: #8df800;
-    transition: 0.11s ease-in-out;
+    background-color: #abf739;
+    transition: 0.09s ease-in-out;
 }
 
 #online {
@@ -183,14 +183,14 @@ a {
     font-size: 18px;
     font-weight: 800;
     cursor: pointer;
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
     position: absolute;
     bottom: 10px;
 }
 
 .itemCategorie button:hover {
     background-color: #3c3733;
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
 }
 
 .itemCategorie button i {
@@ -217,7 +217,7 @@ footer {
 }
 
 .leftFooterTop button {
-    background-color: #74d434;
+    background-color: #82c419;
     border: none;
     outline: none;
     border-radius: 5px;
@@ -225,22 +225,16 @@ footer {
     padding: 12px 18px;
     letter-spacing: 1.8px;
     color: #173d14;
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
     cursor: pointer;
     font-weight: 600;
-}
-
-.leftFooterTop button:hover {
-    background-color: #7ce039;
-    transition: 0.11s ease-in-out;
-    color: #1c4d19;
 }
 
 .leftFooterTop span {
     font-size: 20px;
     letter-spacing: 1.8px;
     font-weight: 600;
-    background-color: #74d434;
+    background-color: #82c419;
     color: #173d14;
     padding: 12px 14px;
     border-radius: 5px;
@@ -254,11 +248,11 @@ footer {
 .rightFooterTop ul li a i {
     color: #33772f;
     font-size: 34px;
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
 }
 
 .rightFooterTop ul li a i:hover {
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
     color: #2a5e27;
 }
 
@@ -277,12 +271,13 @@ footer {
     bottom: 20px;
     left: 20px;
     padding: 20px 24px;
-    background-color: #16a34a;
+    background-color: rgba(110, 216, 23, 0.5); /* Полупрозрачный зеленый фон */
+    backdrop-filter: blur(10px); /* Эффект размытия */
     border-radius: 5px;
     font-size: 15px;
     font-weight: 600;
     letter-spacing: 0.8px;
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
     display: none;
     z-index: 9999;
 }
@@ -299,7 +294,7 @@ footer {
     position: fixed;
     top: 200px;
     right: 20px;
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
 }
 #nickname {
     width: 70px;
@@ -312,7 +307,7 @@ footer {
     position: fixed;
     top: 120px;
     right: 20px;
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
 }
 #mail {
     width: 70px;
@@ -326,7 +321,7 @@ footer {
     position: fixed;
     top: 280px;
     right: 20px;
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
 }
 
 #nickname img {
@@ -336,20 +331,20 @@ footer {
 
 #coupon:hover {
     background-color: #ab0e0e;
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
 }
 #nickname:hover {
     background-color: #15921c;
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
 }
 #mail:hover {
     background-color: #2455a4;
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
 }
 
 .couponWindown, .nicknameWindown, .mailWindown {
     width: 700px;
-    height: 600px;
+    height: auto;
     background-color: #0d0e0f;
     position: fixed;
     left: 50%;
@@ -378,12 +373,12 @@ footer {
     font-size: 20px;
     cursor: pointer;
     border-radius: 5px;
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
 }
 
 .closedCoupon button:hover, .closedNickname button:hover, #closeTerm:hover, .closedMail button:hover, .descriptionProduct button:hover {
     background-color: #ff4343;
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
 }
 
 .containerModal {
@@ -407,7 +402,7 @@ footer {
 .inputCoupon, .inputNickname, .inputMail {
     width: 100%;
     padding: 59px 0;
-    background-color: #2fcf21;
+    background-color: #81c716;
     margin-top: 30px;
     border-radius: 5px;
     display: flex;
@@ -441,13 +436,13 @@ footer {
     font-weight: 600;
     letter-spacing: 0.2px;
     cursor: pointer;
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
     margin-top: 10px;
 }
 
 .inputCoupon button:hover, .inputNickname button:hover, .inputMail button:hover {
     background-color: rgba(255, 255, 255, 0.6);
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
 }
 
 .descriptionCoupon h2, .descriptionNickname h2, .descriptionMail h2 {
@@ -458,6 +453,7 @@ footer {
     color: #b3b4b6;
     letter-spacing: 0.4px;
     line-height: 1.6;
+    padding-bottom: 35px;
 }
 
 .toggleMenu button {
@@ -482,7 +478,8 @@ footer {
 
 #termDonate {
     width: 900px;
-    height: 700px;
+    height: auto;
+    max-height: 750px;
     background-color: #0d0e0f;
     position: fixed;
     left: 50%;
@@ -582,11 +579,11 @@ footer {
 
 #infoProduct i {
     color: black;
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
 }
 
 .itemTerm img {
-    height: 240px;
+    height: 230px;
 }
 
 .itemTerm p {
@@ -597,7 +594,7 @@ footer {
     padding-top: 10px;
 }
 
-.itemTerm button:not(#infoProduct) {
+.itemTerm button{
     border: none;
     outline: none;
     background-color: black;
@@ -607,13 +604,12 @@ footer {
     font-size: 18px;
     font-weight: 800;
     cursor: pointer;
-    transition: 0.11s ease-in-out;
-    margin-top: 10px;
+    transition: 0.07s ease-in-out;
 }
 
 .itemTerm button:hover {
     background-color: #3c3733;
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
 }
 
 .itemTerm span {
@@ -625,6 +621,7 @@ footer {
     color: black;
     font-weight: 600;
     font-size: 23px;
+    padding-bottom: 20px;
 }
 
 
@@ -663,7 +660,7 @@ footer {
 
 #message {
     width: 100%;
-    background-color: rgba(252, 44, 3, 0.2);
+    background-color: rgba(0, 0, 0, 0.2);
     height: auto;
     padding: 30px 5px;
     position: fixed;
@@ -690,20 +687,27 @@ footer {
     font-size: 17px;
     padding: 12px;
     color: #173d14;
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
     cursor: pointer;
     font-weight: 900;
 }
 
 #message .container button:hover {
     background-color: #7be037;
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
 }
 
 
 .imgAredo {
     height: 172px;
     width: 172px;
+    position: absolute;
+    transition: 0.05s ease-in-out;
+}
+
+.imgAredo:hover {
+    height: 172px;
+    width: 262px;
     position: absolute;
     transition: 0.05s ease-in-out;
 }
@@ -725,7 +729,7 @@ footer {
     color: rgb(136, 136, 136);
     text-decoration: underline;
     cursor: pointer;
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
 }
 
 .howCommand button {
@@ -737,7 +741,7 @@ footer {
 
 .howCommands:hover {
     color: rgb(182, 182, 182);
-    transition: 0.11s ease-in-out;
+    transition: 0.07s ease-in-out;
 }
 
 #snowCanvas {
@@ -748,4 +752,84 @@ footer {
     height: 100%;
     z-index: 10100101;
     pointer-events: none;
+}
+
+.lastPurchases {
+    width: 100%;
+    height: 20px;
+    display: flex;
+    max-height: 200px;
+    padding: 0 10px;
+}
+
+#listPurchases {
+    display: flex;
+    gap: 15px; /* Промежуток между блоками */
+    overflow-x: scroll; /* Скроллинг по горизонтали */
+    scrollbar-width: none; /* Для браузеров на базе Firefox */
+    -ms-overflow-style: none; /* Для IE и старого Edge */
+    padding: 10px 0; /* Отступы сверху и снизу */
+    white-space: nowrap; /* Запрет переноса */
+}
+
+#listPurchases::-webkit-scrollbar {
+    display: none; /* Скрыть полосу прокрутки для Chrome, Safari */
+}
+
+
+#listPurchases::-webkit-scrollbar {
+    height: 6px;
+}
+
+#listPurchases::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 3px;
+}
+
+#listPurchases::-webkit-scrollbar-track {
+    background: #272727;
+}
+
+
+.lastPurchasesItem {
+    display: flex;
+    background-color: #272727d6;
+    justify-content: space-between;
+    flex-shrink: 0;
+    width: 190px;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+    margin-right: 7px;
+    color: #fff;
+}
+
+.PurchasesOne img {
+    width: 40px;
+    height: 40px;
+}
+
+.PurchasesTwo {
+    flex: 1;
+    padding-left: 10px;
+}
+
+.purchasesdonate {
+    color: #81c716;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.purchasestime {
+    color: #b3b3b3;
+    font-size: 12px;
+}
+
+.lastPurchasess h3 {
+    font-size: 26px;
+}
+
+.lastPurchasess {
+    margin-top: 50px;
+    margin-bottom: 30px;
 }
