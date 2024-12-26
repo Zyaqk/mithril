@@ -764,12 +764,14 @@ footer {
 
 #listPurchases {
     display: flex;
-    gap: 15px; /* Промежуток между блоками */
-    overflow-x: scroll; /* Скроллинг по горизонтали */
-    scrollbar-width: none; /* Для браузеров на базе Firefox */
-    -ms-overflow-style: none; /* Для IE и старого Edge */
-    padding: 10px 0; /* Отступы сверху и снизу */
-    white-space: nowrap; /* Запрет переноса */
+    gap: 15px;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 10px 0;
+    white-space: nowrap;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
 }
 
 #listPurchases::-webkit-scrollbar {
