@@ -190,6 +190,7 @@ function addNickname() {
     const notificationAll = document.getElementById('notification');
 
     const input = document.getElementById('inputNickname');
+    const img = document.getElementById('imgNICK');
     const nickname = input.value.trim();
 
     if (nickname === "") {
@@ -202,6 +203,7 @@ function addNickname() {
         notification.style.display = 'none';
         window.style.display = 'none';
         notificationAll.style.display = 'block';
+        img.src = `https://mineskin.eu/helm/${nickname}`
         notificationAll.innerHTML = `<span>НИКНЕЙМ ДОБАВЛЕН: ${nickname}</span>`;
         setTimeout(function() {
             notificationAll.style.display = "none";
@@ -268,6 +270,58 @@ function addMail() {
 }
 
 
+document.addEventListener('DOMContentLoaded', () => {
+    const preloader = document.querySelector('.preloader');
+    const listDonates = document.querySelector('.listProducts');
+    const lastDonates = document.querySelector('.lastPurchasess');
+
+    listDonates.style.display = 'none';
+    lastDonates.style.display = 'none';
+    preloader.style.display = 'flex';
+
+    const checkImagesLoaded = (container) => {
+        return new Promise((resolve) => {
+            const images = container.querySelectorAll('img');
+            let loadedCount = 0;
+
+            if (images.length === 0) {
+                resolve();
+                return;
+            }
+
+            images.forEach((img) => {
+                if (img.complete) {
+                    loadedCount++;
+                    if (loadedCount === images.length) resolve();
+                } else {
+                    img.onload = img.onerror = () => {
+                        loadedCount++;
+                        if (loadedCount === images.length) resolve();
+                    };
+                }
+            });
+        });
+    };
+
+    const fetchData = async () => {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        return true;
+    };
+
+    const init = async () => {
+        await fetchData();
+        await Promise.all([
+            checkImagesLoaded(listDonates),
+            checkImagesLoaded(lastDonates),
+        ]);
+
+        preloader.style.display = 'none';
+        if (listDonates) listDonates.style.display = 'grid';
+        if (lastDonates) lastDonates.style.display = 'block';
+    };
+
+    init();
+});
 
 const canvas = document.getElementById('snowCanvas');
 const ctx = canvas.getContext('2d');

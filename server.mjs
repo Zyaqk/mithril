@@ -94,7 +94,6 @@ app.get('/api/shop/coupon/:code', async (req, res) => {
 });
 
 
-
 app.get('/api/shop/products', async (req, res) => {
     try {
         const data = await fetchWithRetry('https://easydonate.ru/api/v3/shop/products', {
@@ -119,6 +118,7 @@ app.get('/api/shop/custommessages', async (req, res) => {
         res.status(500).json({ error: 'Ошибка получение данных с API' });
     }
 });
+
 
 app.get('/api/shop/payments', async (req, res) => {
     try {
@@ -171,6 +171,27 @@ app.get('/api/shop/payment/:id', async (req, res) => {
         res.status(500).json({ error: 'Ошибка получение данных с API' });
     }
 });
+
+
+app.get('/api/shop/massSales', async (req, res) => {
+    try {
+        const whereActive = req.query.where_active || 'true';
+        const url = `https://easydonate.ru/api/v3/shop/massSales?where_active=${whereActive}`;
+        console.log('Fetching data from:', url);
+        const data = await fetchWithRetry(url, {
+            method: 'GET',
+            headers: { 'Shop-Key': shopKey }
+        });
+        console.log('Fetched data:', data);
+        const allProducts = data.response.flatMap(sale => sale.products);
+        console.log('All products:', allProducts);
+        res.json(allProducts);
+    } catch (error) {
+        console.error('Error fetching mass sales data:', error);
+        res.status(500).json({ error: 'Ошибка получения данных с API' });
+    }
+});
+
 
 app.post('/', (req, res) => {
     res.sendStatus(200);

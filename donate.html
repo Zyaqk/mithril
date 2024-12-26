@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+    
+        <title>MITHRIL - Донаты</title>
+    
+        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@699&display=swap" rel="stylesheet">
+        <link rel="icon" href="images/icon.png" type="image/x-icon">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="media.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
+<body>
+    <div class="toggleMenu">
+        <button id="toggleMenu"><i class="fa-solid fa-bars"></i></button>
+    </div>
+    <div class="listHeaderPC container" id="listHeader">
+        <div class="listButton">
+            <ul>
+                <li id="closeMenu"><i class="fa-solid fa-xmark"></i></li>
+                <li><a href="/">МАГАЗИН</a></li>
+                <li class="main"><a href="donate">ДОНАТЫ</a></li>
+                <li><a href="http://map.mithril.fun/" target="_blank">КАРТА</a></li>
+            </ul>
+        </div>
+        <div class="listInfo">
+            <ul>
+                <li> <button class="ipPC" id="ip" onclick="copyIp()">MC.MITHRIL.FUN <span id="online"></span></button></li>
+            </ul>
+        </div>
+    </div>
+    <div class="donateListDescription container">
+        <div class="lordDescription">
+            <span>ЛОРД</span>
+            <ul>
+                <span>Команды:</span>
+                <li>/kit lord - Набор привилегии (раз в 5 дней)</li>
+            </ul>
+            <ul>
+                <span>Дополнительно:</span>
+                <li>Точка дома: +1</li>
+                <li>Слоты на аукционе: +6</li>
+            </ul>
+            <ul>
+                <span>Набор:</span>
+                <img src="static/images/chunks.png">
+            </ul>
+        </div>
+    </div>
+    <footer class="footer container">
+        <div class="divImgAredo">
+            <img class="imgAredo" src="images/aredo.png">
+        </div>
+        <div>  
+            <div class="topFooter">
+                <div class="leftFooterTop">
+                    <button id="ip" onclick="copyIp()">MC.MITHRIL.FUN</button>
+                    <span id="online"></span>
+                </div>
+                <div class="rightFooterTop">
+                    <ul>
+                        <li><a href="https://mithril.fun/vk" target="_blank"><i class="fa-brands fa-vk"></i></a></li>
+                        <li><a href="https://mithril.fun/dsc" target="_blank"><i class="fa-brands fa-discord"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bottomFooter">
+                <div class="leftFooterBottom">
+                    <p style="color: black;">Проект MITHRIL не имеет никакого отношения к Mojang, AB.</p>
+                    <p style="color: black;">Любое копирование материала запрещено.</p>
+                    <p style="color:black;">Покупка любых донатов только через: <a href="https://mithril.fun/" style="text-decoration: underline; color: black;">mithril.fun</a></p>
+                </div>
+                <div class="rightFooterBottom">
+                    <p style="color: rgb(27, 27, 27);">MITHRIL© 2023-2024</p>
+                    <p style="color: rgb(27, 27, 27);">Все Права Защищены.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div id="notification"></div>
+    <script src="scripts/main.js"></script>
+</body>
+</html>

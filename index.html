@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <!-- <canvas id="snowCanvas"></canvas> -->
+    <canvas id="snowCanvas"></canvas>
     <div class="toggleMenu">
         <button id="toggleMenu"><i class="fa-solid fa-bars"></i></button>
     </div>
@@ -44,10 +44,19 @@
             <h2>МАГАЗИН</h2>
         </div> -->
     </div>
-    <div class="lastPurchasess container">
-        <h3>ПОСЛЕДНИЕ ПОКУПКИ</h3>
-        <div id="listPurchases">
+    <div class="preloader container" id="preloader">
+        <div class="loadingio-spinner-pulse-nq4q5u6dq7r">
+            <div class="ldio-x2uulkbinbj">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
         </div>
+        <span>Загрузка...</span>
+    </div>
+    <div class="lastPurchasess container" id="lastPurchasess">
+        <h3>ПОСЛЕДНИЕ ПОКУПКИ</h3>
+        <div id="listPurchases"></div>
     </div>
     <div id="listProducts" class="listProducts container"></div>
     <footer class="footer container">
@@ -84,7 +93,7 @@
     <div id="notification"></div>
     <button id="mail"><i class="fa-regular fa-envelope"></i></button>
     <button id="coupon"><i class="fa-solid fa-ticket-simple"></i></button>
-    <button id="nickname"><img src="images/profile.png"></button>
+    <button id="nickname"><img id="imgNICK" src="https://mineskin.eu/helm/Ar"></button>
 
     <div class="couponWindown" id="couponWindown">
         <div class="closedCoupon">

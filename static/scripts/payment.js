@@ -94,7 +94,7 @@ function displayCategories(categories) {
             const priceText = category.minPrice === category.maxPrice 
                 ? `ДО ${category.maxPrice} руб.` 
                 : `ОТ ${category.minPrice} ДО ${category.maxPrice} руб.`;
-
+            // <span class="CategorieSales">СКИДКА 50%</span>
             categoryItem.innerHTML = `
                 <img src="${categoryImages[id]}" alt="${category.name}"> 
                 <div class="descriptionCategorie">
@@ -204,122 +204,37 @@ function infoProduct(productId) {
     const descriptionBlock = document.getElementById('descriptionProduct');
     const closeDescriptionBtn = document.getElementById('closeDesProduct');
     const descriptionContent = document.getElementById('descriptProduct');
-
-    if (descriptionBlock) {
-        if (closeDescriptionBtn) {
-            if (descriptionContent) {
-                descriptionContent.innerHTML = '';
-                if (productId) {
-                    if (typeof productId === 'number') {
-                        fetch(`/api/shop/products`)
-                            .then(response => {
-                                if (response.ok) {
-                                    return response.json();
-                                } else {
-                                    if (response.status >= 500) {
-                                        console.error('Ошибка сервера:', response.status);
-                                    } else if (response.status >= 400) {
-                                        console.error('Ошибка клиента:', response.status);
-                                    } else {
-                                        console.error('Неизвестная ошибка:', response.status);
-                                    }
-                                    throw new Error('Ошибка получения данных с сервера.');
-                                }
-                            })
-                            .then(data => {
-                                if (data) {
-                                    if (typeof data === 'object') {
-                                        if (data.success) {
-                                            if (Array.isArray(data.response)) {
-                                                const product = data.response.find(item => {
-                                                    if (item) {
-                                                        if (typeof item === 'object') {
-                                                            if (item.id) {
-                                                                return item.id === productId;
-                                                            } else {
-                                                                console.warn('У объекта товара отсутствует поле "id".');
-                                                            }
-                                                        } else {
-                                                            console.warn('Неверный формат товара.');
-                                                        }
-                                                    } else {
-                                                        console.warn('Найдена пустая запись в массиве.');
-                                                    }
-                                                    return false;
-                                                });
-
-                                                if (product) {
-                                                    if (product.description) {
-                                                        const descriptionHtml = product.description
-                                                            .split(/[\r\n]+/)
-                                                            .map(line => {
-                                                                if (line) {
-                                                                    return `<p>${line.trim()}</p>`;
-                                                                } else {
-                                                                    console.warn('Пустая строка в описании товара.');
-                                                                    return '';
-                                                                }
-                                                            })
-                                                            .join('');
-                                                        descriptionContent.innerHTML = descriptionHtml;
-                                                    } else {
-                                                        if (product.description === '') {
-                                                            console.warn('Описание товара пустое.');
-                                                        }
-                                                        descriptionContent.innerHTML = 'Описание отсутствует.';
-                                                    }
-                                                } else {
-                                                    console.warn('Товар с указанным ID не найден.');
-                                                    descriptionContent.innerHTML = 'Товар не найден.';
-                                                }
-                                            } else {
-                                                console.error('Ответ сервера не содержит массив "response".');
-                                            }
-                                        } else {
-                                            console.error('Сервер вернул ошибку:', data.error || 'Неизвестная ошибка.');
-                                        }
-                                    } else {
-                                        console.error('Некорректный формат ответа.');
-                                    }
-                                } else {
-                                    console.error('Сервер вернул пустой ответ.');
-                                }
-                            })
-                            .catch(error => {
-                                if (error.message) {
-                                    console.error('Ошибка:', error.message);
-                                } else {
-                                    console.error('Неизвестная ошибка во время запроса:', error);
-                                }
-                            });
+    descriptionContent.innerHTML = '';
+    fetch(`/api/shop/products`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const product = data.response.find(item => item.id === productId);
+                if (product) {
+                    if (product.description) {
+                        const descriptionHtml = product.description
+                            .split(/[\r\n]+/)
+                            .map(line => `<p>${line.trim()}</p>`)
+                            .join('');
+                        descriptionContent.innerHTML = descriptionHtml;
                     } else {
-                        console.error('ID продукта должен быть числом.');
-                        descriptionContent.innerHTML = 'Неверный идентификатор продукта.';
+                        descriptionContent.innerHTML = 'Описание отсутствует.';
                     }
                 } else {
-                    console.error('Отсутствует идентификатор продукта.');
-                    descriptionContent.innerHTML = 'Неверный идентификатор продукта.';
+                    descriptionContent.innerHTML = 'Товар не найден.';
                 }
             } else {
-                console.error('Не найден элемент descriptionContent.');
+                console.error(data.error);
             }
-        } else {
-            console.error('Не найден элемент closeDescriptionBtn.');
-        }
-    } else {
-        console.error('Не найден элемент descriptionBlock.');
-    }
-
-    if (descriptionBlock && closeDescriptionBtn) {
-        closeDescriptionBtn.addEventListener('click', function () {
-            if (descriptionBlock.style) {
-                descriptionBlock.style.display = 'none';
-            } else {
-                console.warn('У descriptionBlock отсутствует свойство style.');
-            }
+        })
+        .catch(error => {
+            console.error('Ошибка при получении товаров:', error);
         });
-        descriptionBlock.style.display = 'block';
-    }
+    descriptionBlock.style.display = 'block';
+
+    closeDescriptionBtn.addEventListener('click', function () {
+        descriptionBlock.style.display = 'none';
+    });
 }
 
 
@@ -366,12 +281,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const payments = data.response;
             const listPayment = document.getElementById("listPurchases");
 
-            // Функция для обрезки текста
             function shortenText(text, maxLength) {
                 return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
             }
 
-            // Функция для форматирования даты
             function formatDateTime(dateTime) {
                 const date = new Date(dateTime);
                 const day = String(date.getDate()).padStart(2, '0');
@@ -382,10 +295,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 return `${day}/${month}/${year} ${hours}:${minutes}`;
             }
 
+            const productNamesMap = {
+                833204: "ЛОРД 1д",
+                833211: "ЛОРД 1н",
+                651154: "ЛОРД",
+                833208: "КОРОЛЬ 1д",
+                833215: "КОРОЛЬ 1н",
+                651269: "КОРОЛЬ",
+                651274: "ИМПЕРАТОР"
+            };
+
             payments.forEach(payment => {
                 const products = payment.products;
                 products.forEach(product => {
-                    const productName = shortenText(product.name, 10);
+                    const productName = productNamesMap[product.id] || shortenText(product.name, 10);
                     const formattedDate = formatDateTime(payment.updated_at);
 
                     const itemHTML = `
@@ -409,6 +332,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(data);
         }
     });
+
 });
 
 
@@ -435,7 +359,7 @@ function buyProduct(id) {
         const coupon = document.getElementById('inputCoupon').value.trim();
         const notification = document.getElementById('notification');
     
-        fetch(`/api/shop/payment/create?customer=${nickname}&server_id=92777&products={"${id}" :1}&email=${mail}&coupon=${coupon}&success_url=https://mithril.fun`)
+        fetch(`/api/shop/payment/create?customer=${nickname}&server_id=82480&products={"${id}" :1}&email=${mail}&coupon=${coupon}&success_url=https://mithril.fun`)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
