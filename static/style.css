@@ -209,6 +209,8 @@ a {
 .itemCategorie button i {
     font-size: 15px;
     margin-right: 10px;
+    overflow: hidden;
+    display: inline-block;
 }
 
 footer {
@@ -262,6 +264,8 @@ footer {
     color: #33772f;
     font-size: 34px;
     transition: 0.07s ease-in-out;
+    overflow: hidden;
+    display: inline-block;
 }
 
 .rightFooterTop ul li a i:hover {
@@ -623,6 +627,8 @@ footer {
 #infoProduct i {
     color: black;
     transition: 0.07s ease-in-out;
+    overflow: hidden;
+    display: inline-block;
 }
 
 .itemTerm img {
