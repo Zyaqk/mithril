@@ -189,9 +189,9 @@ function addNickname() {
     const notification = document.getElementById('notificationNickname');
     const notificationAll = document.getElementById('notification');
 
-    const input = document.getElementById('inputNickname');
+    const inputNickname = document.getElementById('inputNickname');
     const img = document.getElementById('imgNICK');
-    const nickname = input.value.trim();
+    const nickname = inputNickname.value.trim();
 
     if (nickname === "") {
         notification.style.display = 'block';
@@ -200,17 +200,17 @@ function addNickname() {
         notification.style.display = 'block';
         notification.innerHTML = 'Никнейм не должен содержать пробелы!';
     } else {
+        // Сохраняем никнейм в localStorage
+        localStorage.setItem('nickname', nickname);
+
         notification.style.display = 'none';
         window.style.display = 'none';
         notificationAll.style.display = 'block';
-        img.src = `https://mineskin.eu/helm/${nickname}`
+        img.src = `https://mineskin.eu/helm/${nickname}`; // Обновляем изображение
         notificationAll.innerHTML = `<span>НИКНЕЙМ ДОБАВЛЕН: ${nickname}</span>`;
         setTimeout(function() {
             notificationAll.style.display = "none";
         }, 3000);
-
-        const inputmail = document.getElementById('inputMail');
-        const mail = inputmail.value.trim();
         const mailWindow = document.querySelector('.mailWindown');
         const notificationMail = document.getElementById('notificationMail');
         if (mail === "") {
@@ -267,6 +267,9 @@ function addMail() {
     setTimeout(function() {
         notificationAll.style.display = "none";
     }, 3000);
+    if (mail !== "") {
+        localStorage.setItem('mail', mail);
+    }
 }
 
 
@@ -303,17 +306,40 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    const fetchData = async () => {
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        return true;
+    const fetchProducts = async () => {
+        try {
+            const response = await fetch('/api/shop/products');
+            const data = await response.json();
+            return data.success;
+        } catch (error) {
+            console.error('Ошибка загрузки продуктов:', error);
+            return false;
+        }
+    };
+
+    const fetchPayments = async () => {
+        try {
+            const response = await fetch('/api/shop/payments');
+            const data = await response.json();
+            return data.success;
+        } catch (error) {
+            console.error('Ошибка загрузки покупок:', error);
+            return false;
+        }
     };
 
     const init = async () => {
-        await fetchData();
-        await Promise.all([
-            checkImagesLoaded(listDonates),
-            checkImagesLoaded(lastDonates),
+        const [productsLoaded, paymentsLoaded] = await Promise.all([
+            fetchProducts(),
+            fetchPayments()
         ]);
+
+        if (productsLoaded && paymentsLoaded) {
+            await Promise.all([
+                checkImagesLoaded(listDonates),
+                checkImagesLoaded(lastDonates),
+            ]);
+        }
 
         preloader.style.display = 'none';
         if (listDonates) listDonates.style.display = 'grid';
@@ -322,6 +348,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
     init();
 });
+
+async function fetchAllAPIs(apiEndpoints) {
+    const fetchWithRetry = async (url, retries = 3, delay = 680) => {
+        let attempt = 0;
+        while (attempt < retries) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return await response.json();
+            } catch (error) {
+                attempt++;
+                console.error(`Попытка ${attempt} не удалась:`, error);
+                if (attempt === retries) throw error;
+                await new Promise(res => setTimeout(res, delay));
+            }
+        }
+    };
+
+    try {
+        const results = await Promise.all(
+            apiEndpoints.map(endpoint => fetchWithRetry(endpoint))
+        );
+        return results;
+    } catch (error) {
+        console.error('Ошибка при загрузке API:', error);
+        throw error;
+    }
+}
+
+const apiEndpoints = [
+    '/api/shop/products',
+    '/api/shop/payments',
+];
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const preloader = document.querySelector('.preloader');
+    preloader.style.display = 'flex';
+
+    try {
+        const [products, payments] = await fetchAllAPIs(apiEndpoints);
+    } catch (error) {
+        console.error('Не удалось загрузить данные:', error);
+    } finally {
+        preloader.style.display = 'none';
+    }
+});
+
 
 const canvas = document.getElementById('snowCanvas');
 const ctx = canvas.getContext('2d');
@@ -383,3 +458,32 @@ window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 });
+
+
+window.onload = function() {
+    loadNicknameImage(); // Вызов функции для загрузки изображения на основе никнейма
+    loadMail(); // Вызов функции для загрузки значения почты
+}
+
+// Функция для загрузки изображения на основе никнейма из localStorage
+function loadNicknameImage() {
+    const nickname = localStorage.getItem('nickname'); // Получаем сохранённый никнейм
+
+    if (nickname && nickname.trim() !== "") { // Проверяем, если никнейм не пустой
+        const img = document.getElementById('imgNICK');
+        img.src = `https://mineskin.eu/helm/${nickname}`; // Обновляем изображение
+    }
+
+    const savedNickname = localStorage.getItem('nickname');
+    if (savedNickname) {
+        document.getElementById('inputNickname').value = savedNickname; // Восстанавливаем значение никнейма
+    }
+}
+
+// Функция для загрузки почты из localStorage
+function loadMail() {
+    const savedMail = localStorage.getItem('mail'); // Получаем сохранённую почту
+    if (savedMail) {
+        document.getElementById('inputMail').value = savedMail; // Восстанавливаем значение почты
+    }
+}

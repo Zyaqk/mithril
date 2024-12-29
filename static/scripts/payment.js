@@ -338,48 +338,58 @@ function buyProduct(id) {
     const inputMail = document.getElementById('inputMail').value;
     const nicknameWindow = document.querySelector('.nicknameWindown');
     const mailWindow = document.querySelector('.mailWindown');
-    if (inputNickname == "") {
+    const notification = document.getElementById('notification');
+
+    if (inputNickname === "") {
         nicknameWindow.style.display = 'block';
         requestAnimationFrame(() => {
             nicknameWindow.style.opacity = 1;
             nicknameWindow.style.transform = 'translate(-50%, -50%) scale(1)';
         });
-    } else if (inputMail == "") {
+    } else if (inputMail === "") {
         mailWindow.style.display = 'block';
         requestAnimationFrame(() => {
             mailWindow.style.opacity = 1;
             mailWindow.style.transform = 'translate(-50%, -50%) scale(1)';
         });
     } else {
-        const nickname = document.getElementById('inputNickname').value.trim();
-        const mail = document.getElementById('inputMail').value.trim();
+        const nickname = inputNickname.trim();
+        const mail = inputMail.trim();
         const coupon = document.getElementById('inputCoupon').value.trim();
-        const notification = document.getElementById('notification');
-    
-        fetch(`/api/shop/payment/create?customer=${nickname}&server_id=82480&products={"${id}" :1}&email=${mail}&coupon=${coupon}&success_url=https://mithril.fun`)
+
+        fetch(`/api/shop/payment/create?customer=${nickname}&server_id=82480&products={"${id}":1}&email=${mail}&coupon=${coupon}&success_url=https://mithril.fun`)
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
+                if (data.success && data.url) {
                     notification.style.display = 'block';
-                    notification.innerHTML = '<span>ПЕРЕХОД К ОПЛАТЕ</span>'
+                    notification.innerHTML = '<span>ПЕРЕХОД К ОПЛАТЕ</span>';
                     setTimeout(() => {
                         notification.style.display = 'none';
-                    }, 1100)
-                    window.location = data.response.url;
+                    }, 1100);
+                    window.location = data.url;
                 } else {
                     notification.style.display = 'block';
-                    notification.innerHTML = '<span>ПОКУПКИ СЕЙЧАС НЕВОЗМОЖНЫ!</span>'
+                    notification.innerHTML = '<span>ПОКУПКИ СЕЙЧАС НЕВОЗМОЖНЫ!</span>';
                     notification.style.backgroundColor = 'red';
                     setTimeout(() => {
                         notification.style.display = 'none';
-                    }, 1500)
+                    }, 1500);
                     setTimeout(() => {
                         notification.style.backgroundColor = '#16a34a';
-                    }, 2000)
+                    }, 2000);
                 }
             })
             .catch(error => {
-                console.error(error)
-            })
+                console.error('Ошибка:', error);
+                notification.style.display = 'block';
+                notification.innerHTML = '<span>ОШИБКА СЕРВЕРА!</span>';
+                notification.style.backgroundColor = 'red';
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 1500);
+                setTimeout(() => {
+                    notification.style.backgroundColor = '#16a34a';
+                }, 2000);
+            });
     }
 }
