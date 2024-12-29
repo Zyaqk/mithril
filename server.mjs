@@ -127,7 +127,7 @@ app.get('/api/shop/payments', async (req, res) => {
             headers: { 'Shop-Key': shopKey }
         });
         if (data.success && Array.isArray(data.response)) {
-            const lastTenPayments = data.response.slice(-6);
+            const lastTenPayments = data.response.slice(-16);
             res.json({ success: true, response: lastTenPayments });
         } else {
             res.status(500).json({ error: 'Ошибка получение данных с API' });

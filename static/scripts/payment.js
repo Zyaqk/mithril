@@ -147,7 +147,6 @@ document.getElementById('closeNickname').addEventListener('click', function() {
 });
 
 
-
 function displayProducts(products, selectedCategoryId) {
     const termList = document.getElementById('termList');
     termList.innerHTML = '';
@@ -198,7 +197,6 @@ function displayProducts(products, selectedCategoryId) {
         termList.innerHTML = '<p>Нет товаров в этой категории.</p>';
     }
 }
-
 
 function infoProduct(productId) {
     const descriptionBlock = document.getElementById('descriptionProduct');
@@ -273,7 +271,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-
     fetch('/api/shop/payments')
     .then(response => response.json())
     .then(data => {
@@ -308,7 +305,8 @@ document.addEventListener('DOMContentLoaded', () => {
             payments.forEach(payment => {
                 const products = payment.products;
                 products.forEach(product => {
-                    const productName = productNamesMap[product.id] || shortenText(product.name, 10);
+                    const productName = productNamesMap[product.product_id] || shortenText(product.name, 10);
+
                     const formattedDate = formatDateTime(payment.updated_at);
 
                     const itemHTML = `
@@ -332,7 +330,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(data);
         }
     });
-
 });
 
 
