@@ -15,6 +15,7 @@ async function fetchProducts() {
                 80286: { name: 'ЛОРД', minPrice: Infinity, maxPrice: -Infinity },
                 80287: { name: 'КОРОЛЬ', minPrice: Infinity, maxPrice: -Infinity },
                 80288: { name: 'ИМПЕРАТОР', minPrice: Infinity, maxPrice: -Infinity },
+                83845: { name: 'КЛЮЧИ', minPrice: Infinity, maxPrice: -Infinity },
                 80289: { name: 'ФРИЛЫ', minPrice: Infinity, maxPrice: -Infinity },
                 80543: { name: 'НАБОРЫ', minPrice: Infinity, maxPrice: -Infinity },
                 82100: { name: 'ЧАНКИ', minPrice: Infinity, maxPrice: -Infinity },
@@ -57,6 +58,7 @@ function displayCategories(categories) {
         81852, // КОМПАНЬОНЫ КУБЫ
         82215, // КОСМЕТИКА КЛАССЫ
         82216, // КОСМЕТИКА РАЗНОЕ
+        83845, // КЛЮЧИ
     ];
 
     const categoryImages = {
@@ -68,7 +70,8 @@ function displayCategories(categories) {
         82100: 'images/chunks.png',
         81852: 'images/companionCube.png',
         82215: 'images/cosmeticClass.png',
-        82216: 'images/cosmeticOther.png'
+        82216: 'images/cosmeticOther.png',
+        83845: 'images/cases.png'
     };
 
     const categoryColors = {
@@ -80,7 +83,8 @@ function displayCategories(categories) {
         82100: '#f1ddca', // ЧАНКИ
         81852: '#f1ddca', // КОМПАНЬОНЫ КУБЫ
         82215: '#f1ddca', // КОСМЕТИКА КЛАССЫ
-        82216: '#f1ddca'  // КОСМЕТИКА РАЗНОЕ
+        82216: '#f1ddca', // КОСМЕТИКА РАЗНОЕ
+        83845: '#f1ddca'  // КЛЮЧИ
     };
 
     sortedCategoryIds.forEach(id => {
@@ -160,7 +164,8 @@ function displayProducts(products, selectedCategoryId) {
         82100: '#f1ddca', // ЧАНКИ
         81852: '#f1ddca', // КОМПАНЬОНЫ КУБЫ
         82215: '#f1ddca', // КОСМЕТИКА КЛАССЫ
-        82216: '#f1ddca'  // КОСМЕТИКА РАЗНОЕ
+        82216: '#f1ddca', // КОСМЕТИКА РАЗНОЕ
+        83845: '#f1ddca'  // КЛЮЧИ
     };
 
     const infoTermText = {
@@ -172,7 +177,8 @@ function displayProducts(products, selectedCategoryId) {
         82100: 'Выберите количество чанков:', // ЧАНКИ
         81852: 'Выберите компаньон куба:',    // КОМПАНЬОНЫ КУБЫ
         82215: 'Выберите косметику класса:',  // КОСМЕТИКА КЛАССЫ
-        82216: 'Выберите косметику:'          // КОСМЕТИКА РАЗНОЕ
+        82216: 'Выберите косметику:',         // КОСМЕТИКА РАЗНОЕ
+        83845: 'Выберите ключ:'               // КЛЮЧИ
     };
 
     const infoTermParagraph = document.querySelector('.infoTerm p');
