@@ -15,10 +15,14 @@ const app = express();
 const PORT = process.env.PORT;
 const shopKey = process.env.SHOP_KEY;
 
-const apiCache = new NodeCache({ stdTTL: 300 }); // Кэш с TTL 5 минут
+const apiCache = new NodeCache({ stdTTL: 300 });
 
 app.use(express.static(path.join(__dirname, 'static')));
 app.use(bodyParser.json());
+
+app.get('/sitemap.xml', (req, res) => {
+    res.sendFile(path.join(__dirname, 'sitemap_4465574.xml'));
+});
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
