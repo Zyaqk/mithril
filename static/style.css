@@ -102,11 +102,12 @@ a {
 
 .listImagePC {
     width: 100%;
-    height: 350px;
+    height: 280px;
     position: relative;
     overflow: hidden;
     border-radius: 10px;
     margin-top: 40px;
+
 }
 
 .listImagePC img {
@@ -114,7 +115,7 @@ a {
     height: 100%;
     object-fit: cover;
     object-position: center;
-    filter: brightness(1);
+    filter: brightness(0.8);
     position: relative;
 }
 
@@ -648,7 +649,7 @@ footer {
     outline: none;
     background-color: black;
     border-radius: 5px;
-    width: 70%;
+    width: 55%;
     height: 40px;
     font-size: 18px;
     font-weight: 800;
@@ -839,7 +840,7 @@ footer {
     background-color: #272727d6;
     justify-content: space-between;
     flex-shrink: 0;
-    width: 190px;
+    width: 185px;
     align-items: center;
     padding: 10px;
     border-radius: 5px;

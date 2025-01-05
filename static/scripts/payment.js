@@ -98,7 +98,7 @@ function displayCategories(categories) {
             const priceText = category.minPrice === category.maxPrice 
                 ? `ДО ${category.maxPrice} руб.` 
                 : `ОТ ${category.minPrice} ДО ${category.maxPrice} руб.`;
-            // <span class="CategorieSales">СКИДКА 50%</span>
+            //<span class="CategorieSales">СКИДКА 50%</span>
             categoryItem.innerHTML = `
                 <img src="${categoryImages[id]}" alt="${category.name}"> 
                 <div class="descriptionCategorie">
@@ -203,44 +203,6 @@ function displayProducts(products, selectedCategoryId) {
         termList.innerHTML = '<p>Нет товаров в этой категории.</p>';
     }
 }
-
-function infoProduct(productId) {
-    const descriptionBlock = document.getElementById('descriptionProduct');
-    const closeDescriptionBtn = document.getElementById('closeDesProduct');
-    const descriptionContent = document.getElementById('descriptProduct');
-    descriptionContent.innerHTML = '';
-    fetch(`/api/shop/products`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                const product = data.response.find(item => item.id === productId);
-                if (product) {
-                    if (product.description) {
-                        const descriptionHtml = product.description
-                            .split(/[\r\n]+/)
-                            .map(line => `<p>${line.trim()}</p>`)
-                            .join('');
-                        descriptionContent.innerHTML = descriptionHtml;
-                    } else {
-                        descriptionContent.innerHTML = 'Описание отсутствует.';
-                    }
-                } else {
-                    descriptionContent.innerHTML = 'Товар не найден.';
-                }
-            } else {
-                console.error(data.error);
-            }
-        })
-        .catch(error => {
-            console.error('Ошибка при получении товаров:', error);
-        });
-    descriptionBlock.style.display = 'block';
-
-    closeDescriptionBtn.addEventListener('click', function () {
-        descriptionBlock.style.display = 'none';
-    });
-}
-
 
 document.getElementById('closeTerm').addEventListener('click', function() {
     document.getElementById('termDonate').style.display = 'none';

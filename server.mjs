@@ -1,9 +1,10 @@
-import express, { response } from 'express';
+import express from 'express';
 import fetch from 'node-fetch';
 import path from 'path';
 import { config } from 'dotenv';
 import { fileURLToPath } from 'url';
 import bodyParser from 'body-parser';
+import NodeCache from 'node-cache';
 
 config();
 
@@ -13,6 +14,8 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT;
 const shopKey = process.env.SHOP_KEY;
+
+const apiCache = new NodeCache({ stdTTL: 300 }); // Кэш с TTL 5 минут
 
 app.use(express.static(path.join(__dirname, 'static')));
 app.use(bodyParser.json());
@@ -33,12 +36,11 @@ app.get('/dsc', (req, res) => {
     res.redirect('https://discord.gg/EHVqbmRkYf');
 });
 
-
 async function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function fetchWithRetry(url, options, retries = 3, delay = 680) {
+async function fetchWithRetry(url, options, retries = 3, delayMs = 1080) {
     let attempt = 0;
     while (attempt < retries) {
         try {
@@ -51,9 +53,20 @@ async function fetchWithRetry(url, options, retries = 3, delay = 680) {
             attempt++;
             console.error(`Попытка ${attempt} не удалась:`, error);
             if (attempt === retries) throw error;
-            await new Promise(res => setTimeout(res, delay));
+            await delay(delayMs);
         }
     }
+}
+
+async function fetchWithCache(url, options) {
+    const cachedData = apiCache.get(url);
+    if (cachedData) {
+        return cachedData;
+    }
+
+    const data = await fetchWithRetry(url, options);
+    apiCache.set(url, data); // Кэшируем данные
+    return data;
 }
 
 let lastFetchTime = 0;
@@ -70,10 +83,9 @@ app.use(async (req, res, next) => {
     next();
 });
 
-
 app.get('/api/shop/coupon/:code', async (req, res) => {
     try {
-        const data = await fetchWithRetry(`https://easydonate.ru/api/v3/shop/coupons?where_active=true`, {
+        const data = await fetchWithCache('https://easydonate.ru/api/v3/shop/coupons?where_active=true', {
             method: 'GET',
             headers: { 'Shop-Key': shopKey }
         });
@@ -96,14 +108,13 @@ app.get('/api/shop/coupon/:code', async (req, res) => {
             res.status(404).json({ success: false, error: 'Такого купона в магазине не существует' });
         }
     } catch (error) {
-        res.status(500).json({ success: false, error: 'Ошибка получение данных с API' });
+        res.status(500).json({ success: false, error: 'Ошибка получения данных с API' });
     }
 });
 
-
 app.get('/api/shop/products', async (req, res) => {
     try {
-        const apiResponse = await fetchWithRetry('https://easydonate.ru/api/v3/shop/products', {
+        const apiResponse = await fetchWithCache('https://easydonate.ru/api/v3/shop/products', {
             method: 'GET',
             headers: { 'Shop-Key': shopKey }
         });
@@ -137,30 +148,27 @@ app.get('/api/shop/products', async (req, res) => {
     }
 });
 
-
-
 app.get('/api/shop/custommessages', async (req, res) => {
     try {
-        const data = await fetchWithRetry('https://easydonate.ru/api/v3/plugin/EasyDonate.CustomMessages/getSettings', {
+        const data = await fetchWithCache('https://easydonate.ru/api/v3/plugin/EasyDonate.CustomMessages/getSettings', {
             method: 'GET',
             headers: { 'Shop-Key': shopKey }
         });
         res.json(data);
     } catch (error) {
-        res.status(500).json({ error: 'Ошибка получение данных с API' });
+        res.status(500).json({ error: 'Ошибка получения данных с API' });
     }
 });
 
-
 app.get('/api/shop/payments', async (req, res) => {
     try {
-        const data = await fetchWithRetry('https://easydonate.ru/api/v3/shop/payments', {
+        const data = await fetchWithCache('https://easydonate.ru/api/v3/shop/payments', {
             method: 'GET',
             headers: { 'Shop-Key': shopKey }
         });
 
         if (data.success && Array.isArray(data.response)) {
-            const lastTenPayments = data.response.slice(-8).map(payment => {
+            const lastTenPayments = data.response.slice(-6).map(payment => {
                 const {
                     email,
                     shop_id,
@@ -197,7 +205,6 @@ app.get('/api/shop/payments', async (req, res) => {
     }
 });
 
-
 app.get('/api/shop/payment/create', async (req, res) => {
     try {
         const { customer, products, coupon, email } = req.query;
@@ -205,7 +212,7 @@ app.get('/api/shop/payment/create', async (req, res) => {
             return res.status(400).json({ error: 'Неверные параметры для создание оплаты.' });
         }
 
-        const data = await fetchWithRetry(`https://easydonate.ru/api/v3/shop/payment/create?customer=${customer}&server_id=${process.env.SERVER_ID}&products=${products}&coupon=${coupon}&email=${email}&success_url=https://mithril.fun`, {
+        const data = await fetchWithCache(`https://easydonate.ru/api/v3/shop/payment/create?customer=${customer}&server_id=${process.env.SERVER_ID}&products=${products}&coupon=${coupon}&email=${email}&success_url=https://mithril.fun`, {
             method: 'GET',
             headers: { 'Shop-Key': shopKey }
         });
@@ -216,16 +223,13 @@ app.get('/api/shop/payment/create', async (req, res) => {
             res.status(500).json({ error: 'Ошибка создания оплаты.' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Ошибка получение данных с API' });
+        res.status(500).json({ error: 'Ошибка получения данных с API' });
     }
 });
-
-
 
 app.post('/', (req, res) => {
     res.sendStatus(200);
 });
-
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on http://localhost:${PORT}`);
