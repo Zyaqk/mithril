@@ -239,65 +239,66 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    fetch('/api/shop/payments')
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            const payments = data.response;
-            const listPayment = document.getElementById("listPurchases");
+    // Функция для обновления списка покупок
+    const fetchPayments = async () => {
+        try {
+            const response = await fetch('/api/shop/payments');
+            const data = await response.json();
+            
+            if (data.success && Array.isArray(data.response)) {
+                const purchasesContainer = document.getElementById('listPurchases');
+                purchasesContainer.innerHTML = ''; // Очищаем контейнер перед добавлением новых данных
 
-            function shortenText(text, maxLength) {
-                return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
-            }
+                data.response.forEach(payment => {
+                    payment.products.forEach(product => {
+                        // Форматируем дату
+                        const formatDate = (dateStr) => {
+                            const date = new Date(dateStr);
+                            const day = String(date.getDate()).padStart(2, '0');
+                            const month = String(date.getMonth() + 1).padStart(2, '0');
+                            const year = date.getFullYear();
+                            const hours = String(date.getHours()).padStart(2, '0');
+                            const minutes = String(date.getMinutes()).padStart(2, '0');
+                            return `${day}/${month}/${year} ${hours}:${minutes}`;
+                        };
+                        
+                        const formattedDate = formatDate(payment.paid_at);
 
-            function formatDateTime(dateTime) {
-                const date = new Date(dateTime);
-                const day = String(date.getDate()).padStart(2, '0');
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const year = date.getFullYear();
-                const hours = String(date.getHours()).padStart(2, '0');
-                const minutes = String(date.getMinutes()).padStart(2, '0');
-                return `${day}/${month}/${year} ${hours}:${minutes}`;
-            }
+                        // Обрезаем имя продукта, если оно больше 10 символов
+                        const productName = product.name.length > 10 ? product.name.slice(0, 10) + '...' : product.name;
 
-            const productNamesMap = {
-                833204: "ЛОРД 1д",
-                833211: "ЛОРД 1н",
-                651154: "ЛОРД",
-                833208: "КОРОЛЬ 1д",
-                833215: "КОРОЛЬ 1н",
-                651269: "КОРОЛЬ",
-                651274: "ИМПЕРАТОР"
-            };
-
-            payments.forEach(payment => {
-                const products = payment.products;
-                products.forEach(product => {
-                    const productName = productNamesMap[product.product_id] || shortenText(product.name, 10);
-
-                    const formattedDate = formatDateTime(payment.updated_at);
-
-                    const itemHTML = `
-                        <div class="lastPurchasesItem">
-                            <div class="PurchasesOne">
-                                <img src="https://mineskin.eu/helm/${payment.customer}">
+                        // Создаем HTML блок с данными
+                        const itemHTML = `
+                            <div class="lastPurchasesItem">
+                                <div class="PurchasesOne">
+                                    <img src="https://mineskin.eu/helm/${payment.customer}">
+                                </div>
+                                <div class="PurchasesTwo">
+                                    <ul>
+                                        <li>${payment.customer}</li>
+                                        <li class="purchasesdonate">${productName}</li>
+                                        <li class="purchasestime">${formattedDate}</li>
+                                    </ul>
+                                </div>
                             </div>
-                            <div class="PurchasesTwo">
-                                <ul>
-                                    <li>${payment.customer}</li>
-                                    <li class="purchasesdonate">${productName}</li>
-                                    <li class="purchasestime">${formattedDate}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    `;
-                    listPayment.insertAdjacentHTML('beforeend', itemHTML);
+                        `;
+
+                        // Добавляем сгенерированный HTML в контейнер
+                        purchasesContainer.innerHTML += itemHTML;
+                    });
                 });
-            });
-        } else {
-            console.error(data);
+            }
+        } catch (error) {
+            console.error('Ошибка при загрузке данных:', error);
         }
-    });
+    };
+
+    // Обновляем список покупок каждые 5 минут (300000 миллисекунд)
+    setInterval(fetchPayments, 300000);
+
+    // Загружаем данные сразу при первом запуске страницы
+    fetchPayments();
+
 });
 
 

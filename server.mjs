@@ -69,7 +69,7 @@ async function fetchWithCache(url, options) {
     }
 
     const data = await fetchWithRetry(url, options);
-    apiCache.set(url, data); // Кэшируем данные
+    apiCache.set(url, data);
     return data;
 }
 
@@ -166,46 +166,43 @@ app.get('/api/shop/custommessages', async (req, res) => {
 
 app.get('/api/shop/payments', async (req, res) => {
     try {
-        const data = await fetchWithCache('https://easydonate.ru/api/v3/shop/payments', {
+        const data = await fetchWithRetry('https://easydonate.ru/api/v3/plugin/EasyDonate.LastPayments/getPayments', {
             method: 'GET',
             headers: { 'Shop-Key': shopKey }
         });
 
         if (data.success && Array.isArray(data.response)) {
-            const lastTenPayments = data.response.slice(-6).map(payment => {
-                const {
-                    email,
-                    shop_id,
-                    server_id,
-                    enrolled,
-                    payment_system,
-                    payment_type,
-                    sent_commands,
-                    created_at,
-                    ip,
-                    cost,
-                    server,
-                    products,
-                    ...rest
-                } = payment;
-                const filteredProducts = products.map(product => {
-                    const {
-                        id,
-                        name,
-                        price,
-                        number,
-                        ...otherFields
-                    } = product;
-                    return { id, price, name, amount: number };
-                });
-                return { ...rest, products: filteredProducts };
-            });
-            res.json({ success: true, response: lastTenPayments });
+            const formatDate = (dateStr) => {
+                const date = new Date(dateStr);
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                return `${day}/${month}/${year} ${hours}:${minutes}`;
+            };
+
+            const truncateName = (name) => {
+                return name.length > 10 ? name.slice(0, 10) + '...' : name;
+            };
+
+            const filteredPayments = data.response.map(payment => ({
+                created_at: formatDate(payment.created_at),
+                customer: payment.customer,
+                income: payment.income,
+                paid_at: formatDate(payment.updated_at),
+                products: payment.products.map(product => ({
+                    name: truncateName(product.name)
+                }))
+            }));
+
+            res.json({ success: true, response: filteredPayments });
         } else {
-            res.status(500).json({ error: 'Ошибка получения данных с API' });
+            res.status(500).json({ error: 'Unexpected data format' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Ошибка получения данных с API' });
+        console.error('Ошибка получения данных:', error);
+        res.status(500).json({ error: 'Failed to fetch data' });
     }
 });
 

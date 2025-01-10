@@ -812,12 +812,14 @@ footer {
     -ms-overflow-style: none;
     padding: 10px 0;
     white-space: nowrap;
-    flex-direction: row-reverse;
-    justify-content: flex-end;
 }
 
 #listPurchases::-webkit-scrollbar {
     display: none; /* Скрыть полосу прокрутки для Chrome, Safari */
+}
+
+#imgNICK, .PurchasesOne img {
+    border-radius: 4px;
 }
 
 
@@ -916,4 +918,12 @@ footer {
 
 .groupDescripton ul img {
     width: 500px;
+}
+
+#canvas {
+    width: 80%;
+            height: 80%;
+            border: 1px solid #ccc;
+            margin: 50px auto;
+            display: block;
 }
