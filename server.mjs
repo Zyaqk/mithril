@@ -190,6 +190,7 @@ app.get('/api/shop/payments', async (req, res) => {
                 created_at: formatDate(payment.created_at),
                 customer: payment.customer,
                 income: payment.income,
+                sent_commands: payment.sent_commands,
                 paid_at: formatDate(payment.updated_at),
                 products: payment.products.map(product => ({
                     name: truncateName(product.name)
