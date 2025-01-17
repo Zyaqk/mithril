@@ -669,6 +669,7 @@ footer {
 
 .itemTerm h3 {
     color: black;
+    text-transform: uppercase;
     font-weight: 600;
     font-size: 23px;
     padding-bottom: 20px;

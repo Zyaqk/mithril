@@ -22,6 +22,7 @@ async function fetchProducts() {
                 81852: { name: 'КОМПАНЬОНЫ КУБЫ', minPrice: Infinity, maxPrice: -Infinity },
                 82215: { name: 'КОСМЕТИКА КЛАССЫ', minPrice: Infinity, maxPrice: -Infinity },
                 82216: { name: 'КОСМЕТИКА РАЗНОЕ', minPrice: Infinity, maxPrice: -Infinity },
+                84359: { name: 'МАУНТЫ', minPrice: Infinity, maxPrice: -Infinity },
             };
 
             data.response.forEach(product => {
@@ -59,6 +60,7 @@ function displayCategories(categories) {
         82215, // КОСМЕТИКА КЛАССЫ
         82216, // КОСМЕТИКА РАЗНОЕ
         83845, // КЛЮЧИ
+        84359, // МАУНТЫ
     ];
 
     const categoryImages = {
@@ -71,7 +73,8 @@ function displayCategories(categories) {
         81852: 'images/companionCube.png',
         82215: 'images/cosmeticClass.png',
         82216: 'images/cosmeticOther.png',
-        83845: 'images/cases.png'
+        83845: 'images/cases.png',
+        84359: 'images/mounts.png'
     };
 
     const categoryColors = {
@@ -84,7 +87,8 @@ function displayCategories(categories) {
         81852: '#f1ddca', // КОМПАНЬОНЫ КУБЫ
         82215: '#f1ddca', // КОСМЕТИКА КЛАССЫ
         82216: '#f1ddca', // КОСМЕТИКА РАЗНОЕ
-        83845: '#f1ddca'  // КЛЮЧИ
+        83845: '#f1ddca', // КЛЮЧИ
+        84359: '#f1ddca'  // МАУНТЫ
     };
 
     sortedCategoryIds.forEach(id => {
@@ -165,7 +169,8 @@ function displayProducts(products, selectedCategoryId) {
         81852: '#f1ddca', // КОМПАНЬОНЫ КУБЫ
         82215: '#f1ddca', // КОСМЕТИКА КЛАССЫ
         82216: '#f1ddca', // КОСМЕТИКА РАЗНОЕ
-        83845: '#f1ddca'  // КЛЮЧИ
+        83845: '#f1ddca', // КЛЮЧИ
+        84359: '#f1ddca'  // МАУНТЫ
     };
 
     const infoTermText = {
@@ -178,7 +183,8 @@ function displayProducts(products, selectedCategoryId) {
         81852: 'Выберите компаньон куба:',    // КОМПАНЬОНЫ КУБЫ
         82215: 'Выберите косметику класса:',  // КОСМЕТИКА КЛАССЫ
         82216: 'Выберите косметику:',         // КОСМЕТИКА РАЗНОЕ
-        83845: 'Выберите ключ:'               // КЛЮЧИ
+        83845: 'Выберите ключ:',              // КЛЮЧИ
+        84359: 'Выберите маунт:'              // МАУНТЫ
     };
 
     const infoTermParagraph = document.querySelector('.infoTerm p');

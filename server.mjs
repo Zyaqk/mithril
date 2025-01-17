@@ -130,8 +130,6 @@ app.get('/api/shop/products', async (req, res) => {
                     type,
                     number,
                     is_hidden,
-                    commands,
-                    withdraw_commands,
                     additional_fields,
                     description,
                     first_delete,
