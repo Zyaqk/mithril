@@ -227,6 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div id="message">
                         <div class="container">
                             <p>${data.response.message}</p>
+                            <button id="messagebtn">${data.response.buttonCaption}</button>
                         </div>
                     </div>
             `;
