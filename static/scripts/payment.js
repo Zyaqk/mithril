@@ -154,6 +154,30 @@ document.getElementById('closeNickname').addEventListener('click', function() {
     document.getElementById('nicknameWindown').style.display = 'none';
 });
 
+let productCounters = {};
+
+function itemProductsPlus(productId, price, button) {
+    if (!productCounters[productId]) {
+        productCounters[productId] = 1;
+    }
+    productCounters[productId]++;
+
+    const parentDiv = button.closest('.buttonsItemTerm');
+    const buyButton = parentDiv.querySelector('.buyItemProductButton');
+    buyButton.innerText = `${productCounters[productId]} шт. (${price * productCounters[productId]} руб.)`;
+}
+
+function itemProductsMinus(productId, price, button) {
+    if (!productCounters[productId] || productCounters[productId] <= 1) {
+        productCounters[productId] = 1;
+        return;
+    }
+    productCounters[productId]--;
+
+    const parentDiv = button.closest('.buttonsItemTerm');
+    const buyButton = parentDiv.querySelector('.buyItemProductButton');
+    buyButton.innerText = `${productCounters[productId]} шт. (${price * productCounters[productId]} руб.)`;
+}
 
 function displayProducts(products, selectedCategoryId) {
     const termList = document.getElementById('termList');
@@ -184,7 +208,7 @@ function displayProducts(products, selectedCategoryId) {
         82215: 'Выберите косметику класса:',  // КОСМЕТИКА КЛАССЫ
         82216: 'Выберите косметику:',         // КОСМЕТИКА РАЗНОЕ
         83845: 'Выберите ключ:',              // КЛЮЧИ
-        84359: 'Выберите маунт:'              // МАУНТЫ
+        84359: 'Выберите маунта:'             // МАУНТЫ
     };
 
     const infoTermParagraph = document.querySelector('.infoTerm p');
@@ -197,11 +221,30 @@ function displayProducts(products, selectedCategoryId) {
             const itemTerm = document.createElement('div');
             itemTerm.className = 'itemTerm';
             itemTerm.style.backgroundColor = categoryColors[product.category_id];
+
+            if (!productCounters[product.id]) {
+                productCounters[product.id] = 1;
+            }
+
+            if (selectedCategoryId === 83845) {
                 itemTerm.innerHTML = `
                     <img src="${product.image}" alt="${product.name}">
                     <h3>${product.name}</h3>
-                    <button onclick="buyProduct(${product.id})">${product.price} руб.</button>
+                    <div class="buttonsItemTerm">
+                        <button class="buyItemProductButtonToggle" onclick="itemProductsMinus(${product.id}, ${product.price}, this)">-</button>
+                        <button class="buyItemProductButton" onclick="buyProduct(${product.id})">${productCounters[product.id]} шт. (${product.price * productCounters[product.id]} руб.)</button>
+                        <button class="buyItemProductButtonToggle" onclick="itemProductsPlus(${product.id}, ${product.price}, this)">+</button>
+                    </div>
                 `;
+            } else {
+                itemTerm.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <div class="buttonsItemTerm">
+                        <button class="buyItemProductButton" onclick="buyProduct(${product.id})">${product.price} руб.</button>
+                    </div>
+                `;
+            }
 
             termList.appendChild(itemTerm);
         });
@@ -246,7 +289,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Функция для обновления списка покупок
     const fetchPayments = async () => {
         try {
             const response = await fetch('/api/shop/payments');
@@ -254,11 +296,10 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (data.success && Array.isArray(data.response)) {
                 const purchasesContainer = document.getElementById('listPurchases');
-                purchasesContainer.innerHTML = ''; // Очищаем контейнер перед добавлением новых данных
+                purchasesContainer.innerHTML = '';
 
                 data.response.forEach(payment => {
                     payment.products.forEach(product => {
-                        // Форматируем дату
                         const formatDate = (dateStr) => {
                             const date = new Date(dateStr);
                             const day = String(date.getDate()).padStart(2, '0');
@@ -270,11 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         };
                         
                         const formattedDate = formatDate(payment.paid_at);
-
-                        // Обрезаем имя продукта, если оно больше 10 символов
                         const productName = product.name.length > 10 ? product.name.slice(0, 10) + '...' : product.name;
-
-                        // Создаем HTML блок с данными
                         const itemHTML = `
                             <div class="lastPurchasesItem">
                                 <div class="PurchasesOne">
@@ -290,7 +327,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                         `;
 
-                        // Добавляем сгенерированный HTML в контейнер
                         purchasesContainer.innerHTML += itemHTML;
                     });
                 });
@@ -300,18 +336,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Обновляем список покупок каждые 5 минут (300000 миллисекунд)
     setInterval(fetchPayments, 300000);
-
-    // Загружаем данные сразу при первом запуске страницы
     fetchPayments();
 
 });
 
 
 function buyProduct(id) {
-    const inputNickname = document.getElementById('inputNickname').value;
-    const inputMail = document.getElementById('inputMail').value;
+    const inputNickname = document.getElementById('inputNickname').value.trim();
+    const inputMail = document.getElementById('inputMail').value.trim();
     const nicknameWindow = document.querySelector('.nicknameWindown');
     const mailWindow = document.querySelector('.mailWindown');
     const notification = document.getElementById('notification');
@@ -322,43 +355,40 @@ function buyProduct(id) {
             nicknameWindow.style.opacity = 1;
             nicknameWindow.style.transform = 'translate(-50%, -50%) scale(1)';
         });
-    } else if (inputMail === "") {
+        return;
+    }
+
+    if (inputMail === "") {
         mailWindow.style.display = 'block';
         requestAnimationFrame(() => {
             mailWindow.style.opacity = 1;
             mailWindow.style.transform = 'translate(-50%, -50%) scale(1)';
         });
-    } else {
-        const nickname = inputNickname.trim();
-        const mail = inputMail.trim();
-        const coupon = document.getElementById('inputCoupon').value.trim();
+        return;
+    }
 
-        fetch(`/api/shop/payment/create?customer=${nickname}&server_id=82480&products={"${id}":1}&email=${mail}&coupon=${coupon}&success_url=https://mithril.fun`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success && data.url) {
-                    notification.style.display = 'block';
-                    notification.innerHTML = '<span>ПЕРЕХОД К ОПЛАТЕ</span>';
-                    setTimeout(() => {
-                        notification.style.display = 'none';
-                    }, 1100);
-                    window.location = data.url;
-                } else {
-                    notification.style.display = 'block';
-                    notification.innerHTML = '<span>ПОКУПКИ СЕЙЧАС НЕВОЗМОЖНЫ!</span>';
-                    notification.style.backgroundColor = 'red';
-                    setTimeout(() => {
-                        notification.style.display = 'none';
-                    }, 1500);
-                    setTimeout(() => {
-                        notification.style.backgroundColor = '#16a34a';
-                    }, 2000);
-                }
-            })
-            .catch(error => {
-                console.error('Ошибка:', error);
+    const coupon = document.getElementById('inputCoupon').value.trim();
+
+    let quantity = 1;
+    if (id === 899640 || id === 899641 || id === 900505) {
+        quantity = productCounters[id] || 1;
+    }
+
+    const products = `{"${id}":${quantity}}`;
+
+    fetch(`/api/shop/payment/create?customer=${inputNickname}&server_id=82480&products=${products}&email=${inputMail}&coupon=${coupon}&success_url=https://mithril.fun`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.url) {
                 notification.style.display = 'block';
-                notification.innerHTML = '<span>ОШИБКА СЕРВЕРА!</span>';
+                notification.innerHTML = '<span>ПЕРЕХОД К ОПЛАТЕ</span>';
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 1100);
+                window.location = data.url;
+            } else {
+                notification.style.display = 'block';
+                notification.innerHTML = '<span>ПОКУПКИ СЕЙЧАС НЕВОЗМОЖНЫ!</span>';
                 notification.style.backgroundColor = 'red';
                 setTimeout(() => {
                     notification.style.display = 'none';
@@ -366,6 +396,18 @@ function buyProduct(id) {
                 setTimeout(() => {
                     notification.style.backgroundColor = '#16a34a';
                 }, 2000);
-            });
-    }
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+            notification.style.display = 'block';
+            notification.innerHTML = '<span>ОШИБКА СЕРВЕРА!</span>';
+            notification.style.backgroundColor = 'red';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 1500);
+            setTimeout(() => {
+                notification.style.backgroundColor = '#16a34a';
+            }, 2000);
+        });
 }

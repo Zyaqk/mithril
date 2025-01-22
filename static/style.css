@@ -644,12 +644,26 @@ footer {
     padding-top: 10px;
 }
 
-.itemTerm button{
+.itemTerm .buyItemProductButton {
     border: none;
     outline: none;
     background-color: black;
     border-radius: 5px;
-    width: 55%;
+    width: 160px;
+    height: 40px;
+    font-size: 18px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.07s ease-in-out;
+}
+
+.itemTerm .buyItemProductButtonToggle {
+    border: none;
+    outline: none;
+    display: inline;
+    background-color: black;
+    border-radius: 5px;
+    width: 30px;
     height: 40px;
     font-size: 18px;
     font-weight: 800;
@@ -865,6 +879,7 @@ footer {
     color: #81c716;
     font-weight: bold;
     font-size: 14px;
+    text-transform: uppercase;
 }
 
 .purchasestime {
