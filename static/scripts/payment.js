@@ -15,7 +15,6 @@ async function fetchProducts() {
                 80286: { name: 'ЛОРД', minPrice: Infinity, maxPrice: -Infinity },
                 80287: { name: 'КОРОЛЬ', minPrice: Infinity, maxPrice: -Infinity },
                 80288: { name: 'ИМПЕРАТОР', minPrice: Infinity, maxPrice: -Infinity },
-                83845: { name: 'КЛЮЧИ', minPrice: Infinity, maxPrice: -Infinity },
                 80289: { name: 'ФРИЛЫ', minPrice: Infinity, maxPrice: -Infinity },
                 80543: { name: 'НАБОРЫ', minPrice: Infinity, maxPrice: -Infinity },
                 82100: { name: 'ЧАНКИ', minPrice: Infinity, maxPrice: -Infinity },
@@ -23,6 +22,7 @@ async function fetchProducts() {
                 82215: { name: 'КОСМЕТИКА КЛАССЫ', minPrice: Infinity, maxPrice: -Infinity },
                 82216: { name: 'КОСМЕТИКА РАЗНОЕ', minPrice: Infinity, maxPrice: -Infinity },
                 84359: { name: 'МАУНТЫ', minPrice: Infinity, maxPrice: -Infinity },
+                83845: { name: 'КЛЮЧИ', minPrice: Infinity, maxPrice: -Infinity },
             };
 
             data.response.forEach(product => {
@@ -54,12 +54,12 @@ function displayCategories(categories) {
         80287, // КОРОЛЬ
         80288, // ИМПЕРАТОР
         80289, // ФРИЛЫ
+        83845, // КЛЮЧИ
         80543, // НАБОРЫ
         82100, // ЧАНКИ
         81852, // КОМПАНЬОНЫ КУБЫ
         82215, // КОСМЕТИКА КЛАССЫ
         82216, // КОСМЕТИКА РАЗНОЕ
-        83845, // КЛЮЧИ
         84359, // МАУНТЫ
     ];
 
@@ -96,13 +96,19 @@ function displayCategories(categories) {
         if (category.minPrice !== Infinity) {
             const categoryItem = document.createElement('div');
             categoryItem.className = 'itemCategorie';
-
+    
             categoryItem.style.backgroundColor = categoryColors[id];
-
-            const priceText = category.minPrice === category.maxPrice 
-                ? `ДО ${category.maxPrice} руб.` 
-                : `ОТ ${category.minPrice} ДО ${category.maxPrice} руб.`;
-            //<span class="CategorieSales">СКИДКА 50%</span>
+    
+            let priceText;
+    
+            if (id === 83845) {
+                priceText = `ОТ ${category.maxPrice} руб.`;
+            } else {
+                priceText = category.minPrice === category.maxPrice 
+                    ? `ДО ${category.maxPrice} руб.` 
+                    : `ОТ ${category.minPrice} ДО ${category.maxPrice} руб.`;
+            }
+    
             categoryItem.innerHTML = `
                 <img src="${categoryImages[id]}" alt="${category.name}"> 
                 <div class="descriptionCategorie">
@@ -112,10 +118,10 @@ function displayCategories(categories) {
                 </div>
                 <button onclick="handleButtonClick(${id})"><i class="fa-solid fa-cart-shopping"></i>${priceText}</button>
             `;
-
+    
             listProducts.appendChild(categoryItem);
         }
-    });
+    });    
 }
 
 
@@ -156,27 +162,20 @@ document.getElementById('closeNickname').addEventListener('click', function() {
 
 let productCounters = {};
 
-function itemProductsPlus(productId, price, button) {
-    if (!productCounters[productId]) {
-        productCounters[productId] = 1;
-    }
-    productCounters[productId]++;
-
-    const parentDiv = button.closest('.buttonsItemTerm');
-    const buyButton = parentDiv.querySelector('.buyItemProductButton');
-    buyButton.innerText = `${productCounters[productId]} шт. (${price * productCounters[productId]} руб.)`;
+function itemProductsPlus(p, pr, b) {
+    let n = productCounters;
+    n[p] = (n[p] || 0) + 1;
+    b.closest('.buttonsItemTerm')
+     .querySelector('.buyItemProductButton')
+     .innerText = `${n[p]} шт. (${pr * n[p]} руб.)`;
 }
 
-function itemProductsMinus(productId, price, button) {
-    if (!productCounters[productId] || productCounters[productId] <= 1) {
-        productCounters[productId] = 1;
-        return;
-    }
-    productCounters[productId]--;
-
-    const parentDiv = button.closest('.buttonsItemTerm');
-    const buyButton = parentDiv.querySelector('.buyItemProductButton');
-    buyButton.innerText = `${productCounters[productId]} шт. (${price * productCounters[productId]} руб.)`;
+function itemProductsMinus(p, pr, b) {
+    let n = productCounters;
+    n[p] = (n[p] || 1) - 1 < 1 ? 1 : n[p] - 1;
+    b.closest('.buttonsItemTerm')
+     .querySelector('.buyItemProductButton')
+     .innerText = `${n[p]} шт. (${pr * n[p]} руб.)`;
 }
 
 function displayProducts(products, selectedCategoryId) {
@@ -198,17 +197,17 @@ function displayProducts(products, selectedCategoryId) {
     };
 
     const infoTermText = {
-        80286: 'Выберите срок действия:',     // ЛОРД 
-        80287: 'Выберите срок действия:',     // КОРОЛЬ
-        80288: 'Выберите срок действия:',     // ИМПЕРАТОР
-        80289: 'Выберите сумму:',             // ФРИЛЫ 
-        80543: 'Выберите набор:',             // НАБОРЫ
-        82100: 'Выберите количество чанков:', // ЧАНКИ
-        81852: 'Выберите компаньон куба:',    // КОМПАНЬОНЫ КУБЫ
-        82215: 'Выберите косметику класса:',  // КОСМЕТИКА КЛАССЫ
-        82216: 'Выберите косметику:',         // КОСМЕТИКА РАЗНОЕ
-        83845: 'Выберите ключ:',              // КЛЮЧИ
-        84359: 'Выберите маунта:'             // МАУНТЫ
+        80286: 'Выберите срок действия:',         // ЛОРД 
+        80287: 'Выберите срок действия:',         // КОРОЛЬ
+        80288: 'Выберите срок действия:',         // ИМПЕРАТОР
+        80289: 'Выберите сумму:',                 // ФРИЛЫ 
+        80543: 'Выберите набор:',                 // НАБОРЫ
+        82100: 'Выберите количество чанков:',     // ЧАНКИ
+        81852: 'Выберите компаньон куба:',        // КОМПАНЬОНЫ КУБЫ
+        82215: 'Выберите косметику класса:',      // КОСМЕТИКА КЛАССЫ
+        82216: 'Выберите косметику:',             // КОСМЕТИКА РАЗНОЕ
+        83845: 'Выберите ключ и его количество:', // КЛЮЧИ
+        84359: 'Выберите маунта:'                 // МАУНТЫ
     };
 
     const infoTermParagraph = document.querySelector('.infoTerm p');

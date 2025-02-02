@@ -200,13 +200,12 @@ function addNickname() {
         notification.style.display = 'block';
         notification.innerHTML = 'Никнейм не должен содержать пробелы!';
     } else {
-        // Сохраняем никнейм в localStorage
         localStorage.setItem('nickname', nickname);
 
         notification.style.display = 'none';
         window.style.display = 'none';
         notificationAll.style.display = 'block';
-        img.src = `https://mineskin.eu/helm/${nickname}`; // Обновляем изображение
+        img.src = `https://mineskin.eu/helm/${nickname}`;
         notificationAll.innerHTML = `<span>НИКНЕЙМ ДОБАВЛЕН: ${nickname}</span>`;
         setTimeout(function() {
             notificationAll.style.display = "none";
@@ -272,93 +271,28 @@ function addMail() {
     }
 }
 
-
-const canvas = document.getElementById('snowCanvas');
-const ctx = canvas.getContext('2d');
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-const snowflakes = [];
-
-function createSnowflake() {
-    return {
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        radius: Math.random() * 3 + 1,
-        speedY: Math.random() * 3 + 1,
-        speedX: Math.random() * 2 - 1,
-    };
-}
-
-function drawSnowflake(snowflake) {
-    ctx.beginPath();
-    ctx.arc(snowflake.x, snowflake.y, snowflake.radius, 0, Math.PI * 2);
-    ctx.fillStyle = 'white';
-    ctx.fill();
-}
-
-function updateSnowflake(snowflake) {
-    snowflake.y += snowflake.speedY;
-    snowflake.x += snowflake.speedX;
-
-    if (snowflake.y > canvas.height) {
-        snowflake.y = -snowflake.radius;
-        snowflake.x = Math.random() * canvas.width;
-    }
-
-    if (snowflake.x > canvas.width || snowflake.x < 0) {
-        snowflake.x = Math.random() * canvas.width;
-    }
-}
-
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    snowflakes.forEach((snowflake) => {
-        updateSnowflake(snowflake);
-        drawSnowflake(snowflake);
-    });
-
-    requestAnimationFrame(animate);
-}
-
-for (let i = 0; i < 100; i++) {
-    snowflakes.push(createSnowflake());
-}
-
-animate();
-
-window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-});
-
-
 window.onload = function() {
-    loadNicknameImage(); // Вызов функции для загрузки изображения на основе никнейма
-    loadMail(); // Вызов функции для загрузки значения почты
+    loadNicknameImage();
+    loadMail();
 }
 
-// Функция для загрузки изображения на основе никнейма из localStorage
 function loadNicknameImage() {
-    const nickname = localStorage.getItem('nickname'); // Получаем сохранённый никнейм
+    const nickname = localStorage.getItem('nickname');
 
-    if (nickname && nickname.trim() !== "") { // Проверяем, если никнейм не пустой
+    if (nickname && nickname.trim() !== "") {
         const img = document.getElementById('imgNICK');
-        img.src = `https://mineskin.eu/helm/${nickname}`; // Обновляем изображение
+        img.src = `https://mineskin.eu/helm/${nickname}`;
     }
 
     const savedNickname = localStorage.getItem('nickname');
     if (savedNickname) {
-        document.getElementById('inputNickname').value = savedNickname; // Восстанавливаем значение никнейма
+        document.getElementById('inputNickname').value = savedNickname;
     }
 }
 
-// Функция для загрузки почты из localStorage
 function loadMail() {
-    const savedMail = localStorage.getItem('mail'); // Получаем сохранённую почту
+    const savedMail = localStorage.getItem('mail');
     if (savedMail) {
-        document.getElementById('inputMail').value = savedMail; // Восстанавливаем значение почты
+        document.getElementById('inputMail').value = savedMail;
     }
 }

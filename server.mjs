@@ -20,12 +20,12 @@ const apiCache = new NodeCache({ stdTTL: 300 });
 app.use(express.static(path.join(__dirname, 'static')));
 app.use(bodyParser.json());
 
-app.get('/sitemap.xml', (req, res) => {
-    res.sendFile(path.join(__dirname, 'sitemap_4465574.xml'));
-});
-
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.get('/.well-known/discord', (req, res) => {
+    res.sendFile(path.join(__dirname, '.well-known', 'discord'));
 });
 
 app.get('/donate', (req, res) => {
