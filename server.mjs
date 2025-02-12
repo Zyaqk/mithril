@@ -24,10 +24,6 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.get('/.well-known/discord', (req, res) => {
-    res.sendFile(path.join(__dirname, '.well-known', 'discord'));
-});
-
 app.get('/donate', (req, res) => {
     res.sendFile(path.join(__dirname, 'donate.html'));
 });
@@ -187,8 +183,6 @@ app.get('/api/shop/payments', async (req, res) => {
             const filteredPayments = data.response.map(payment => ({
                 created_at: formatDate(payment.created_at),
                 customer: payment.customer,
-                income: payment.income,
-                sent_commands: payment.sent_commands,
                 paid_at: formatDate(payment.updated_at),
                 products: payment.products.map(product => ({
                     name: truncateName(product.name)

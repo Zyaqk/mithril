@@ -655,6 +655,7 @@ footer {
     font-weight: 800;
     cursor: pointer;
     transition: 0.07s ease-in-out;
+    margin-bottom: 24px;
 }
 
 .itemTerm .buyItemProductButtonToggle {
@@ -684,6 +685,7 @@ footer {
 .itemTerm h3 {
     color: black;
     text-transform: uppercase;
+    text-align: center;
     font-weight: 600;
     font-size: 23px;
     padding-bottom: 20px;

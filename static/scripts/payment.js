@@ -369,7 +369,7 @@ function buyProduct(id) {
     const coupon = document.getElementById('inputCoupon').value.trim();
 
     let quantity = 1;
-    if (id === 899640 || id === 899641 || id === 900505) {
+    if (id === 899640 || id === 899641 || id === 900505 || id === 928805) {
         quantity = productCounters[id] || 1;
     }
 
