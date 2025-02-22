@@ -36,6 +36,10 @@ app.get('/dsc', (req, res) => {
     res.redirect('https://discord.gg/EHVqbmRkYf');
 });
 
+app.get('/tg', (req, res) => {
+    res.redirect('https://t.me/mithril995');
+})
+
 async function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
