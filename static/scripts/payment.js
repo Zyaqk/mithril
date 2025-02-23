@@ -95,7 +95,7 @@ function displayCategories(categories) {
         const category = categories[id];
         if (category.minPrice !== Infinity) {
             const categoryItem = document.createElement('div');
-            categoryItem.className = 'itemCategorie';
+            categoryItem.className = 'itemCategorie animate__animated animate__fadeInDown';
     
             categoryItem.style.backgroundColor = categoryColors[id];
     
@@ -296,7 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.success && Array.isArray(data.response)) {
                 const purchasesContainer = document.getElementById('listPurchases');
                 purchasesContainer.innerHTML = '';
-
+    
                 data.response.forEach(payment => {
                     payment.products.forEach(product => {
                         const formatDate = (dateStr) => {
@@ -312,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const formattedDate = formatDate(payment.paid_at);
                         const productName = product.name.length > 10 ? product.name.slice(0, 10) + '...' : product.name;
                         const itemHTML = `
-                            <div class="lastPurchasesItem">
+                            <div class="lastPurchasesItem animate__animated animate__backInUp">
                                 <div class="PurchasesOne">
                                     <img src="https://mineskin.eu/helm/${payment.customer}">
                                 </div>
@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 </div>
                             </div>
                         `;
-
+    
                         purchasesContainer.innerHTML += itemHTML;
                     });
                 });
@@ -334,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Ошибка при загрузке данных:', error);
         }
     };
-
+    
     setInterval(fetchPayments, 300000);
     fetchPayments();
 

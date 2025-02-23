@@ -29,21 +29,45 @@ async function getServerOnline() {
         const response = await fetch('https://api.trademc.org/shop.getOnline?shop=225880&v3');
         const data = await response.json();
         const statusElements = document.querySelectorAll('#online');
-
+        
         statusElements.forEach(element => {
-            if (data.response && data.response.players !== undefined) {
-                element.innerHTML = `${data.response.players}`;
-            } else {
-                element.innerHTML = `0`;
+            let current = parseInt(element.innerHTML) || 0;
+            let target = data.response && data.response.players !== undefined ? data.response.players : 0;
+            
+            if (current !== target) {
+                animateNumber(element, current, target);
             }
         });
     } catch (error) {
         const statusElements = document.querySelectorAll('#online');
         statusElements.forEach(element => {
-            element.innerHTML = `0`;
+            animateNumber(element, parseInt(element.innerHTML) || 0, 0);
         });
     }
 }
+
+function animateNumber(element, start, end) {
+    let startTime;
+    let duration = 1000; // Длительность анимации в миллисекундах
+    
+    function updateNumber(timestamp) {
+        if (!startTime) startTime = timestamp;
+        let progress = Math.min((timestamp - startTime) / duration, 1);
+        let current = Math.round(start + (end - start) * easeOutQuad(progress));
+        element.innerHTML = current;
+        
+        if (progress < 1) {
+            requestAnimationFrame(updateNumber);
+        }
+    }
+    
+    requestAnimationFrame(updateNumber);
+}
+
+function easeOutQuad(t) {
+    return t * (2 - t); // Функция сглаживания (плавное замедление)
+}
+
 getServerOnline();
 setInterval(getServerOnline, 30000);
 
