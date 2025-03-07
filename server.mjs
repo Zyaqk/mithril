@@ -3,6 +3,7 @@ import fetch from 'node-fetch';
 import path from 'path';
 import { config } from 'dotenv';
 import { fileURLToPath } from 'url';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 import bodyParser from 'body-parser';
 import NodeCache from 'node-cache';
 
@@ -43,6 +44,13 @@ app.get('/dsc', (req, res) => {
 app.get('/tg', (req, res) => {
     res.redirect('https://t.me/mithril995');
 })
+
+app.use('/proxy', createProxyMiddleware({
+    target: 'http://87.251.74.15:25738',
+    changeOrigin: true,
+    secure: false,
+    pathRewrite: { '^/proxy': '' },
+}));
 
 async function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
