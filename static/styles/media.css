@@ -1,7 +1,11 @@
 @media (max-width: 1230px) {
-    .listHeaderPC, .listImagePC, .listProducts {
+    #listHeader, .listImagePC, .listProducts, #lastPurchasess, .listgroupDescription {
         width: 100%;
         padding: 0 10px;
+    }
+
+    .listgroupDescription  {
+        margin-top: 20px;
     }
 
     .listHeaderPC {
@@ -9,9 +13,13 @@
     }
 
     .listProducts {
-        padding: 40px 10px 0px 10px;
+        padding: 10px;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         grid-gap: 30px;
+    }
+
+    .listImagePC img {
+        border-radius: 10px;
     }
 }
 
@@ -19,14 +27,6 @@
     .footer {
         border-radius: 0;
         margin: 60px 0 0 0;
-    }
-    
-    .ipPC {
-        margin-right: 10px;
-    }
-
-    .main {
-        margin-left: 10px;
     }
 
     .divImgAredo {
@@ -36,8 +36,10 @@
     .topFooter, .bottomFooter {
         padding-left: 15px;
     }
+}
 
-    .lastPurchasess {
+@media (max-width: 960px) {
+    .telegram span {
         display: none;
     }
 }
@@ -52,16 +54,27 @@
         max-width: 560px;
     }
 
-    .termList {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    }
-
     #termDonate p {
         padding-bottom: 10px;
     }
 
     .itemTerm {
         height: 360px;
+    }
+
+    .ipPC {
+        display: none;
+    }
+
+    .telegram span {
+        display: flex;
+    }
+
+    .buttonsItemTerm {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: space-between;
     }
 }
 
@@ -109,7 +122,7 @@
         background-color: rgba(0, 0, 0, 0.7);
         backdrop-filter: blur(8px);
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
-        height: 400px;
+        height: 450px;
         flex-direction: column;
         top: -100%;
         position: fixed;
@@ -118,20 +131,45 @@
         transition: top 0.5s ease-in-out;
     }
 
-    .ipPC {
+    .ipPC, .profile {
         display: none;
     }
 
-    .listImagePC {
+    #tg {
         display: none;
     }
 
     .toggleMenu {
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 10px 0 10px;
+    }
+
+    .textImage {
+        position: block;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+        width: 100%;
+        left: 0;
+        top: 20%;
+        padding: 0;
+    }
+
+    .listImagePC {
+        height: 180px;
+    }
+
+    .listImagePC img {
+        border-radius: 6px;
     }
 
     #closeMenu {
         display: block;
+        position: relative;
+        padding: 20px 10px;
     }
 
     .listButton ul {
@@ -139,29 +177,14 @@
         flex-direction: column;
     }
 
-    #closeMenu {
-        display: block;
-        position: relative;
-        padding: 0 10px;
-    }
-
     .listButton ul li:not(#closeMenu) {
-        margin-top: 17px;
-        padding: 20px 10px;
+        margin-top: 20px;
+        padding: 17px 10px;
         border-radius: 5px;
     }
 
-    #nickname {
-        top: 20px;
-        z-index: 10;
-    }
-    #coupon {
-        top: 100px;
-        z-index: 10;
-    }
-    #mail {
-        top: 180px;
-        z-index: 10;
+    .listImagePC {
+        margin-top: 10px;
     }
 
     .main {
@@ -189,9 +212,46 @@
         height: auto;
     }
 
-    .couponWindown, .nicknameWindown, .mailWindown {
+    .userDashboard {
         width: 400px;
-        height: 630px;
+        height: auto;
+    }
+
+    .userInfo input {
+        font-size: 15px;
+        width: 300px;
+    }
+
+    .textImage h1 {
+        display: none;
+    }
+
+    .textImage h2 {
+        color: white;
+        font-size: 40px;
+    }
+
+    .userDashboard #saveDashboard {
+        width: 350px;
+    }
+
+    .dashboardHeader h1 {
+        font-size: 26px;
+    }
+
+    .dashboardHeader {
+        padding: 0 30px;
+    }
+
+    .userInfo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .userAvatar {
+        display: none;
     }
 
     .containerModal {
@@ -202,6 +262,7 @@
         margin-right: auto;
         margin-left: auto;
     }
+
 }
 
 @media (max-width: 610px) {
@@ -214,7 +275,11 @@
     }
 
     .termList {
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    #lastPurchasess {
+        display: none;
     }
 }
 
@@ -248,5 +313,50 @@
 
     .termList {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+
+    .guidesDescription ul {
+        padding: 0 0 20px 0;
+    }
+}
+
+@media (min-width: 1024px) {
+    .guidesList {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+
+    .guidesList div {
+        max-width: 240px;
+        padding: 15px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .guidesList {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    .guidesList div {
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 767px) {
+    .guidesList {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 10px;
+        max-width: 100%;
+    }
+
+    .guidesList div {
+        max-width: 100%;
+        padding: 12px;
+    }
+
+    .guidesList h2 {
+        font-size: 14px;
     }
 }

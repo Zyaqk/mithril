@@ -124,41 +124,50 @@ function displayCategories(categories) {
     });    
 }
 
-
 function handleButtonClick(categoryId) {
-        const categoryName = categories[categoryId].name;
-        const categoryDisplay = document.getElementById('categoryName');
+    const categoryName = categories[categoryId].name;
+    const categoryDisplay = document.getElementById('categoryName');
+    const termDonate = document.getElementById('termDonate');
+    const body = document.body;
 
-        if (categoryDisplay) {
-            categoryDisplay.innerText = categoryName;
-        } else {
-            console.error('Элемент для отображения имени категории не найден.');
-        }
+    if (categoryDisplay) {
+        categoryDisplay.innerText = categoryName;
+    } else {
+        console.error('Элемент для отображения имени категории не найден.');
+    }
 
-        fetch(`/api/shop/products`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    displayProducts(data.response, categoryId);
-                } else {
-                    console.error(data.error);
-                }
-            })
-            .catch(error => {
-                console.error('Ошибка при получении товаров:', error);
-            });
-        document.getElementById('termDonate').style.display = 'block';
+    fetch(`/api/shop/products`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                displayProducts(data.response, categoryId);
+            } else {
+                console.error(data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка при получении товаров:', error);
+        });
+
+    termDonate.style.opacity = "0";
+    termDonate.style.display = "block";
+    termDonate.style.transition = "opacity 0.23s ease-in-out";
+    termDonate.style.pointerEvents = "auto";
+    body.style.top = "0";
+    body.style.left = "0";
+    body.style.width = "100%";
+    body.style.height = "100%";
+    body.style.overflow = "hidden";
+    body.style.pointerEvents = "none";
+    setTimeout(() => {
+        termDonate.style.opacity = "1";
+    }, 10);
 }
-
-
-document.getElementById('closeNickname').addEventListener('click', function() {
-    document.getElementById('nicknameWindown').style.display = 'none';
-});
 
 let productCounters = {};
 
@@ -253,9 +262,26 @@ function displayProducts(products, selectedCategoryId) {
 }
 
 document.getElementById('closeTerm').addEventListener('click', function() {
-    document.getElementById('termDonate').style.display = 'none';
+    const termDonate = document.getElementById('termDonate');
     const termList = document.getElementById('termList');
-    termList.innerHTML = '';
+    const body = document.body;
+
+    termDonate.style.opacity = "1";
+    termDonate.style.transition = "opacity 0.23s ease-in-out";
+    termDonate.style.opacity = "0";
+    termDonate.style.pointerEvents = "none";
+    body.style.position = "";
+    body.style.top = "";
+    body.style.left = "";
+    body.style.width = "";
+    body.style.height = "";
+    body.style.overflow = "";
+    body.style.pointerEvents = "";
+
+    setTimeout(() => {
+        termDonate.style.display = "none";
+        termList.innerHTML = '';
+    }, 230);
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -288,45 +314,56 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    const purchasesContainer = document.getElementById('listPurchases');
+    const placeholderCount = 6;
+    const createPlaceholders = () => {
+        purchasesContainer.innerHTML = '';
+        for (let i = 0; i < placeholderCount; i++) {
+            const itemHTML = `
+                <div class="lastPurchasesItem" id="purchase-${i}">
+                    <div class="PurchasesOne">
+                        <img src="https://mineskin.eu/helm/Ar" alt="Avatar">
+                    </div>
+                    <div class="PurchasesTwo">
+                        <ul>
+                            <li>???????????...</li>
+                            <li class="purchasesdonate">?????????????...</li>
+                            <li class="purchasestime">??/??/???? ??:??</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+            purchasesContainer.innerHTML += itemHTML;
+        }
+    };
     const fetchPayments = async () => {
         try {
             const response = await fetch('/api/shop/payments');
             const data = await response.json();
-            
+
             if (data.success && Array.isArray(data.response)) {
-                const purchasesContainer = document.getElementById('listPurchases');
-                purchasesContainer.innerHTML = '';
-    
-                data.response.forEach(payment => {
+                data.response.forEach((payment, index) => {
+                    if (index >= placeholderCount) return;
+
                     payment.products.forEach(product => {
                         const formatDate = (dateStr) => {
                             const date = new Date(dateStr);
-                            const day = String(date.getDate()).padStart(2, '0');
-                            const month = String(date.getMonth() + 1).padStart(2, '0');
-                            const year = date.getFullYear();
-                            const hours = String(date.getHours()).padStart(2, '0');
-                            const minutes = String(date.getMinutes()).padStart(2, '0');
-                            return `${day}/${month}/${year} ${hours}:${minutes}`;
+                            return date.toLocaleString('ru-RU', {
+                                day: '2-digit', month: '2-digit', year: 'numeric',
+                                hour: '2-digit', minute: '2-digit'
+                            }).replace(',', '');
                         };
-                        
+
                         const formattedDate = formatDate(payment.paid_at);
                         const productName = product.name.length > 10 ? product.name.slice(0, 10) + '...' : product.name;
-                        const itemHTML = `
-                            <div class="lastPurchasesItem animate__animated animate__backInUp">
-                                <div class="PurchasesOne">
-                                    <img src="https://mineskin.eu/helm/${payment.customer}">
-                                </div>
-                                <div class="PurchasesTwo">
-                                    <ul>
-                                        <li>${payment.customer}</li>
-                                        <li class="purchasesdonate">${productName}</li>
-                                        <li class="purchasestime">${formattedDate}</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        `;
-    
-                        purchasesContainer.innerHTML += itemHTML;
+                        const purchaseElement = document.getElementById(`purchase-${index}`);
+
+                        if (purchaseElement) {
+                            purchaseElement.querySelector('img').src = `https://mineskin.eu/helm/${payment.customer}`;
+                            purchaseElement.querySelector('ul li:nth-child(1)').textContent = payment.customer;
+                            purchaseElement.querySelector('ul li:nth-child(2)').textContent = productName;
+                            purchaseElement.querySelector('ul li:nth-child(3)').textContent = formattedDate;
+                        }
                     });
                 });
             }
@@ -334,42 +371,66 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Ошибка при загрузке данных:', error);
         }
     };
-    
-    setInterval(fetchPayments, 300000);
+
+    createPlaceholders();
     fetchPayments();
+    setInterval(fetchPayments, 300000);
+
 
 });
 
-
 function buyProduct(id) {
-    const inputNickname = document.getElementById('inputNickname').value.trim();
-    const inputMail = document.getElementById('inputMail').value.trim();
-    const nicknameWindow = document.querySelector('.nicknameWindown');
-    const mailWindow = document.querySelector('.mailWindown');
+    const inputNickname = document.getElementById('inputUsername').value.trim();
+    const inputMail = document.getElementById('inputEmail').value.trim();
+    const userDashboard = document.getElementById('userDashboard');
     const notification = document.getElementById('notification');
+    const termDonate = document.getElementById('termDonate');
+    const termList = document.getElementById('termList');
 
     if (inputNickname === "") {
-        nicknameWindow.style.display = 'block';
+        userDashboard.style.display = 'block';
+        userDashboard.style.pointerEvents = 'auto'
+        termDonate.style.opacity = "1";
+        termDonate.style.transition = "opacity 0.23s ease-in-out";
+        termDonate.style.opacity = "0";
+        termDonate.style.pointerEvents = "none";
+
+        setTimeout(() => {
+            termDonate.style.display = "none";
+            termList.innerHTML = '';
+        }, 230);
+
         requestAnimationFrame(() => {
-            nicknameWindow.style.opacity = 1;
-            nicknameWindow.style.transform = 'translate(-50%, -50%) scale(1)';
+            userDashboard.style.opacity = 1;
+            userDashboard.style.transform = 'translate(-50%, -50%) scale(1)';
         });
         return;
     }
 
     if (inputMail === "") {
-        mailWindow.style.display = 'block';
+        userDashboard.style.display = 'block';
+        userDashboard.style.pointerEvents = 'auto'
+        termDonate.style.opacity = "1";
+        termDonate.style.transition = "opacity 0.23s ease-in-out";
+        termDonate.style.opacity = "0";
+        termDonate.style.pointerEvents = "none";
+
+        setTimeout(() => {
+            termDonate.style.display = "none";
+            termList.innerHTML = '';
+        }, 230);
+
         requestAnimationFrame(() => {
-            mailWindow.style.opacity = 1;
-            mailWindow.style.transform = 'translate(-50%, -50%) scale(1)';
+            userDashboard.style.opacity = 1;
+            userDashboard.style.transform = 'translate(-50%, -50%) scale(1)';
         });
         return;
     }
 
     const coupon = document.getElementById('inputCoupon').value.trim();
-
+    
     let quantity = 1;
-    if (id === 899640 || id === 899641 || id === 900505 || id === 928805) {
+    if ([899640, 899641, 900505, 928805].includes(id)) {
         quantity = productCounters[id] || 1;
     }
 
@@ -379,34 +440,34 @@ function buyProduct(id) {
         .then(response => response.json())
         .then(data => {
             if (data.success && data.url) {
-                notification.style.display = 'block';
-                notification.innerHTML = '<span>ПЕРЕХОД К ОПЛАТЕ</span>';
+                showNotification('ПЕРЕХОД К ОПЛАТЕ', 'rgba(110, 216, 23, 0.8)');
                 setTimeout(() => {
                     notification.style.display = 'none';
                 }, 1100);
                 window.location = data.url;
             } else {
-                notification.style.display = 'block';
-                notification.innerHTML = '<span>ПОКУПКИ СЕЙЧАС НЕВОЗМОЖНЫ!</span>';
-                notification.style.backgroundColor = 'red';
-                setTimeout(() => {
-                    notification.style.display = 'none';
-                }, 1500);
-                setTimeout(() => {
-                    notification.style.backgroundColor = '#16a34a';
-                }, 2000);
+                showNotification(data.error || 'ПОКУПКИ СЕЙЧАС НЕВОЗМОЖНЫ!', 'red');
             }
         })
         .catch(error => {
             console.error('Ошибка:', error);
-            notification.style.display = 'block';
-            notification.innerHTML = '<span>ОШИБКА СЕРВЕРА!</span>';
-            notification.style.backgroundColor = 'red';
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 1500);
-            setTimeout(() => {
-                notification.style.backgroundColor = '#16a34a';
-            }, 2000);
+            showNotification(`ОШИБКА СЕРВЕРА: ${error.message}`, 'red');
         });
 }
+
+function showNotification(message, bgColor) {
+    const notification = document.getElementById('notification');
+    notification.style.display = 'block';
+    notification.innerHTML = `<span>${message}</span>`;
+    notification.style.backgroundColor = bgColor;
+    notification.style.backdropFilter = 'blur(10px)';
+
+    setTimeout(() => {
+        notification.style.backgroundColor = 'rgba(110, 216, 23, 0.5)';
+    }, 5000);
+
+    setTimeout(() => {
+        notification.style.display = 'none';
+    }, 4999);
+}
+

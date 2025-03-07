@@ -1,0 +1,11 @@
+@media (max-width: 920px) {
+    .telegram {
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 800px) {
+    .telegramHandy {
+        margin-right: 0;
+    }
+}

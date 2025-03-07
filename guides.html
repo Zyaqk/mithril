@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta name="robots" content="noindex">
+
+    <meta property="og:title" content="MITHRIL RPG">
+    <meta property="og:description" content="MITHRIL — RPG сервер, где каждый создаёт свою историю! Исследуйте локации, сражайтесь с боссами, осваивайте скиллы и стройте города. Участвуйте в ивентах, турнирах и ведите свою фракцию к величию.">
+    <meta property="og:image" content="https://mithril.fun/images/image.png">
+    <meta property="og:url" content="https://mithril.fun/guides">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <meta name="description" content="MITHRIL — RPG сервер, где каждый создаёт свою историю! Исследуйте локации, сражайтесь с боссами, осваивайте скиллы и стройте города. Участвуйте в ивентах, турнирах и ведите свою фракцию к величию.">
+    <meta name="keywords" content="Рпг сервер майнкрафт 1.20.4, Майнкрафт сервера ММО РПГ 1.20.4 пк, Сервер майнкрафт рпг, Сервера майнкрафт средневековье, майнкрафт военный сервер я писал, сервер майнкрафт 1.16.6, сервер майнкрафт 1.19.4, сервер майнкрафт 1.20.2, сервер майнкрафт 1.20.3, сервер майнкрафт 1.20.4, сервер майнкрафт 1.21, mithril, mithril realms, mithril rpg, мифрил, мифрил реалмс, мифрил реалм, политический сервер, политический сервер майнкрафт, политические сервера майнкрафт, топ сервера майнкрафт, сервера майнкрафт, лучшие сервера майнкрафт, top server minecraft">
+
+
+    <title>Гайды - MITHRIL</title>
+
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@699&display=swap" rel="stylesheet">
+    <link rel="icon" href="images/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/media.css">
+    <link rel="stylesheet" href="styles/media-2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <button id="closeIFrame"><i class="fa-solid fa-xmark"></i></button>
+    <div id="iframe-container"><iframe id="iframe" src="http://87.251.74.15:25738"></iframe></div>
+    <div class="toggleMenu" style="font-weight: 750;">
+        <button id="toggleMenu"><i class="fa-solid fa-bars"></i> <span>ГЛАВНОЕ МЕНЮ</span></button>
+        <li class="telegramHandy" style="list-style: none;"><span><img src="images/tg.png"></img></span></li>
+    </div>
+    <div class="listHeaderPC container" id="listHeader" style="font-weight: 750;">
+        <div class="listButton">
+            <ul>
+                <li id="closeMenu"><i class="fa-solid fa-xmark"></i></li>
+                <li><a href="/">МАГАЗИН</a></li>
+                <li class="main"><a href="#">ГАЙДЫ</a></li>
+                <li><a href="donate">ДОНАТЫ</a></li>
+                <li id="openMap"><a href="#" target="_blank">КАРТА</a></li>
+            </ul>
+        </div>
+        <div class="listInfo">
+            <ul>
+                <li class="telegram"><span id="tg"><img src="images/tg.png"></img></span></li>
+                <li><button class="ipPC" id="ip" onclick="copyIp()">MC.MITHRIL.FUN <span id="online"></span></button></li>
+            </ul>
+        </div>
+    </div>
+    <div class="listImagePC container">
+        <img src="images/body-2.png">
+        <div class="textImage">
+            <h1>MITHRIL RPG</h1>
+            <h2>ГАЙДЫ СЕРВЕРА</h2>
+        </div>
+    </div>
+    <div class="guidesList containerGuides" style="display: none;">
+        <div id="guidI">
+            <img src="https://assets.originrealms.com/cdn-cgi/image/format=webp,quality=90,fit=scale-down,width=1920/2023/12/Archeology_Guide.jpg">
+            <h2>ГИЛЬДИЯ</h2>
+        </div>
+        <div id="guidII">
+            <img src="https://assets.originrealms.com/cdn-cgi/image/format=webp,quality=90,fit=scale-down,width=1920/2022/06/Adventure_World_Guide.jpg">
+            <h2>ГОРОДА (LANDS)</h2>
+        </div>
+        <div id="guidIII">
+            <img src="https://assets.originrealms.com/cdn-cgi/image/format=webp,quality=90,fit=scale-down,width=1920/2023/10/Farming_Guide.jpg">
+            <h2>ЛОКАЦИИ</h2>
+        </div>
+        <div id="guidIV">
+            <img src="https://assets.originrealms.com/cdn-cgi/image/format=webp,quality=90,fit=scale-down,width=1920/2023/10/Streaks_Guide.jpg">
+            <h2>АЛКОГОЛЬ</h2>
+        </div>
+        <div id="guidIV">
+            <img src="https://assets.originrealms.com/cdn-cgi/image/format=webp,quality=90,fit=scale-down,width=1920/2023/10/Cosmetic_Guide.jpg">
+            <h2>КОСМЕТИКА</h2>
+        </div>
+        <div id="guidV">
+            <img src="https://assets.originrealms.com/cdn-cgi/image/format=webp,quality=90,fit=scale-down,width=1920/2022/07/Guides_0007_Laag-10.png">
+            <h2>ENCHANTING</h2>
+        </div>
+    </div>
+    <div class="guidesDescription containerGuides" style="font-weight: 250; display: none;">
+        <div id="descriptionGuidI" style="display: none;">
+            <div class="descriptionClose">
+                <h1>Enchanting</h1>
+                <button id="closeGuid"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+            <p>The enchanting system on Origin Realms is based around enchanting books and applying those books to your gear via an anvil. This process only requires rubies, experience, some books, and of course, the gear you want to enchant - no lapis required!</p>
+            <h2>Enchanting Table & Anvil</h2>
+            <p>When placing a book in the enchanting table, you will see up to three options to choose from based on how many XP levels you currently have.</p>
+            <ul class="ulNumber">
+                <li><b>3 levels:</b> 1 enchant option</li>
+                <li><b>12 levels:</b> 2 enchant options</li>
+                <li><b>20 levels:</b> 3 enchant options</li>
+            </ul>
+            <img src="https://assets.originrealms.com/cdn-cgi/image/format=webp,quality=90,fit=scale-down,width=1920/2023/09/enchanttable.png">
+            <span>Enchanting Table UI</span>
+            <p>Each option increases in the amount of rubies it costs to enchant, but enchanting always takes away 3 levels from you, no matter which option you choose. Lapis is also not required for enchanting, so as long as you have the required levels and rubies, you can enchant to your heart’s content!</p>
+            <p>Enchanted books are applied to gear in an anvil. Each type of gear has its own default number of enchantments it can have at one time, which is called its enchantment slots.</p>
+            <h2>Books</h2>
+            <p>Aside from regular books, Specialized Enchantment Books can be purchased from Hedley in the Library basement, or found in structures throughout the Open World. These can be used in the enchanting table similar to a normal book, to receive only enchantments specific to the book type used. For example, when enchanting a "Book of Swords", you will only receive enchantment options that can be applied to swords, making it far easier to find the enchant you're looking for.</p>
+            <img src="https://assets.originrealms.com/cdn-cgi/image/format=webp,quality=90,fit=scale-down,width=1920/2023/09/hedley.png">
+            <span>Hedley's Market Stall</span>
+            <p>Tomes are another type of book you can place into the enchanting table, but are used to change the 3 outcomes. Placing a Tome of Renewal into the enchanting table will provide 3 new enchantment options for a piece of gear, while a Tome of Reversal will provide the previous 3 options you saw.</p>
+            <p>On Origin Realms, every single different enchant will have a specific color, making it easy to tell the difference between them and organize them in your chests. Not only this, but each level also has a progressing texture, meaning level 1 has a different look than level 4, making enchantments even more enjoyable!</p>
+            <p>For even more clarity, you can hover over any enchantment book to read a brief description, as well as see mini icons of the items that the book can be applied to. For example, you'll see mini diamond boots on a feather-falling book, indicating that they can only be applied to boots.</p>
+            <h2>Custom Enchantments</h2>
+            <p>While enchanting your books, you may come across many new and meaningful enchantments that play a wide variety of roles in your gameplay experience! All enchantments, including vanilla ones, can be viewed inside the enchantment table for more information.</p>
+            <ul class="ulNumber">
+                <li><b>Auto Smelt:</b> Automatically smelt ores when mining them.</li>
+                <li><b>Backstab:</b> Deal more damage when attacking from behind.</li>
+                <li><b>Burst:</b> Chance to shoot 1-3 arrows from your bow.</li>
+                <li><b>Double Hit:</b> Chance to hit a mob twice when striking.</li>
+                <li><b>Excavating:</b> Increases the chance of finding fragments when brushing</li>
+                <li><b>Explosive:</b> Arrows have a chance to cause explosions when shot.</li>
+                <li><b>Leech:</b> Chance to gain a heart when taking one away.</li>
+                <li><b>Lucky Orb:</b> Chance to gain more XP when collecting XP orbs.</li>
+                <li><b>Marathon:</b> Slows down hunger drain when sprinting.</li>
+                <li><b>Orb Harvester:</b> Receive experience when harvesting crops from Planter Boxes.</li>
+                <li><b>Petrify:</b> Freeze mobs for a short period of time upon being shot.</li>
+                <li><b>Retreat:</b> Sprint faster when low on hearts.</li>
+                <li><b>Siphon:</b> Auto-collect items upon breaking them.</li>
+                <li><b>Sneak:</b> Sneak up on mobs that aren’t tracking you.</li>
+                <li><b>Soul Collector:</b> Chance of collecting souls used to craft mob spawners upon killing mobs.</li>
+                <li><b>Sowing:</b> Chance of receiving seeds back when harvesting crops from Planter Boxes.</li>
+                <li><b>Yielding:</b> Chance of receiving double drops when harvesting crops from Planter Boxes.</li>
+            </ul>
+            <h2>Ashes o' Enchanting</h2>
+            <p>In the Origin Isles library, Arthur's phoenix "Phineas" can burn any excess enchanted books and turn them into Ashes o' Enchanting! These ashes can be used in an anvil to repair tools that have “shattered” from the use of Protection Runes.</p>
+            <img src="https://assets.originrealms.com/cdn-cgi/image/format=webp,quality=90,fit=scale-down,width=1920/2023/09/image.png">
+            <span>Arthur & Phineas</span>
+            <h2>Runes</h2>
+            <p>Runes are helpful tools for enchanting and can be found in structure chests throughout the Open Worlds. Runes are applied to gear via an anvil just like books, and have specific benefits depending on the rune used.</p>
+            <ul class="ulNumber">
+                <li><b>Slot Rune:</b> Adds another enchantment slot to a piece of gear, up to a maximum of 12 slots.</li>
+                <li><b>Protection Rune:</b> Prevents an item from fully breaking once running out of durability, “shattering” instead - which can be fixed with Ashes o’ Enchanting.</li>
+                <li><b>Power Rune:</b> Upgrades all enchantments on a piece of gear by 1 level, unless at their maximum level.</li>
+            </ul>
+            <h2>Bottled Experience</h2>
+            <p>When walking through the front entrance of the Origin Isles Library, you’ll notice Gorf’s desk on your right. Gorf has studied the ability to bottle up any amount of experience you have for a small price of 50 rubies and a glass bottle! Simply grab a bottle and head over, he'll conveniently store all your EXP so you can use it again whenever you wish!</p>
+            <img src="https://assets.originrealms.com/cdn-cgi/image/format=webp,quality=90,fit=scale-down,width=1920/2023/09/gorf.png">
+            <span>Gorf's Stand</span>
+        </div>
+    </div>
+    <div class="container warnText">Гайды только создались и будут дополняться со временем!</div>
+    <footer class="footer container" style="font-weight: 750;">
+        <div class="divImgAredo">
+            <img class="imgAredo" src="images/aredo.png">
+        </div>
+        <div>  
+            <div class="topFooter">
+                <div class="leftFooterTop">
+                    <button id="ip" onclick="copyIp()">MC.MITHRIL.FUN</button>
+                    <span id="online"></span>
+                </div>
+                <div class="rightFooterTop">
+                    <ul>
+                        <li><a href="https://mithril.fun/tg" target="_blank"><i class="fa-brands fa-telegram"></i></a></li>
+                        <li><a href="https://mithril.fun/dsc" target="_blank"><i class="fa-brands fa-discord"></i></a></li>
+                        <li><a href="https://mithril.fun/vk" target="_blank"><i class="fa-brands fa-vk"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bottomFooter">
+                <div class="leftFooterBottom">
+                    <p style="color: black;">Проект MITHRIL не имеет никакого отношения к Mojang, AB.</p>
+                    <p style="color: black;">Любое копирование материала запрещено.</p>
+                    <p style="color:black;">Покупка любых донатов только через: <a href="https://mithril.fun/" style="text-decoration: underline; color: black;">mithril.fun</a></p>
+                </div>
+                <div class="rightFooterBottom">
+                    <p style="color: rgb(27, 27, 27);">MITHRIL© 2023-2025</p>
+                    <p style="color: rgb(27, 27, 27);">Все Права Защищены.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div id="notification"></div>
+
+    <script src="scripts/main-2.js"></script>
+    <script src="scripts/main-3.js"></script>
+</body>
+</html>

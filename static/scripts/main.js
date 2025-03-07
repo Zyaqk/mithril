@@ -1,3 +1,96 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const openMap = document.getElementById("openMap");
+    const link = openMap.querySelector("a");
+    const closeIFrame = document.getElementById("closeIFrame");
+    const iframeContainer = document.getElementById("iframe-container");
+    const iframe = document.getElementById("iframe");
+    const body = document.body;
+
+    iframeContainer.style.opacity = "0";
+    iframeContainer.style.transition = "opacity 0.23s ease-in-out";
+    iframe.style.opacity = "0";
+    iframe.style.transition = "opacity 0.23s ease-in-out";
+    closeIFrame.style.opacity = "0";
+    closeIFrame.style.transition = "opacity 0.23s ease-in-out";
+
+    function openMapFunction(event) {
+        event.preventDefault();
+
+        iframeContainer.style.display = "block";
+        iframe.style.display = "block";
+        closeIFrame.style.display = "block";
+
+        setTimeout(() => {
+            iframeContainer.style.opacity = "1";
+            iframe.style.opacity = "1";
+            closeIFrame.style.opacity = "1";
+        }, 10);
+
+        body.style.position = "fixed";
+        body.style.top = "0";
+        body.style.left = "0";
+        body.style.width = "100%";
+        body.style.height = "100%";
+        body.style.overflow = "hidden";
+        body.style.pointerEvents = "none";
+        iframeContainer.style.pointerEvents = "auto";
+        closeIFrame.style.pointerEvents = "auto";
+    }
+
+    function closeMapFunction() {
+        iframeContainer.style.opacity = "0";
+        iframe.style.opacity = "0";
+        closeIFrame.style.opacity = "0";
+
+        setTimeout(() => {
+            iframeContainer.style.display = "none";
+            iframe.style.display = "none";
+            closeIFrame.style.display = "none";
+
+            body.style.position = "";
+            body.style.top = "";
+            body.style.left = "";
+            body.style.width = "";
+            body.style.height = "";
+            body.style.overflow = "";
+            body.style.pointerEvents = "";
+            iframeContainer.style.pointerEvents = "";
+            closeIFrame.style.pointerEvents = "";
+        }, 500);
+    }
+
+    function toggleOpenMapBehavior() {
+        if (window.innerWidth <= 800) {
+            openMap.removeEventListener("click", openMapFunction);
+            link.setAttribute("href", "http://87.251.74.15:25738");
+        } else {
+            link.removeAttribute("href");
+            openMap.addEventListener("click", openMapFunction);
+        }
+    }
+
+    closeIFrame.addEventListener("click", closeMapFunction);
+
+    window.addEventListener("load", toggleOpenMapBehavior);
+    window.addEventListener("resize", toggleOpenMapBehavior);
+
+    document.body.addEventListener("click", function (event) {
+        let telegramTarget = event.target.closest(".telegramHandy, .telegram");
+        if (telegramTarget) {
+            window.open("https://mithril.fun/tg", "_blank");
+            return;
+        }
+
+        let liTarget = event.target.closest("li");
+        if (liTarget) {
+            let link = liTarget.querySelector("a");
+            if (link && link.href) {
+                window.open(link.href, link.target || "_self");
+            }
+        }
+    });
+});
+
 function copyIp() {
     const ipText = "mc.mithril.fun";
 
@@ -16,14 +109,6 @@ function copyIp() {
     }
 }
 
-function clickDescription() {
-    document.getElementById('notification').style.display = "block";
-    document.getElementById('notification').innerHTML = '<span>В РАЗРАБОТКЕ!</span>';
-    setTimeout(function() {
-        document.getElementById('notification').style.display = "none";
-    }, 3000);
-}
-
 async function getServerOnline() {
     try {
         const response = await fetch('https://api.trademc.org/shop.getOnline?shop=225880&v3');
@@ -32,23 +117,30 @@ async function getServerOnline() {
         
         statusElements.forEach(element => {
             let current = parseInt(element.innerHTML) || 0;
-            let target = data.response && data.response.players !== undefined ? data.response.players : 0;
+            let players = data.response && data.response.players !== undefined ? data.response.players : 0;
+            let maxPlayers = data.response && data.response.max_players !== undefined ? data.response.max_players : 0;
             
-            if (current !== target) {
-                animateNumber(element, current, target);
+            let targetText = element.closest('.leftFooterTop') ? `${players} из ${maxPlayers}` : `${players}`;
+            
+            if (element.innerHTML !== targetText) {
+                animateText(element, targetText);
             }
         });
     } catch (error) {
-        const statusElements = document.querySelectorAll('#online');
-        statusElements.forEach(element => {
-            animateNumber(element, parseInt(element.innerHTML) || 0, 0);
+        document.querySelectorAll('#online').forEach(element => {
+            let targetText = element.closest('.leftFooterTop') ? `0 из 0` : `0`;
+            animateText(element, targetText);
         });
     }
 }
 
+function animateText(element, text) {
+    element.innerHTML = text;
+}
+
 function animateNumber(element, start, end) {
     let startTime;
-    let duration = 1000; // Длительность анимации в миллисекундах
+    let duration = 1000;
     
     function updateNumber(timestamp) {
         if (!startTime) startTime = timestamp;
@@ -65,12 +157,11 @@ function animateNumber(element, start, end) {
 }
 
 function easeOutQuad(t) {
-    return t * (2 - t); // Функция сглаживания (плавное замедление)
+    return t * (2 - t);
 }
 
 getServerOnline();
 setInterval(getServerOnline, 30000);
-
 
 
 function toggleMenu() {
@@ -83,7 +174,6 @@ function toggleMenu() {
         setTimeout(() => {
             listHeader.style.top = '0';
         }, 10);
-        open.style.display = 'none';
     });
 
     close.addEventListener('click', () => {
@@ -92,231 +182,199 @@ function toggleMenu() {
         setTimeout(() => {
             listHeader.style.display = 'none';
         }, 500);
-        open.style.display = 'block';
     });
 }
+
 toggleMenu();
 
+function addonDashboard() {
+    const dashboardButton = document.getElementById('profile');
+    const dashboardButtonHandy = document.getElementById('profileHandy');
+    const dashboardWindow = document.querySelector('.userDashboard');
+    const closeDashboardButton = document.getElementById('closeDashboard');
+    const body = document.body;
+    const modal = document.getElementById('userDashboard');
 
-function addonCoupon() {
-    const couponButton = document.getElementById('coupon');
-    const couponWindow = document.querySelector('.couponWindown');
-    const closeCouponButton = document.getElementById('closeCoupon');
-
-    couponButton.addEventListener('click', () => {
-        couponWindow.style.display = 'block';
+    dashboardButton.addEventListener('click', () => {
+        dashboardWindow.style.display = 'block';
         requestAnimationFrame(() => {
-            couponWindow.style.opacity = 1;
-            couponWindow.style.transform = 'translate(-50%, -50%) scale(1)';
+            dashboardWindow.style.opacity = 1;
+            dashboardWindow.style.transform = 'translate(-50%, -50%) scale(1)';
         });
+        body.style.position = "fixed";
+        body.style.top = "0";
+        body.style.left = "0";
+        body.style.width = "100%";
+        body.style.height = "100%";
+        body.style.overflow = "hidden";
+        body.style.pointerEvents = "none";
+        modal.style.pointerEvents = "auto";
     });
 
-    closeCouponButton.addEventListener('click', () => {
-        couponWindow.style.opacity = 0;
-        couponWindow.style.transform = 'translate(-50%, -50%) scale(0.9)';
+    dashboardButtonHandy.addEventListener('click', () => {
+        dashboardWindow.style.display = 'block';
+        requestAnimationFrame(() => {
+            dashboardWindow.style.opacity = 1;
+            dashboardWindow.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+        body.style.position = "fixed";
+        body.style.top = "0";
+        body.style.left = "0";
+        body.style.width = "100%";
+        body.style.height = "100%";
+        body.style.overflow = "hidden";
+        body.style.pointerEvents = "none";
+        modal.style.pointerEvents = "auto";
+    });
+
+    closeDashboardButton.addEventListener('click', () => {
+        dashboardWindow.style.opacity = 0;
+        dashboardWindow.style.transform = 'translate(-50%, -50%) scale(0.9)';
         setTimeout(() => {
-            couponWindow.style.display = 'none';
+            dashboardWindow.style.display = 'none';
         }, 500);
+        body.style.position = "";
+        body.style.top = "";
+        body.style.left = "";
+        body.style.width = "";
+        body.style.height = "";
+        body.style.overflow = "";
+        body.style.pointerEvents = "";
+        modal.style.pointerEvents = "";
     });
 
-    couponWindow.style.display = 'none';
-    couponWindow.style.opacity = 0;
-    couponWindow.style.transform = 'translate(-50%, -50%) scale(0.9)';   
+    dashboardWindow.style.display = 'none';
+    dashboardWindow.style.opacity = 0;
+    dashboardWindow.style.transform = 'translate(-50%, -50%) scale(0.9)';
 }
 
-function addonNickname() {
-    const nicknameButton = document.getElementById('nickname');
-    const nicknameWindow = document.querySelector('.nicknameWindown');
-    const closeNicknameButton = document.getElementById('closeNickname');
-
-    nicknameButton.addEventListener('click', () => {
-        nicknameWindow.style.display = 'block';
-        requestAnimationFrame(() => {
-            nicknameWindow.style.opacity = 1;
-            nicknameWindow.style.transform = 'translate(-50%, -50%) scale(1)';
-        });
-    });
-
-    closeNicknameButton.addEventListener('click', () => {
-        nicknameWindow.style.opacity = 0;
-        nicknameWindow.style.transform = 'translate(-50%, -50%) scale(0.9)';
-        setTimeout(() => {
-            nicknameWindow.style.display = 'none';
-        }, 500);
-    });
-
-    nicknameWindow.style.display = 'none';
-    nicknameWindow.style.opacity = 0;
-    nicknameWindow.style.transform = 'translate(-50%, -50%) scale(0.9)';
-}addonNickname();
-
-function addonMail() {
-    const mailButton = document.getElementById('mail');
-    const mailWindow = document.querySelector('.mailWindown');
-    const closeMailButton = document.getElementById('closeMail');
-
-    mailButton.addEventListener('click', () => {
-        mailWindow.style.display = 'block';
-        requestAnimationFrame(() => {
-            mailWindow.style.opacity = 1;
-            mailWindow.style.transform = 'translate(-50%, -50%) scale(1)';
-        });
-    });
-
-    closeMailButton.addEventListener('click', () => {
-        mailWindow.style.opacity = 0;
-        mailWindow.style.transform = 'translate(-50%, -50%) scale(0.9)';
-        setTimeout(() => {
-            mailWindow.style.display = 'none';
-        }, 500);
-    });
-
-    mailWindow.style.display = 'none';
-    mailWindow.style.opacity = 0;
-    mailWindow.style.transform = 'translate(-50%, -50%) scale(0.9)';
-}
-
-addonCoupon();
-addonMail();
+addonDashboard();
 
 
-function addCoupon() {
-    const window = document.getElementById('couponWindown');
-    const notification = document.getElementById('notificationCoupon');
+function processUserData() {
     const notificationAll = document.getElementById('notification');
+    const notificationDashboard = document.getElementById('notificationDashboard');
+    const inputNickname = document.getElementById('inputUsername');
+    const img = document.getElementById('userIMGPC');
+    const imgHandy = document.getElementById('userIMGHANDY');
+    const skin = document.getElementById('userSkin');
+    const nickname = inputNickname.value.trim();
+    const inputEmail = document.getElementById('inputEmail');
+    const email = inputEmail.value.trim();
+    const inputCoupon = document.getElementById('inputCoupon');
+    const coupon = inputCoupon.value.trim();
+    let valid = true;
 
-    const input = document.getElementById('inputCoupon');
-    const coupon = input.value.trim();
+    if (nickname.trim() === "") {
+        notificationDashboard.style.display = 'block';
+        notificationDashboard.innerHTML = 'ВВЕДИТЕ СВОЙ НИКНЕЙМ!';
+        valid = false;
+    } else if (nickname.includes(" ")) {
+        notificationDashboard.style.display = 'block';
+        notificationDashboard.innerHTML = 'НИКНЕЙМ НЕ ДОЛЖЕН СОДЕРЖАТЬ ПРОБЕЛОВ!';
+        valid = false;
+    } else if (nickname.length > 16) {
+        notificationDashboard.style.display = 'block';
+        notificationDashboard.innerHTML = 'НИКНЕЙМ НЕ ДОЛЖЕН БЫТЬ ДЛИННЕЕ 16 СИМВОЛОВ!';
+        valid = false;
+    } else if (nickname !== nickname.trim()) {
+        notificationDashboard.style.display = 'block';
+        notificationDashboard.innerHTML = 'НИКНЕЙМ НЕ ДОЛЖЕН НАЧИНАТЬСЯ ИЛИ ЗАКАНЧИВАТЬСЯ ПРОБЕЛОМ!';
+        valid = false;
+    } else {
+        localStorage.setItem('nickname', nickname);
+    }    
 
-    if (coupon !== '') {
+    if (email === "") {
+        notificationDashboard.style.display = 'block';
+        notificationDashboard.innerHTML = 'ВВЕДИТЕ СВОЮ ПОЧТУ!';
+        valid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        notificationDashboard.style.display = 'block';
+        notificationDashboard.innerHTML = 'НЕВЕРНЫЙ ФОРМАТ ПОЧТЫ!';
+        valid = false;
+    } else if (email.length < 5 || email.length > 254) {
+        notificationDashboard.style.display = 'block';
+        notificationDashboard.innerHTML = 'ПОЧТА ДОЛЖНА СОДЕРЖАТЬ ОТ 5!';
+        valid = false;
+    } else if (/[а-яА-Я]/.test(email)) {
+        notificationDashboard.style.display = 'block';
+        notificationDashboard.innerHTML = 'ПОЧТА НЕ ДОЛЖНА СОДЕРЖАТЬ РУССКИЕ БУКВЫ!';
+        valid = false;
+    } else if (email.startsWith(".") || email.endsWith(".")) {
+        notificationDashboard.style.display = 'block';
+        notificationDashboard.innerHTML = 'ПОЧТА НЕ ДОЛЖНА НАЧИНАТЬСЯ ИЛИ ЗАКАНЧИВАТЬСЯ ТОЧКОЙ!';
+        valid = false;
+    } else if (email.includes("..")) {
+        notificationDashboard.style.display = 'block';
+        notificationDashboard.innerHTML = 'ПОЧТА НЕ ДОЛЖНА СОДЕРЖАТЬ ДВЕ ТОЧКИ ПОДРЯД!';
+        valid = false;
+    } else if (email.includes(" ")) {
+        notificationDashboard.style.display = 'block';
+        notificationDashboard.innerHTML = 'ПОЧТА НЕ ДОЛЖНА СОДЕРЖАТЬ ПРОБЕЛЫ!';
+        valid = false;
+    } else {
+        localStorage.setItem('mail', email);
+    }    
+
+    if (!valid) return;
+    if (coupon !== "") {
         fetch(`/api/shop/coupon/${coupon}`)
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
-                    notification.style.display = 'none';
-                    window.style.display = 'none';
-                    notificationAll.style.display = 'block';
-                    notificationAll.innerHTML = `<span>КУПОН АКТИВИРОВАН: ${coupon}</span>`;
-                    setTimeout(function() {
-                        notificationAll.style.display = "none";
-                    }, 3000);
+                if (!data.success) {
+                    notificationDashboard.style.display = 'block';
+                    notificationDashboard.innerHTML = 'ВВЕДИТЕ СУЩЕСТВУЮЩИЙ КУПОН!';
                 } else {
-                    notification.style.display = 'block';
-                    notification.innerHTML = 'Пожалуйста, введите существующий купон!';
+                    showSuccessMessage();
                 }
             });
-    }
-}
-
-function addNickname() {
-    const window = document.getElementById('nicknameWindown');
-    const notification = document.getElementById('notificationNickname');
-    const notificationAll = document.getElementById('notification');
-
-    const inputNickname = document.getElementById('inputNickname');
-    const img = document.getElementById('imgNICK');
-    const nickname = inputNickname.value.trim();
-
-    if (nickname === "") {
-        notification.style.display = 'block';
-        notification.innerHTML = 'Пожалуйста, введите свой никнейм!';
-    } else if (nickname.includes(" ")) {
-        notification.style.display = 'block';
-        notification.innerHTML = 'Никнейм не должен содержать пробелы!';
     } else {
-        localStorage.setItem('nickname', nickname);
+        showSuccessMessage();
+    }
 
-        notification.style.display = 'none';
-        window.style.display = 'none';
-        notificationAll.style.display = 'block';
+    function showSuccessMessage() {
         img.src = `https://mineskin.eu/helm/${nickname}`;
-        notificationAll.innerHTML = `<span>НИКНЕЙМ ДОБАВЛЕН: ${nickname}</span>`;
-        setTimeout(function() {
+        imgHandy.src = `https://mineskin.eu/helm/${nickname}`
+        skin.src = `https://mineskin.eu/armor/body/${nickname}/100.png`
+        notificationDashboard.style.display = 'none';
+        notificationAll.style.display = 'block';
+        notificationAll.innerHTML = `<span>ДАННЫЕ ОБНОВЛЕНЫ!</span>`;
+        setTimeout(() => {
             notificationAll.style.display = "none";
         }, 3000);
-        const mailWindow = document.querySelector('.mailWindown');
-        const notificationMail = document.getElementById('notificationMail');
-        if (mail === "") {
-            mailWindow.style.display = 'block';
-            notificationMail.style.display = 'block';
-            notificationMail.innerHTML = 'Пожалуйста, введите свою почту!';
-            requestAnimationFrame(() => {
-                mailWindow.style.opacity = 1;
-                mailWindow.style.transform = 'translate(-50%, -50%) scale(1)';
-            });
-        }
     }
 }
 
-
-function addMail() {
-    const window = document.getElementById('mailWindown');
-    const notification = document.getElementById('notificationMail');
-    const notificationAll = document.getElementById('notification');
-
-    const input = document.getElementById('inputMail');
-    const mail = input.value.trim();
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (mail === "") {
-        notification.style.display = 'block';
-        notification.innerHTML = 'Пожалуйста, введите свою почту!';
-        return;
-    }
-
-    if (!emailRegex.test(mail)) {
-        notification.style.display = 'block';
-        notification.innerHTML = 'Неверный формат почты!';
-        return;
-    }
-
-    if (mail.length < 5 || mail.length > 254) {
-        notification.style.display = 'block';
-        notification.innerHTML = 'Почта должна содержать от 5 символов!';
-        return;
-    }
-
-    if (/[а-яА-Я]/.test(mail)) {
-        notification.style.display = 'block';
-        notification.innerHTML = 'Почта не должна содержать русские буквы!';
-        return;
-    }
-
-    notification.style.display = 'none';
-    window.style.display = 'none';
-    notificationAll.style.display = 'block';
-    notificationAll.innerHTML = `<span>ПОЧТА ДОБАВЛЕНА! ${mail}</span>`;
-    setTimeout(function() {
-        notificationAll.style.display = "none";
-    }, 3000);
-    if (mail !== "") {
-        localStorage.setItem('mail', mail);
-    }
-}
-
-window.onload = function() {
-    loadNicknameImage();
+function loadUserData() {
+    loadNickname();
     loadMail();
 }
 
-function loadNicknameImage() {
+function loadNickname() {
     const nickname = localStorage.getItem('nickname');
 
     if (nickname && nickname.trim() !== "") {
-        const img = document.getElementById('imgNICK');
+        const img = document.getElementById('userIMGPC');
+        const imgHandy = document.getElementById('userIMGHANDY');
+        const skin = document.getElementById('userSkin');
         img.src = `https://mineskin.eu/helm/${nickname}`;
+        imgHandy.src = `https://mineskin.eu/helm/${nickname}`;
+        skin.src = `https://mineskin.eu/armor/body/${nickname}/100.png`
     }
 
-    const savedNickname = localStorage.getItem('nickname');
-    if (savedNickname) {
-        document.getElementById('inputNickname').value = savedNickname;
+    if (nickname) {
+        document.getElementById('inputUsername').value = nickname;
     }
 }
 
 function loadMail() {
     const savedMail = localStorage.getItem('mail');
     if (savedMail) {
-        document.getElementById('inputMail').value = savedMail;
+        document.getElementById('inputEmail').value = savedMail;
     }
+}
+
+window.onload = function() {
+    loadUserData();
 }

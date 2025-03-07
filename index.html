@@ -8,12 +8,12 @@
     <meta name="robots" content="noindex">
 
     <meta property="og:title" content="MITHRIL RPG">
-    <meta property="og:description" content="MITHRIL - сервер RPG города, где можно устраивать воины, развиваться и создавать собственные уникальные сообщества. Есть различные локации для исследования, сражений и выполнения заданий. Каждый город имеет свои особенности и цели.">
-    <meta property="og:image" content="https://assets.originrealms.com/cdn-cgi/image/format=webp,quality=90,fit=scale-down,width=1920/2023/12/Stonehenge_Blog.jpg">
+    <meta property="og:description" content="MITHRIL — RPG сервер, где каждый создаёт свою историю! Исследуйте локации, сражайтесь с боссами, осваивайте скиллы и стройте города. Участвуйте в ивентах, турнирах и ведите свою фракцию к величию.">
+    <meta property="og:image" content="https://mithril.fun/images/image.png">
     <meta property="og:url" content="https://mithril.fun">
     <meta name="twitter:card" content="summary_large_image">
 
-    <meta name="description" content="MITHRIL - сервер RPG города, где можно устраивать воины, развиваться и создавать собственные уникальные сообщества. Есть различные локации для исследования, сражений и выполнения заданий. Каждый город имеет свои особенности и цели.">
+    <meta name="description" content="MITHRIL — RPG сервер, где каждый создаёт свою историю! Исследуйте локации, сражайтесь с боссами, осваивайте скиллы и стройте города. Участвуйте в ивентах, турнирах и ведите свою фракцию к величию.">
     <meta name="keywords" content="Рпг сервер майнкрафт 1.20.4, Майнкрафт сервера ММО РПГ 1.20.4 пк, Сервер майнкрафт рпг, Сервера майнкрафт средневековье, майнкрафт военный сервер я писал, сервер майнкрафт 1.16.6, сервер майнкрафт 1.19.4, сервер майнкрафт 1.20.2, сервер майнкрафт 1.20.3, сервер майнкрафт 1.20.4, сервер майнкрафт 1.21, mithril, mithril realms, mithril rpg, мифрил, мифрил реалмс, мифрил реалм, политический сервер, политический сервер майнкрафт, политические сервера майнкрафт, топ сервера майнкрафт, сервера майнкрафт, лучшие сервера майнкрафт, top server minecraft">
 
 
@@ -24,44 +24,56 @@
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@699&display=swap" rel="stylesheet">
     <link rel="icon" href="images/icon.png" type="image/x-icon">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="media.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/media.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <canvas id="snowCanvas"></canvas>
-    <div class="toggleMenu">
+    <button id="closeIFrame"><i class="fa-solid fa-xmark"></i></button>
+    <div id="iframe-container"><iframe id="iframe" src="http://87.251.74.15:25738"></iframe></div>
+    <div class="toggleMenu" style="font-weight: 750;">
         <button id="toggleMenu"><i class="fa-solid fa-bars"></i> <span>ГЛАВНОЕ МЕНЮ</span></button>
+        <div>
+            <li class="telegramHandy"><span><img src="images/tg.png"></img></span></li>
+            <button class="profileHandy" id="profileHandy"><img id="userIMGHANDY" src="https://cravatar.eu/avatar/Ar"></button>
+        </div>
     </div>
-    <div class="listHeaderPC container" id="listHeader">
+    <div class="listHeaderPC container" id="listHeader" style="font-weight: 750;">
         <div class="listButton">
             <ul>
                 <li id="closeMenu"><i class="fa-solid fa-xmark"></i></li>
                 <li class="main"><a href="#">МАГАЗИН</a></li>
+                <li><a href="guides">ГАЙДЫ</a></li>
                 <li><a href="donate">ДОНАТЫ</a></li>
-                <li><a href="http://map.mithril.fun:25738" target="_blank">КАРТА</a></li>
+                <li id="openMap"><a href="#">КАРТА</a></li>
             </ul>
         </div>
         <div class="listInfo">
             <ul>
-                <li> <button class="ipPC" id="ip" onclick="copyIp()">MC.MITHRIL.FUN <span id="online"></span></button></li>
+                <li class="telegram"><span id="tg"><img src="images/tg.png"></img></span></li>
+                <li><button class="ipPC" id="ip" onclick="copyIp()">MC.MITHRIL.FUN <span id="online"></span></button></li>
+                <li><button class="profile" id="profile"><img id="userIMGPC" src="https://cravatar.eu/avatar/Ar"></button></li>
             </ul>
         </div>
     </div>
     <div class="listImagePC container">
         <img src="images/body.png">
         <div class="textImage">
-            <h1>MITHRIL</h1>
+            <h1>MITHRIL RPG</h1>
             <h2>МАГАЗИН</h2>
         </div>
     </div>
-    <div class="lastPurchasess container" id="lastPurchasess">
+
+    <div class="lastPurchasess container" id="lastPurchasess" style="font-weight: 550;">
         <h3>ПОСЛЕДНИЕ ПОКУПКИ</h3>
         <div id="listPurchases"></div>
     </div>
-    <div id="listProducts" class="listProducts container"></div>
-    <footer class="footer container">
+
+    <div id="listProducts" class="listProducts container">
+    </div>
+
+    <footer class="footer container" style="font-weight: 750;">
         <div class="divImgAredo">
             <img class="imgAredo" src="images/aredo.png">
         </div>
@@ -73,8 +85,9 @@
                 </div>
                 <div class="rightFooterTop">
                     <ul>
-                        <li><a href="https://mithril.fun/vk" target="_blank"><i class="fa-brands fa-vk"></i></a></li>
+                        <li><a href="https://mithril.fun/tg" target="_blank"><i class="fa-brands fa-telegram"></i></a></li>
                         <li><a href="https://mithril.fun/dsc" target="_blank"><i class="fa-brands fa-discord"></i></a></li>
+                        <li><a href="https://mithril.fun/vk" target="_blank"><i class="fa-brands fa-vk"></i></a></li>
                     </ul>
                 </div>
             </div>
@@ -93,57 +106,27 @@
     </footer>
 
     <div id="notification"></div>
-    <button id="mail"><i class="fa-regular fa-envelope"></i></button>
-    <button id="coupon"><i class="fa-solid fa-ticket-simple"></i></button>
-    <button id="nickname"><img id="imgNICK" src="https://mineskin.eu/helm/Ar"></button>
 
-    <div class="couponWindown" id="couponWindown">
-        <div class="closedCoupon">
-            <h1>КУПОН ДЛЯ ПОКУПОК</h1>
-            <button id="closeCoupon"><i class="fa-solid fa-xmark"></i></button>
+    <div class="userDashboard" id="userDashboard" style="display: none;">
+        <div class="dashboardHeader">
+            <h1>ВАШ ЛИЧНЫЙ КАБИНЕТ</h1>
+            <button id="closeDashboard"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        <div id="notificationCoupon" class="containerModal"></div>
-        <div class="inputCoupon containerModal">
-            <input type="text" id="inputCoupon">
-            <button id="addCoupon" onclick="addCoupon()">ДОБАВИТЬ КУПОН</button>
+        <div id="notificationDashboard" class="containerModal"></div>
+        <div class="dashboardContent containerModal">
+            <div class="userAvatar">
+                <img id="userSkin" src="https://mineskin.eu/armor/body/Ar/100.png">
+            </div>
+            <div class="userInfo">
+                <input type="text" id="inputUsername" placeholder="ВАШ НИК">
+                <input type="text" id="inputEmail" placeholder="ВАША ПОЧТА">
+                <input type="text" id="inputCoupon" placeholder="КУПОН (ЕСЛИ ЕСТЬ)">
+            </div>
         </div>
-        <div class="descriptionCoupon containerModal">
-            <h2>Что такое купон и для чего нужен?</h2>
-            <p>Купон - это скидочный код или сертификат, который даёт возможность купить товар или услугу со скидкой. Он используется для привлечения новых клиентов, повышения лояльности и увеличения продаж.</p>
+        <div class="dashboardActions">
+            <button id="saveDashboard" onclick="processUserData()">СОХРАНИТЬ ИЗМЕНЕНИЯ</button>
         </div>
-    </div>
-
-    <div class="nicknameWindown" id="nicknameWindown" style="display: none;">
-        <div class="closedNickname">
-            <h1>ВАШ НИКНЕЙМ</h1>
-            <button id="closeNickname"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div id="notificationNickname" class="containerModal"></div>
-        <div class="inputNickname containerModal">
-            <input type="text" id="inputNickname">
-            <button id="addNickname" onclick="addNickname()">ДОБАВИТЬ НИК</button>
-        </div>
-        <div class="descriptionNickname containerModal">
-            <h2>Что такое ник Майнкрафт?</h2>
-            <p>Ник в Майнкрафт - это уникальное имя пользователя, под которым игроки идентифицируются в игре. Он используется для общения и взаимодействия с другими игроками. Выбор ника важен, так как он будет с игроком на протяжении всей игры.</p>
-        </div>
-    </div>
-
-    <div class="mailWindown" id="mailWindown" style="display: none;">
-        <div class="closedMail">
-            <h1>ВАША ПОЧТА</h1>
-            <button id="closeMail"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div id="notificationMail" class="containerModal"></div>
-        <div class="inputMail containerModal">
-            <input type="text" id="inputMail">
-            <button id="addMail" onclick="addMail()">ДОБАВИТЬ ПОЧТУ</button>
-        </div>
-        <div class="descriptionMail containerModal">
-            <h2>Зачем нужна почта?</h2>
-            <p>Почта нужна для получения чека и информации о заказе, а также для связи с магазином, если возникнут вопросы.</p>
-        </div>
-    </div>
+    </div>    
 
     <div id="termDonate">
         <button id="closeTerm"><i class="fa-solid fa-xmark"></i></button>

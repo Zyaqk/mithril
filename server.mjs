@@ -28,6 +28,10 @@ app.get('/donate', (req, res) => {
     res.sendFile(path.join(__dirname, 'donate.html'));
 });
 
+app.get('/guides', (req, res) => {
+    res.sendFile(path.join(__dirname, 'guides.html'));
+});
+
 app.get('/vk', (req, res) => {
     res.redirect('https://vk.com/mithril995');
 });
