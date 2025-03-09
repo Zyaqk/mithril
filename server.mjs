@@ -45,13 +45,6 @@ app.get('/tg', (req, res) => {
     res.redirect('https://t.me/mithril995');
 })
 
-app.use('/proxy', createProxyMiddleware({
-    target: 'http://87.251.74.15:25738',
-    changeOrigin: true,
-    secure: false,
-    pathRewrite: { '^/proxy': '' },
-}));
-
 async function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
