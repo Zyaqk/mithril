@@ -25,6 +25,12 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+app.use('/proxy', createProxyMiddleware({
+    target: 'http://87.251.74.15:25738',
+    changeOrigin: true,
+    secure: false
+}));
+
 app.get('/donate', (req, res) => {
     res.sendFile(path.join(__dirname, 'donate.html'));
 });
