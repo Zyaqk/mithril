@@ -829,7 +829,6 @@ footer {
     padding: 15px;
     transition: transform 0.2s ease-in-out;
     max-width: 240px;
-    margin: 0 auto;
     cursor: pointer;
 }
 

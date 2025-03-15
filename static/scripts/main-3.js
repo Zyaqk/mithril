@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const guidV = document.getElementById("guidV");
+    const guidI = document.getElementById("guidI");
     const closeGuid = document.getElementById("closeGuid");
     const guidesList = document.querySelector(".guidesList");
     const guidesDescription = document.querySelector(".guidesDescription");
@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("descriptionGuidIII")
     ];
 
-    guidV.addEventListener("click", function () {
+    guidI.addEventListener("click", function () {
         guidesList.style.transition = "opacity 0.5s ease-out";
         guidesList.style.opacity = "0";
         setTimeout(() => {

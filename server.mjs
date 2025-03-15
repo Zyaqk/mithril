@@ -3,9 +3,25 @@ import fetch from 'node-fetch';
 import path from 'path';
 import { config } from 'dotenv';
 import { fileURLToPath } from 'url';
-import { createProxyMiddleware } from 'http-proxy-middleware';
 import bodyParser from 'body-parser';
 import NodeCache from 'node-cache';
+import httpProxy from 'http-proxy'
+import http from 'http';
+
+var proxy = httpProxy.createProxyServer({});
+var server = http.createServer(function(req, res) {
+    // You can define here your custom logic to handle the request
+    // and then proxy the request.
+    proxy.web(req, res, {
+      target: {
+          hostname: '87.251.74.15',
+          port: 25738,
+          protocol: 'https',
+      },
+      secure: false,
+      changeOrigin: true
+    });
+  });
 
 config();
 
@@ -24,12 +40,6 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
-
-app.use('/proxy', createProxyMiddleware({
-    target: 'http://87.251.74.15:25738',
-    changeOrigin: true,
-    secure: false
-}));
 
 app.get('/donate', (req, res) => {
     res.sendFile(path.join(__dirname, 'donate.html'));
