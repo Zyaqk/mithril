@@ -5,26 +5,6 @@ import { config } from 'dotenv';
 import { fileURLToPath } from 'url';
 import bodyParser from 'body-parser';
 import NodeCache from 'node-cache';
-import httpProxy from 'http-proxy'
-import http from 'http';
-import fs from 'fs'
-
-const proxy = httpProxy.createProxyServer({});
-const options = {
-    key: fs.readFileSync('/path/to/privkey.pem'),
-    cert: fs.readFileSync('/path/to/fullchain.pem')
-};
-const server = https.createServer(options, function(req, res) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Content-Security-Policy', "default-src 'self' https:");
-
-    proxy.web(req, res, {
-        target: 'http://87.251.74.15:25738',
-        changeOrigin: true,
-        secure: false
-    });
-});
-
 config();
 
 const __filename = fileURLToPath(import.meta.url);
