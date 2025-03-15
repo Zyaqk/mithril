@@ -7,21 +7,23 @@ import bodyParser from 'body-parser';
 import NodeCache from 'node-cache';
 import httpProxy from 'http-proxy'
 import http from 'http';
+import fs from 'fs'
 
-var proxy = httpProxy.createProxyServer({});
-var server = http.createServer(function(req, res) {
-    // You can define here your custom logic to handle the request
-    // and then proxy the request.
+const proxy = httpProxy.createProxyServer({});
+const options = {
+    key: fs.readFileSync('/path/to/privkey.pem'),
+    cert: fs.readFileSync('/path/to/fullchain.pem')
+};
+const server = https.createServer(options, function(req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Content-Security-Policy', "default-src 'self' https:");
+
     proxy.web(req, res, {
-      target: {
-          hostname: '87.251.74.15',
-          port: 25738,
-          protocol: 'https',
-      },
-      secure: false,
-      changeOrigin: true
+        target: 'http://87.251.74.15:25738',
+        changeOrigin: true,
+        secure: false
     });
-  });
+});
 
 config();
 
