@@ -43,6 +43,45 @@ app.get('/tg', (req, res) => {
     res.redirect('https://t.me/mithril995');
 })
 
+app.get('/map', (req, res) => {
+    res.send(`
+        <html>
+            <head>
+                <meta charset="UTF-8">
+                <title>Открыть карту</title>
+                <style>
+                    body {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100vh;
+                        background-color: #111;
+                        color: #fff;
+                        font-family: sans-serif;
+                    }
+                    a {
+                        font-size: 1.5rem;
+                        color: #00c8ff;
+                        text-decoration: none;
+                        border: 2px solid #00c8ff;
+                        padding: 10px 20px;
+                        border-radius: 8px;
+                    }
+                    a:hover {
+                        background-color: #00c8ff;
+                        color: #000;
+                    }
+                </style>
+            </head>
+            <body>
+                <a href="http://87.251.74.15:25738" target="_blank">Открыть карту</a>
+            </body>
+        </html>
+    `);
+});
+
+
+
 async function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -193,7 +232,8 @@ app.get('/api/shop/payments', async (req, res) => {
                 paid_at: formatDate(payment.updated_at),
                 products: payment.products.map(product => ({
                     name: truncateName(product.name)
-                }))
+                })),
+                sent_commands: payment.sent_commands || []
             }));
 
             res.json({ success: true, response: filteredPayments });
@@ -205,6 +245,7 @@ app.get('/api/shop/payments', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch data' });
     }
 });
+
 
 app.get('/api/shop/payment/create', async (req, res) => {
     try {
