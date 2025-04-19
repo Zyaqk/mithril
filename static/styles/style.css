@@ -124,6 +124,10 @@ a {
     transition: filter 0.04s ease-in-out;
 }
 
+.divImgAredo img:hover {
+    cursor: pointer;
+}
+
 .listImagePC {
     width: 100%;
     height: 280px;
@@ -138,7 +142,7 @@ a {
     height: 100%;
     object-fit: cover;
     object-position: center;
-    filter: brightness(0.8);
+    filter: brightness(0.7);
     position: relative;
 }
 
@@ -638,6 +642,7 @@ footer {
 }
 
 #listPurchases {
+    position: relative;
     display: flex;
     gap: 15px;
     overflow-x: scroll;
@@ -645,6 +650,28 @@ footer {
     -ms-overflow-style: none;
     padding: 10px 0;
     white-space: nowrap;
+}
+
+#listPurchases::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 100%;
+    pointer-events: none;
+    background: linear-gradient(to left, black, transparent);
+}
+
+#listPurchases::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 100%;
+    pointer-events: none;
+    background: linear-gradient(to right, black, transparent);
 }
 
 #listPurchases::-webkit-scrollbar {

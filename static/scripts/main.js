@@ -89,6 +89,16 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
+
+    const elements = document.querySelectorAll(".divImgAredo");
+    elements.forEach(function (el) {
+        el.addEventListener("click", function () {
+            const confirmMessage = "Вступи, пожалуйста, в наш телеграм… умоляю";
+            if (confirm(confirmMessage)) {
+                window.open("https://mithril.fun/tg", "_blank");
+            }
+        });
+    });
 });
 
 function copyIp() {
