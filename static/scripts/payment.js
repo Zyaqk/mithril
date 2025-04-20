@@ -380,6 +380,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function buyProduct(id) {
+    const blockedIds = [899641, 900505, 928805, 899640];
+    if (blockedIds.includes(id)) {
+        showNotification('ЭТОТ ТОВАР ВРЕМЕННО ЗАБЛОКИРОВАН', 'orange');
+        return;
+    }
+
     const inputNickname = document.getElementById('inputUsername').value.trim();
     const inputMail = document.getElementById('inputEmail').value.trim();
     const userDashboard = document.getElementById('userDashboard');
@@ -428,7 +434,7 @@ function buyProduct(id) {
     }
 
     const coupon = document.getElementById('inputCoupon').value.trim();
-    
+
     let quantity = 1;
     if ([899640, 899641, 900505, 928805].includes(id)) {
         quantity = productCounters[id] || 1;
