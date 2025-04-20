@@ -380,7 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function buyProduct(id) {
-    const blockedIds = [899641, 900505, 928805, 899640];
+    const blockedIds = [];
     if (blockedIds.includes(id)) {
         showNotification('ЭТОТ ТОВАР ВРЕМЕННО ЗАБЛОКИРОВАН', 'orange');
         return;
