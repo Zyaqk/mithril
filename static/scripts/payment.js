@@ -286,7 +286,6 @@ document.getElementById('closeTerm').addEventListener('click', function() {
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchProducts();
-
     fetch('/api/shop/custommessages')
     .then(response => response.json())
     .then(data => {
@@ -382,7 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function buyProduct(id) {
     const blockedIds = [];
     if (blockedIds.includes(id)) {
-        showNotification('ЭТОТ ТОВАР ВРЕМЕННО ЗАБЛОКИРОВАН', 'orange');
+        showNotification('ЭТОТ ТОВАР ВРЕМЕННО ЗАБЛОКИРОВАН', 'red');
         return;
     }
 
