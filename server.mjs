@@ -213,7 +213,9 @@ app.get('/api/shop/payments', async (req, res) => {
 
         if (data.success && Array.isArray(data.response)) {
             const formatDate = (dateStr) => {
+                if (!dateStr) return '-';
                 const date = new Date(dateStr);
+                if (isNaN(date)) return '-';
                 const day = String(date.getDate()).padStart(2, '0');
                 const month = String(date.getMonth() + 1).padStart(2, '0');
                 const year = date.getFullYear();
@@ -223,17 +225,20 @@ app.get('/api/shop/payments', async (req, res) => {
             };
 
             const truncateName = (name) => {
+                if (typeof name !== 'string') return '';
                 return name.length > 10 ? name.slice(0, 10) + '...' : name;
             };
 
             const filteredPayments = data.response.map(payment => ({
                 created_at: formatDate(payment.created_at),
-                customer: payment.customer,
+                customer: payment.customer || '-',
                 paid_at: formatDate(payment.updated_at),
-                products: payment.products.map(product => ({
-                    name: truncateName(product.name)
-                })),
-                sent_commands: payment.sent_commands || []
+                products: Array.isArray(payment.products)
+                    ? payment.products.map(product => ({
+                        name: truncateName(product.name || '')
+                    }))
+                    : [],
+                sent_commands: Array.isArray(payment.sent_commands) ? payment.sent_commands : []
             }));
 
             res.json({ success: true, response: filteredPayments });
