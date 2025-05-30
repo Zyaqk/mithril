@@ -119,30 +119,26 @@ function copyIp() {
     }
 }
 
-async function getServerOnline() {
-    try {
-        const response = await fetch('https://api.trademc.org/shop.getOnline?shop=225880&v3');
-        const data = await response.json();
-        const statusElements = document.querySelectorAll('#online');
-        
-        statusElements.forEach(element => {
-            let current = parseInt(element.innerHTML) || 0;
-            let players = data.response && data.response.players !== undefined ? data.response.players : 0;
-            let maxPlayers = data.response && data.response.max_players !== undefined ? data.response.max_players : 0;
-            
-            let targetText = element.closest('.leftFooterTop') ? `${players} из ${maxPlayers}` : `${players}`;
-            
-            if (element.innerHTML !== targetText) {
-                animateText(element, targetText);
-            }
+function getServerOnline() {
+    $.getJSON('https://api.trademc.org/shop.getOnline?shop=225880&v3', function (data) {
+        $('#online').each(function () {
+            const isFooter = $(this).closest('.leftFooterTop').length > 0;
+            const players = data.response?.players ?? 0;
+            const max = data.response?.max_players ?? 0;
+            const text = isFooter ? `${players} из ${max}` : `${players}`;
+            if ($(this).text() !== text) $(this).text(text);
         });
-    } catch (error) {
-        document.querySelectorAll('#online').forEach(element => {
-            let targetText = element.closest('.leftFooterTop') ? `0 из 0` : `0`;
-            animateText(element, targetText);
+    }).fail(function () {
+        $('#online').each(function () {
+            const isFooter = $(this).closest('.leftFooterTop').length > 0;
+            const text = isFooter ? '0 из 0' : '0';
+            $(this).text(text);
         });
-    }
+    });
 }
+
+setInterval(getServerOnline, 30000);
+getServerOnline();
 
 function animateText(element, text) {
     element.innerHTML = text;

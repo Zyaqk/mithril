@@ -435,7 +435,7 @@ function buyProduct(id) {
     const coupon = document.getElementById('inputCoupon').value.trim();
 
     let quantity = 1;
-    if ([899640, 899641, 900505, 928805].includes(id)) {
+    if ([899640, 899641, 900505, 928805, 978554].includes(id)) {
         quantity = productCounters[id] || 1;
     }
 
