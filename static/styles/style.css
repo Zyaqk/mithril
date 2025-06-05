@@ -333,7 +333,7 @@ footer {
     align-items: center;
 }
 
-.dashboardHeader button, #closeTerm, #closeIFrame, #closeGuid {
+.dashboardHeader button, #closeTerm, #closeIFrame, .closeGuidBtn, .closeGuidArenaLegendsBtn, .closeGuidRPGBtn {
     border: none;
     outline: none;
     padding: 10px 14px;
@@ -345,9 +345,14 @@ footer {
     transition: 0.07s ease-in-out;
 }
 
-.dashboardHeader button:hover, #closeTerm:hover, #closeIFrame:hover, #closeGuid:hover {
+.dashboardHeader button:hover, #closeTerm:hover, #closeIFrame:hover, .closeGuidBtn:hover, .closeGuidArenaLegendsBtn:hover, .closeGuidRPGBtn:hover {
     background-color: #ff4343;
     transition: 0.07s ease-in-out;
+}
+
+.closeGuidArenaLegendsBtn, .closeGuidRPGBtn {
+    position: absolute;
+    margin-left: 850px;
 }
 
 .containerModal {
@@ -842,16 +847,16 @@ footer {
     list-style: none;
 }
 
-.guidesList {
+.guidesList, .guidesListRPG, .guidesListArenaLegends {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 15px;
     max-width: 1080px;
     margin: 0 auto;
-    padding: 35px 20px 20px 20px;
+    padding: 65px 20px 20px 20px;
 }
 
-.guidesList div {
+.guidesList div, .guidesListRPG div, .guidesListArenaLegends div {
     text-align: center;
     padding: 15px;
     transition: transform 0.2s ease-in-out;
@@ -859,16 +864,16 @@ footer {
     cursor: pointer;
 }
 
-.guidesList div:hover {
+.guidesList div:hover, .guidesListRPG div:hover, .guidesListArenaLegends div:hover {
     transform: scale(1.05);
 }
 
-.guidesList img {
+.guidesList img, .guidesListRPG img, .guidesListArenaLegends img {
     width: 100%;
     border-radius: 10px;
 }
 
-.guidesList h2 {
+.guidesList h2, .guidesListRPG h2, .guidesListArenaLegends h2 {
     font-size: 16px;
     color: rgb(212, 212, 212);
     margin-top: 8px;
@@ -876,7 +881,7 @@ footer {
     transition: all 0.26 ease-in-out;
 }
 
-.guidesList div:hover h2 {
+.guidesList div:hover h2, .guidesListRPG div:hover h2, .guidesListArenaLegends div:hover h2 {
     color: rgb(255, 255, 255);
     transition: all 0.26 ease-in-out;
 }
@@ -885,7 +890,6 @@ footer {
     max-width: 850px;
     width: 100%;
     padding-right: calc(var(--bs-gutter-x) * .5);
-    padding-left: calc(var(--bs-gutter-x) * .5);
     margin-right: auto;
     margin-left: auto;
 }

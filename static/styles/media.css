@@ -42,6 +42,12 @@
     .telegram span {
         display: none;
     }
+
+    .closeGuidArenaLegendsBtn, .closeGuidRPGBtn {
+        position: absolute;
+        margin-left: 0;
+        right: 10px;
+    }
 }
 
 @media (max-width: 920px) {

@@ -1,63 +1,118 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const guidI = document.getElementById("guidI");
-    const closeGuid = document.getElementById("closeGuid");
-    const guidesList = document.querySelector(".guidesList");
-    const guidesDescription = document.querySelector(".guidesDescription");
-    
-    const descriptions = [
-        document.getElementById("descriptionGuidI"),
-        document.getElementById("descriptionGuidII"),
-        document.getElementById("descriptionGuidIII")
-    ];
+    // Главный список
+    const guidesList = document.querySelector(".guidesList.containerGuides");
 
-    guidI.addEventListener("click", function () {
-        guidesList.style.transition = "opacity 0.5s ease-out";
-        guidesList.style.opacity = "0";
+    // Подкатегории
+    const guidesListRPG = document.querySelector(".guidesListRPG.containerGuides");
+    const guidesListArenaLegends = document.querySelector(".guidesListArenaLegends.containerGuides");
+
+    // Кнопки открытия категорий
+    const guidRPG = document.getElementById("guidRPG");
+    const guidArenaLegend = document.getElementById("guidArenaLegend");
+
+    // Вспомогательные функции анимации
+    function fadeOut(element, callback) {
+        if (!element) return;
+        element.style.transition = "opacity 0.5s";
+        element.style.opacity = "0";
         setTimeout(() => {
-            guidesList.style.display = "none";
-            guidesDescription.style.display = "block";
-            descriptions.forEach(desc => {
-                if (desc) {
-                    desc.style.display = "block";
-                    desc.style.opacity = "0";
-                }
-            });
-            setTimeout(() => {
-                guidesDescription.style.transition = "opacity 0.5s ease-in";
-                guidesDescription.style.opacity = "1";
-                descriptions.forEach(desc => {
-                    if (desc) desc.style.opacity = "1";
-                });
-            }, 50);
+            element.style.display = "none";
+            if (callback) callback();
         }, 500);
-    });
+    }
+    function fadeIn(element) {
+        if (!element) return;
+        element.style.display = "grid";
+        element.style.opacity = "0";
+        setTimeout(() => {
+            element.style.transition = "opacity 0.5s";
+            element.style.opacity = "1";
+        }, 10);
+    }
 
-    closeGuid.addEventListener("click", function () {
-        let visibleDescriptions = descriptions.filter(desc => desc && desc.style.display === "block");
-        if (visibleDescriptions.length > 0) {
-            visibleDescriptions.forEach(desc => {
-                desc.style.transition = "opacity 0.5s ease-out";
-                desc.style.opacity = "0";
+    // Открытие RPG гайдов
+    if (guidRPG && guidesList && guidesListRPG) {
+        guidRPG.addEventListener("click", function () {
+            fadeOut(guidesList, function() {
+                fadeIn(guidesListRPG);
             });
-            setTimeout(() => {
-                visibleDescriptions.forEach(desc => desc.style.display = "none");
-                guidesList.style.display = "grid";
-                guidesList.style.opacity = "0";
-                setTimeout(() => {
-                    guidesList.style.transition = "opacity 0.5s ease-in";
-                    guidesList.style.opacity = "1";
-                }, 50);
-            }, 500);
-        }
-    });
+        });
+    }
 
-    const elements = document.querySelectorAll(".divImgAredo");
-    elements.forEach(function (el) {
-        el.addEventListener("click", function () {
-            const confirmMessage = "Вступи, пожалуйста, в наш телеграм… умоляю";
-            if (confirm(confirmMessage)) {
-                window.open("https://mithril.fun/tg", "_blank");
-            }
+    // Открытие ARENA LEGEND гайдов
+    if (guidArenaLegend && guidesList && guidesListArenaLegends) {
+        guidArenaLegend.addEventListener("click", function () {
+            fadeOut(guidesList, function() {
+                fadeIn(guidesListArenaLegends);
+            });
+        });
+    }
+
+    // Кнопки назад для RPG
+    document.querySelectorAll('.closeGuidRPGBtn').forEach(function(btn) {
+        btn.addEventListener("click", function() {
+            fadeOut(guidesListRPG, function() {
+                fadeIn(guidesList);
+            });
         });
     });
+
+    // Кнопки назад для Arena Legends
+    document.querySelectorAll('.closeGuidArenaLegendsBtn').forEach(function(btn) {
+        btn.addEventListener("click", function() {
+            fadeOut(guidesListArenaLegends, function() {
+                fadeIn(guidesList);
+            });
+        });
+    });
+
+    
+    const guidI = document.getElementById("guidI");
+    const guidII = document.getElementById("guidII");
+    const guidIII = document.getElementById("guidIII");
+    const descriptionGuidI = document.getElementById("descriptionGuidI");
+    const descriptionGuidII = document.getElementById("descriptionGuidII");
+    const descriptionGuidIII = document.getElementById("descriptionGuidIII");
+
+    if (guidI && descriptionGuidI && guidesListRPG) {
+        guidI.addEventListener("click", function () {
+            fadeOut(guidesListRPG, function() {
+                fadeIn(descriptionGuidI);
+                document.querySelector(".guidesDescription").style.display = 'block';
+            });
+        });
+    }
+
+
+
+    if (guidII && descriptionGuidII && guidesListRPG) {
+        guidII.addEventListener("click", function () {
+            fadeOut(guidesListRPG, function() {
+                fadeIn(descriptionGuidII);
+                document.querySelector(".guidesDescription").style.display = 'block';
+            });
+        });
+    }
+
+    if (guidIII && descriptionGuidIII && guidesListRPG) {
+        guidIII.addEventListener("click", function () {
+            fadeOut(guidesListRPG, function() {
+                fadeIn(descriptionGuidIII);
+                document.querySelector(".guidesDescription").style.display = 'block';
+            });
+        });
+    }
+
+
+    document.querySelectorAll('.closeGuidBtn').forEach(function(btn){
+    btn.addEventListener("click", function() {
+        const desc = btn.closest('.guideDescription');
+        if (desc) {
+            fadeOut(desc, function() {
+                fadeIn(guidesListRPG);
+                document.querySelector(".guidesDescription").style.display = 'none';
+            });
+        }
+    });
+});
 });

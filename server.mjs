@@ -80,6 +80,9 @@ app.get('/map', (req, res) => {
     `);
 });
 
+app.use((req, res) => {
+    res.sendFile(path.join(__dirname, '404.html'));
+});
 
 
 async function delay(ms) {
