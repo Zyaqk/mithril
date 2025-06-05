@@ -1,16 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Главный список
     const guidesList = document.querySelector(".guidesList.containerGuides");
-
-    // Подкатегории
     const guidesListRPG = document.querySelector(".guidesListRPG.containerGuides");
     const guidesListArenaLegends = document.querySelector(".guidesListArenaLegends.containerGuides");
-
-    // Кнопки открытия категорий
     const guidRPG = document.getElementById("guidRPG");
     const guidArenaLegend = document.getElementById("guidArenaLegend");
 
-    // Вспомогательные функции анимации
     function fadeOut(element, callback) {
         if (!element) return;
         element.style.transition = "opacity 0.5s";
@@ -30,7 +24,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 10);
     }
 
-    // Открытие RPG гайдов
     if (guidRPG && guidesList && guidesListRPG) {
         guidRPG.addEventListener("click", function () {
             fadeOut(guidesList, function() {
@@ -38,8 +31,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     }
-
-    // Открытие ARENA LEGEND гайдов
     if (guidArenaLegend && guidesList && guidesListArenaLegends) {
         guidArenaLegend.addEventListener("click", function () {
             fadeOut(guidesList, function() {
@@ -48,7 +39,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Кнопки назад для RPG
     document.querySelectorAll('.closeGuidRPGBtn').forEach(function(btn) {
         btn.addEventListener("click", function() {
             fadeOut(guidesListRPG, function() {
@@ -56,8 +46,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     });
-
-    // Кнопки назад для Arena Legends
     document.querySelectorAll('.closeGuidArenaLegendsBtn').forEach(function(btn) {
         btn.addEventListener("click", function() {
             fadeOut(guidesListArenaLegends, function() {

@@ -44,45 +44,16 @@ app.get('/tg', (req, res) => {
 })
 
 app.get('/map', (req, res) => {
-    res.send(`
-        <html>
-            <head>
-                <meta charset="UTF-8">
-                <title>Открыть карту</title>
-                <style>
-                    body {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        height: 100vh;
-                        background-color: #111;
-                        color: #fff;
-                        font-family: sans-serif;
-                    }
-                    a {
-                        font-size: 1.5rem;
-                        color: #00c8ff;
-                        text-decoration: none;
-                        border: 2px solid #00c8ff;
-                        padding: 10px 20px;
-                        border-radius: 8px;
-                    }
-                    a:hover {
-                        background-color: #00c8ff;
-                        color: #000;
-                    }
-                </style>
-            </head>
-            <body>
-                <a href="http://87.251.74.15:25738" target="_blank">Открыть карту</a>
-            </body>
-        </html>
-    `);
+    res.redirect('http://87.251.74.15:25738');
 });
 
-app.use((req, res) => {
-    res.sendFile(path.join(__dirname, '404.html'));
+app.use((req, res, next) => {
+    if (req.path.startsWith('/api/')) {
+        return next();
+    }
+    res.status(404).sendFile(path.join(__dirname, '404.html'));
 });
+
 
 
 async function delay(ms) {
