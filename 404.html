@@ -3,44 +3,65 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>MITHRIL: 404</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-</head>
-<style>
-    html, body {
-        margin: 0;
-        padding: 0;
-        background: #1a1a1a;
-        height: 100%;
-        width: 100%;
-    }
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta name="robots" content="noindex">
 
-    body {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        width: 100vw;
-    }
-    .catimg {
-        max-width: 90vw;
-        max-height: 80vh;
-        border-radius: 24px;
-        box-shadow: 0 8px 32px #000a;
-        margin-bottom: 30px;
-        object-fit: contain;
-    }
-    .caption {
-        color: #fff;
-        font-size: 2.2rem;
-        font-family: 'Segoe UI', sans-serif;
-        letter-spacing: 2px;
-        margin-bottom: 0;
-    }
-</style>
+    <meta property="og:title" content="MITHRIL RPG">
+    <meta property="og:description" content="MITHRIL — RPG сервер, где каждый создаёт свою историю! Исследуйте локации, сражайтесь с боссами, осваивайте скиллы и стройте города. Участвуйте в ивентах, турнирах и ведите свою фракцию к величию.">
+    <meta property="og:image" content="https://mithril.fun/images/image.png">
+    <meta property="og:url" content="https://mithril.fun/donate">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <meta name="description" content="MITHRIL — RPG сервер, где каждый создаёт свою историю! Исследуйте локации, сражайтесь с боссами, осваивайте скиллы и стройте города. Участвуйте в ивентах, турнирах и ведите свою фракцию к величию.">
+    <meta name="keywords" content="Рпг сервер майнкрафт 1.20.4, Майнкрафт сервера ММО РПГ 1.20.4 пк, Сервер майнкрафт рпг, Сервера майнкрафт средневековье, майнкрафт военный сервер я писал, сервер майнкрафт 1.16.6, сервер майнкрафт 1.19.4, сервер майнкрафт 1.20.2, сервер майнкрафт 1.20.3, сервер майнкрафт 1.20.4, сервер майнкрафт 1.21, mithril, mithril realms, mithril rpg, мифрил, мифрил реалмс, мифрил реалм, политический сервер, политический сервер майнкрафт, политические сервера майнкрафт, топ сервера майнкрафт, сервера майнкрафт, лучшие сервера майнкрафт, top server minecraft">
+
+
+    <title>404 - MITHRIL</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@699&display=swap" rel="stylesheet">
+    <link rel="icon" href="images/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/media.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
 <body>
-    <img class="catimg" src="/images/catmem.jpeg">
-    <div class="caption">Такой страницы не существует</div>
+    <button id="closeIFrame"><i class="fa-solid fa-xmark"></i></button>
+    <div id="iframe-container"><iframe id="iframe" src="https://mithril.fun/map"></iframe></div>
+    <div class="toggleMenu" style="font-weight: 750;">
+        <button id="toggleMenu"><i class="fa-solid fa-bars"></i> <span>ГЛАВНОЕ МЕНЮ</span></button>
+        <li class="telegramHandy" style="list-style: none;"><span><img src="images/tg.png"></img></span></li>
+    </div>
+    <div class="listHeaderPC container" id="listHeader" style="font-weight: 750;">
+        <div class="listButton">
+            <ul>
+                <li id="closeMenu"><i class="fa-solid fa-xmark"></i></li>
+                <li><a href="/">МАГАЗИН</a></li>
+                <li><a href="guides">ГАЙДЫ</a></li>
+                <li><a href="donate">ДОНАТЫ</a></li>
+                <li><a href="http://87.251.74.15:25738" target="_blank">КАРТА</a></li>
+            </ul>
+        </div>
+        <div class="listInfo">
+            <ul>
+                <li class="telegram"><span id="tg"><img src="images/tg.png"></img></span></li>
+                <li><button class="ipPC" id="ip" onclick="copyIp()">MC.MITHRIL.FUN <span id="online"></span></button></li>
+            </ul>
+        </div>
+    </div>
+    <div class="listImagePC container">
+        <img src="images/body-4.png" style="transform: scale(-1, 1);">
+        <div class="textImage">
+            <h1>ОШИБКА 404</h1>
+            <h2>СТРАНИЦА НЕ НАЙДЕНА</h2>
+        </div>
+    </div>
+    <div id="notification"></div>
+
+    <script src="scripts/main-2.js"></script>
 </body>
 </html>
