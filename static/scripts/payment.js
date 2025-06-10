@@ -287,30 +287,30 @@ document.getElementById('closeTerm').addEventListener('click', function() {
 document.addEventListener('DOMContentLoaded', () => {
     fetchProducts();
     fetch('/api/shop/custommessages')
-    .then(response => response.json())
-    .then(data => {
-        if (data.success && data.response.enabled) {
-            const notificationHTML = `
-                    <div id="message">
-                        <div class="container">
-                            <p>${data.response.message}</p>
-                            <button id="messagebtn">${data.response.buttonCaption}</button>
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.response.enabled) {
+                const notificationHTML = `
+                        <div id="message">
+                            <div class="container">
+                                <p>${data.response.message}</p>
+                                <button id="messagebtn">${data.response.buttonCaption}</button>
+                            </div>
                         </div>
-                    </div>
-            `;
+                `;
 
-            document.body.insertAdjacentHTML('beforeend', notificationHTML);
+                document.body.insertAdjacentHTML('beforeend', notificationHTML);
 
-            const notification = document.getElementById('message');
-            const button = document.getElementById('messagebtn');
+                const notification = document.getElementById('message');
+                const button = document.getElementById('messagebtn');
 
-            button.addEventListener('click', () => {
-                if (data.response.buttonUrl) {
-                    window.open(`${data.response.buttonUrl}`, '_blank');
-                    notification.style.display = 'none';
-                }
-            });
-        }
+                button.addEventListener('click', () => {
+                    if (data.response.buttonUrl) {
+                        window.open(`${data.response.buttonUrl}`, '_blank');
+                        notification.style.display = 'none';
+                    }
+                });
+            }
     });
 
     const purchasesContainer = document.getElementById('listPurchases');
@@ -381,7 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function buyProduct(id) {
     const blockedIds = [];
     if (blockedIds.includes(id)) {
-        showNotification('ЭТОТ ТОВАР ВРЕМЕННО ЗАБЛОКИРОВАН', 'red');
+        showNotification('ЭТОТ ТОВАР ВРЕМЕННО ЗАБЛОКИРОВАН', '');
         return;
     }
 
@@ -445,34 +445,37 @@ function buyProduct(id) {
         .then(response => response.json())
         .then(data => {
             if (data.success && data.url) {
-                showNotification('ПЕРЕХОД К ОПЛАТЕ', 'rgba(110, 216, 23, 0.8)');
+                showNotification('ПЕРЕХОД К ОПЛАТЕ', '');
                 setTimeout(() => {
                     notification.style.display = 'none';
                 }, 1100);
                 window.location = data.url;
             } else {
-                showNotification(data.error || 'ПОКУПКИ СЕЙЧАС НЕВОЗМОЖНЫ!', 'red');
+                showNotification(data.error || 'ПОКУПКИ СЕЙЧАС НЕВОЗМОЖНЫ!', '');
             }
         })
         .catch(error => {
             console.error('Ошибка:', error);
-            showNotification(`ОШИБКА СЕРВЕРА: ${error.message}`, 'red');
+            showNotification(`ОШИБКА СЕРВЕРА: ${error.message}`, '');
         });
 }
 
-function showNotification(message, bgColor) {
-    const notification = document.getElementById('notification');
-    notification.style.display = 'block';
-    notification.innerHTML = `<span>${message}</span>`;
+function showNotification(message, bgColor = 'rgba(110, 216, 23, 0.8)') {
+    const container = document.getElementById('notification-container');
+
+    const notification = document.createElement('div');
+    notification.className = 'notification';
     notification.style.backgroundColor = bgColor;
-    notification.style.backdropFilter = 'blur(10px)';
+    notification.innerHTML = `<span>${message}</span>`;
+
+    container.appendChild(notification);
 
     setTimeout(() => {
-        notification.style.backgroundColor = 'rgba(110, 216, 23, 0.5)';
+        notification.style.transition = 'opacity 0.3s ease';
+        notification.style.opacity = '0';
+    }, 4500);
+
+    setTimeout(() => {
+        notification.remove();
     }, 5000);
-
-    setTimeout(() => {
-        notification.style.display = 'none';
-    }, 4999);
 }
-

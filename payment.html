@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta name="robots" content="noindex">
+
+    <meta property="og:title" content="MITHRIL RPG">
+    <meta property="og:description" content="MITHRIL — RPG сервер, где каждый создаёт свою историю! Исследуйте локации, сражайтесь с боссами, осваивайте скиллы и стройте города. Участвуйте в ивентах, турнирах и ведите свою фракцию к величию.">
+    <meta property="og:image" content="https://mithril.fun/images/image.png">
+    <meta property="og:url" content="https://mithril.fun/donate">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <meta name="description" content="MITHRIL — RPG сервер, где каждый создаёт свою историю! Исследуйте локации, сражайтесь с боссами, осваивайте скиллы и стройте города. Участвуйте в ивентах, турнирах и ведите свою фракцию к величию.">
+    <meta name="keywords" content="Рпг сервер майнкрафт 1.20.4, Майнкрафт сервера ММО РПГ 1.20.4 пк, Сервер майнкрафт рпг, Сервера майнкрафт средневековье, майнкрафт военный сервер я писал, сервер майнкрафт 1.16.6, сервер майнкрафт 1.19.4, сервер майнкрафт 1.20.2, сервер майнкрафт 1.20.3, сервер майнкрафт 1.20.4, сервер майнкрафт 1.21, mithril, mithril realms, mithril rpg, мифрил, мифрил реалмс, мифрил реалм, политический сервер, политический сервер майнкрафт, политические сервера майнкрафт, топ сервера майнкрафт, сервера майнкрафт, лучшие сервера майнкрафт, top server minecraft">
+
+
+    <title>Детали платежа - MITHRIL</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@699&display=swap" rel="stylesheet">
+    <link rel="icon" href="images/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/style-2.css">
+    <link rel="stylesheet" href="styles/media.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <button id="closeIFrame"><i class="fa-solid fa-xmark"></i></button>
+    <div class="toggleMenu" style="font-weight: 750;">
+        <button id="toggleMenu"><i class="fa-solid fa-bars"></i> <span>ГЛАВНОЕ МЕНЮ</span></button>
+        <li class="telegramHandy" style="list-style: none;"><span><img src="images/tg.png"></img></span></li>
+    </div>
+    <div class="listHeaderPC container" id="listHeader" style="font-weight: 750;">
+        <div class="listButton">
+            <ul>
+                <li id="closeMenu"><i class="fa-solid fa-xmark"></i></li>
+                <li><a href="/">МАГАЗИН</a></li>
+                <li><a href="guides">ГАЙДЫ</a></li>
+                <li><a href="donate">ДОНАТЫ</a></li>
+                <li><a href="http://mc.mithril.fun:25738/" target="_blank">КАРТА</a></li>
+            </ul>
+        </div>
+        <div class="listInfo">
+            <ul>
+                <li class="telegram"><span id="tg"><img src="images/tg.png"></img></span></li>
+                <li><button class="ipPC" id="ip" onclick="copyIp()">MC.MITHRIL.FUN <span id="online"></span></button></li>
+            </ul>
+        </div>
+    </div>
+    <div class="listImagePC container">
+        <img src="images/body-5.png">
+        <div class="textImage">
+            <h1>ДЕТАЛИ ПЛАТЕЖА</h1>
+            <h2>ПЛАТЁЖ #</h2>
+        </div>
+    </div>
+    <div class="containerPay">
+        <div class="payment-card" id="pay-result">
+            <div class="payment-title">Загрузка платежа...</div>
+        </div>
+    </div>
+    <footer class="footer container" style="font-weight: 750;">
+        <div class="divImgAredo">
+            <img class="imgAredo" src="images/aredo.png">
+        </div>
+        <div>  
+            <div class="topFooter">
+                <div class="leftFooterTop">
+                    <button id="ip" onclick="copyIp()">MC.MITHRIL.FUN</button>
+                    <span id="online"></span>
+                </div>
+                <div class="rightFooterTop">
+                    <ul>
+                        <li><a href="https://mithril.fun/tg" target="_blank"><i class="fa-brands fa-telegram"></i></a></li>
+                        <li><a href="https://mithril.fun/dsc" target="_blank"><i class="fa-brands fa-discord"></i></a></li>
+                        <li><a href="https://mithril.fun/vk" target="_blank"><i class="fa-brands fa-vk"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bottomFooter">
+                <div class="leftFooterBottom">
+                    <p style="color: black;">Проект MITHRIL не имеет никакого отношения к Mojang, AB.</p>
+                    <p style="color: black;">Любое копирование материала запрещено.</p>
+                    <p style="color:black;">Покупка любых донатов только через: <a href="https://mithril.fun/" style="text-decoration: underline; color: black;">mithril.fun</a></p>
+                </div>
+                <div class="rightFooterBottom">
+                    <p style="color: rgb(27, 27, 27);">MITHRIL© 2023-2025</p>
+                    <p style="color: rgb(27, 27, 27);">Все Права Защищены.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div id="notification-container"></div>
+
+    <script src="scripts/main-4.js"></script>
+    <script src="scripts/main-2.js"></script>
+</body>
+</html>

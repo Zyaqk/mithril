@@ -104,3 +104,23 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 });
+
+function showNotification(message, bgColor = 'rgba(110, 216, 23, 0.8)') {
+    const container = document.getElementById('notification-container');
+
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.style.backgroundColor = bgColor;
+    notification.innerHTML = `<span>${message}</span>`;
+
+    container.appendChild(notification);
+
+    setTimeout(() => {
+        notification.style.transition = 'opacity 0.3s ease';
+        notification.style.opacity = '0';
+    }, 4500);
+
+    setTimeout(() => {
+        notification.remove();
+    }, 5000);
+}

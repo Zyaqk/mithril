@@ -1,0 +1,98 @@
+.containerPay {
+    max-width: 680px;
+    width: 100%;
+    background-color: #2727277a;
+    border-radius: 13px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+.payment-title {
+    font-size: 17px;
+    font-weight: 500;
+    color: #fff;
+    letter-spacing: 1.1px;
+    padding: 0 0 8px 0;
+}
+
+.pay-error {
+    font-size: 17px;
+    font-weight: 500;
+    color: #cc1b1b;
+    letter-spacing: 1.1px;
+    padding: 0 0 8px 0;
+}
+
+.payment-userinfo .commands-block {
+    background: #1b1b1b;
+    color: #a8a8a8;
+    font-family: 'Consolas', 'Fira Mono', monospace;
+    font-size: 1em;
+    padding: 7px 13px;
+    border-radius: 6px;
+    margin-top: 6px;
+    white-space: pre-line;
+    word-break: break-all;
+    box-shadow: 0 2px 6px #0002;
+    display: inline-block;
+}
+
+.payment-userinfo li, .payment-productinfo li {
+    margin: 8px 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.payment-productinfo li img {
+    width: 32px;
+    height: 32px;
+    border-radius: 5px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.payment-productinfo li, .payment-userinfo li, .payment-userinfo div {
+    color: #e8f8c8;
+}
+
+.payment-userinfo li span, .payment-productinfo li span {
+    margin-left: 10px;
+    font-weight: 500;
+    color: #fff;
+    background: #1d2125;
+    padding: 3px 10px;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.payment-productinfo li span {
+    color: #81c716;
+    background: #202619;
+}
+
+h2 {
+    font-size: 30px;
+    margin: 16px 0 10px 0;
+    letter-spacing: 1.2px;
+}
+
+.commands-block {
+    background: #181818;
+    color: #e2e2e2;
+    border-radius: 4px;
+    padding: 6px 8px;
+    margin-bottom: 4px;
+    font-family: inherit;
+    font-size: 15px;
+    white-space: pre-line;
+    word-break: break-word;
+}
+
+@media (max-width: 700px) {
+    .containerPay {
+        border-radius: 0;
+    }
+}

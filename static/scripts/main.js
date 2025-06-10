@@ -1,79 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const openMap = document.getElementById("openMap");
-    const link = openMap.querySelector("a");
-    const closeIFrame = document.getElementById("closeIFrame");
-    const iframeContainer = document.getElementById("iframe-container");
-    const iframe = document.getElementById("iframe");
-    const body = document.body;
-
-    iframeContainer.style.opacity = "0";
-    iframeContainer.style.transition = "opacity 0.23s ease-in-out";
-    iframe.style.opacity = "0";
-    iframe.style.transition = "opacity 0.23s ease-in-out";
-    closeIFrame.style.opacity = "0";
-    closeIFrame.style.transition = "opacity 0.23s ease-in-out";
-
-    function openMapFunction(event) {
-        event.preventDefault();
-
-        iframeContainer.style.display = "block";
-        iframe.style.display = "block";
-        closeIFrame.style.display = "block";
-
-        setTimeout(() => {
-            iframeContainer.style.opacity = "1";
-            iframe.style.opacity = "1";
-            closeIFrame.style.opacity = "1";
-        }, 10);
-
-        body.style.position = "fixed";
-        body.style.top = "0";
-        body.style.left = "0";
-        body.style.width = "100%";
-        body.style.height = "100%";
-        body.style.overflow = "hidden";
-        body.style.pointerEvents = "none";
-        iframeContainer.style.pointerEvents = "auto";
-        closeIFrame.style.pointerEvents = "auto";
-    }
-
-    function closeMapFunction() {
-        iframeContainer.style.opacity = "0";
-        iframe.style.opacity = "0";
-        closeIFrame.style.opacity = "0";
-
-        setTimeout(() => {
-            iframeContainer.style.display = "none";
-            iframe.style.display = "none";
-            closeIFrame.style.display = "none";
-
-            body.style.position = "";
-            body.style.top = "";
-            body.style.left = "";
-            body.style.width = "";
-            body.style.height = "";
-            body.style.overflow = "";
-            body.style.pointerEvents = "";
-            iframeContainer.style.pointerEvents = "";
-            closeIFrame.style.pointerEvents = "";
-        }, 500);
-    }
-
-    function toggleOpenMapBehavior() {
-        if (window.innerWidth <= 800) {
-            openMap.removeEventListener("click", openMapFunction);
-            link.setAttribute("href", "http://87.251.74.15:25738");
-        } else {
-            link.removeAttribute("href");
-            openMap.addEventListener("click", openMapFunction);
-        }
-    }
-
-    closeIFrame.addEventListener("click", closeMapFunction);
-
-    window.addEventListener("load", toggleOpenMapBehavior);
-    window.addEventListener("resize", toggleOpenMapBehavior);
-
     document.body.addEventListener("click", function (event) {
         let telegramTarget = event.target.closest(".telegramHandy, .telegram");
         if (telegramTarget) {
@@ -106,11 +31,7 @@ function copyIp() {
 
     if (navigator.clipboard) {
         navigator.clipboard.writeText(ipText).then(function() {
-            document.getElementById('notification').style.display = "block";
-            document.getElementById('notification').innerHTML = '<span>АЙПИ СКОПИРОВАН В БУФЕР ОБМЕНА!</span>';
-            setTimeout(function() {
-                document.getElementById('notification').style.display = "none";
-            }, 3000);
+            showNotification('АЙПИ СКОПИРОВАН В БУФЕР ОБМЕНА!', '');
         }).catch(function(error) {
             console.error('Ошибка при копировании:', error);
         });
@@ -119,22 +40,29 @@ function copyIp() {
     }
 }
 
-function getServerOnline() {
-    $.getJSON('https://api.trademc.org/shop.getOnline?shop=225880&v3', function (data) {
-        $('#online').each(function () {
-            const isFooter = $(this).closest('.leftFooterTop').length > 0;
-            const players = data.response?.players ?? 0;
-            const max = data.response?.max_players ?? 0;
-            const text = isFooter ? `${players} из ${max}` : `${players}`;
-            if ($(this).text() !== text) $(this).text(text);
+async function getServerOnline() {
+    try {
+        const response = await fetch('https://api.trademc.org/shop.getOnline?shop=225880&v3');
+        const data = await response.json();
+        const statusElements = document.querySelectorAll('#online');
+        
+        statusElements.forEach(element => {
+            let current = parseInt(element.innerHTML) || 0;
+            let players = data.response && data.response.players !== undefined ? data.response.players : 0;
+            let maxPlayers = data.response && data.response.max_players !== undefined ? data.response.max_players : 0;
+            
+            let targetText = element.closest('.leftFooterTop') ? `${players} из ${maxPlayers}` : `${players}`;
+            
+            if (element.innerHTML !== targetText) {
+                animateText(element, targetText);
+            }
         });
-    }).fail(function () {
-        $('#online').each(function () {
-            const isFooter = $(this).closest('.leftFooterTop').length > 0;
-            const text = isFooter ? '0 из 0' : '0';
-            $(this).text(text);
+    } catch (error) {
+        document.querySelectorAll('#online').forEach(element => {
+            let targetText = element.closest('.leftFooterTop') ? `0 из 0` : `0`;
+            animateText(element, targetText);
         });
-    });
+    }
 }
 
 setInterval(getServerOnline, 30000);
@@ -344,11 +272,7 @@ function processUserData() {
         imgHandy.src = `https://mineskin.eu/helm/${nickname}`
         skin.src = `https://mineskin.eu/armor/body/${nickname}/100.png`
         notificationDashboard.style.display = 'none';
-        notificationAll.style.display = 'block';
-        notificationAll.innerHTML = `<span>ДАННЫЕ ОБНОВЛЕНЫ!</span>`;
-        setTimeout(() => {
-            notificationAll.style.display = "none";
-        }, 3000);
+        showNotification('ДАННЫЕ ОБНОВЛЕНЫ И СОХРАНЕНЫ!', '');
     }
 }
 
@@ -383,4 +307,24 @@ function loadMail() {
 
 window.onload = function() {
     loadUserData();
+}
+
+function showNotification(message, bgColor = 'rgba(110, 216, 23, 0.8)') {
+    const container = document.getElementById('notification-container');
+
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.style.backgroundColor = bgColor;
+    notification.innerHTML = `<span>${message}</span>`;
+
+    container.appendChild(notification);
+
+    setTimeout(() => {
+        notification.style.transition = 'opacity 0.3s ease';
+        notification.style.opacity = '0';
+    }, 4500);
+
+    setTimeout(() => {
+        notification.remove();
+    }, 5000);
 }

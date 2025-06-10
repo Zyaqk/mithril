@@ -289,6 +289,12 @@
     }
 }
 
+@media (max-width: 560px) {
+    .leftFooterTop {
+        display: none;
+    }
+}
+
 @media (max-width: 485px) {
     .topFooter {
         display: flex;
@@ -364,5 +370,11 @@
 
     .guidesList h2 {
         font-size: 14px;
+    }
+}
+
+@media (max-width: 700px) {
+    .payment-root {
+        margin: 20px 10px;
     }
 }
