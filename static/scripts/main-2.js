@@ -31,17 +31,9 @@ function copyIp() {
 
     if (navigator.clipboard) {
         navigator.clipboard.writeText(ipText).then(function() {
-            document.getElementById('notification').style.display = "block";
-            document.getElementById('notification').innerHTML = '<span>АЙПИ СКОПИРОВАН В БУФЕР ОБМЕНА!</span>';
-            setTimeout(function() {
-                document.getElementById('notification').style.display = "none";
-            }, 3000);
+            showNotification('АЙПИ СКОПИРОВАН В БУФЕР ОБМЕНА!', '');
         }).catch(function(error) {
-            document.getElementById('notification').style.display = "block";
-            document.getElementById('notification').innerHTML = '<span>ОШИБКА ПРИ КОПИРОВАНИЕ!</span>';
-            setTimeout(function() {
-                document.getElementById('notification').style.display = "none";
-            }, 3000);
+            console.error('Ошибка при копировании:', error);
         });
     } else {
         console.error('Буфер обмена недоступен');

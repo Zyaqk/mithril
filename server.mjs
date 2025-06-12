@@ -280,7 +280,7 @@ app.get('/api/shop/payment/create', async (req, res) => {
 
       await sendPaymentEmail(email, paymentId, productId, hash);
 
-      fetch(`http://localhost:3000/api/shop/payment/by-any-id/${paymentId}?force=true`).catch(console.error);
+      fetch(`https://mithril.fun/api/shop/payment/by-any-id/${paymentId}?force=true`).catch(console.error);
 
       return res.json({ success: true, url: paymentUrl });
     } else {
@@ -301,7 +301,7 @@ const sendPaymentEmail = async (toEmail, paymentId, productId, hash) => {
     }
   });
 
-  const hashUrl = `http://localhost:3000/payment?id=${hash}`;
+  const hashUrl = `https://mithril.fun/payment?id=${hash}`;
 
   const mailOptions = {
     from: {

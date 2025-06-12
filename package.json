@@ -4,7 +4,7 @@
   "description": "mithril site",
   "main": "index.js",
   "scripts": {
-    "start": "node server.mjs"
+    "start": "nodemon server.mjs"
   },
   "repository": {
     "type": "git",
