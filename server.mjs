@@ -280,7 +280,7 @@ app.get('/api/shop/payment/create', async (req, res) => {
 
       await sendPaymentEmail(email, paymentId, productId, hash);
 
-      fetch(`http://localhost:3000/api/shop/payment/by-any-id/${paymentId}?force=true`).catch(console.error);
+      fetch(`https://mithril.fun/api/shop/payment/by-any-id/${paymentId}?force=true`).catch(console.error);
 
       return res.json({ success: true, url: paymentUrl });
     } else {
@@ -301,7 +301,7 @@ const sendPaymentEmail = async (toEmail, paymentId, productId, hash) => {
     }
   });
 
-  const hashUrl = `http://localhost:3000/payment?id=${hash}`;
+  const hashUrl = `https://mithril.fun/payment?id=${hash}`;
 
   const mailOptions = {
     from: {
@@ -321,7 +321,7 @@ const sendPaymentEmail = async (toEmail, paymentId, productId, hash) => {
         <a href="${hashUrl}" target="_blank" style="color: #83c916; word-break: break-word; font-size: 14px;">${hashUrl}</a>
         <p style="font-size: 14px; color: #666666; margin-top: 20px;">Если ссылка больше не действительна, нажмите на кнопку ниже для разблокировки доступа:</p>
         <div style="text-align: center; margin-top: 12px; margin-bottom: 12px;">
-            <a href="http://localhost:3000/api/shop/payment/unlock/${paymentId}" target="_blank" style="background-color: #83c916; color: white; padding: 10px 18px; text-decoration: none; border-radius: 6px; font-size: 14px;">РАЗБЛОКИРОВАТЬ ПЛАТЁЖ</a>
+            <a href="https://mithril.fun/api/shop/payment/unlock/${paymentId}" target="_blank" style="background-color: #83c916; color: white; padding: 10px 18px; text-decoration: none; border-radius: 6px; font-size: 14px;">РАЗБЛОКИРОВАТЬ ПЛАТЁЖ</a>
         </div>
         </div>
         <div style="background-color: #eeeeee; padding: 16px; text-align: center; font-size: 13px; color: #666666; border-top: 1px solid #dddddd;">
