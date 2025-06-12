@@ -280,7 +280,7 @@ app.get('/api/shop/payment/create', async (req, res) => {
 
       await sendPaymentEmail(email, paymentId, productId, hash);
 
-      fetch(`https://mithril.fun/api/shop/payment/by-any-id/${paymentId}?force=true`).catch(console.error);
+      fetch(`http://localhost:3000/api/shop/payment/by-any-id/${paymentId}?force=true`).catch(console.error);
 
       return res.json({ success: true, url: paymentUrl });
     } else {
@@ -301,7 +301,7 @@ const sendPaymentEmail = async (toEmail, paymentId, productId, hash) => {
     }
   });
 
-  const hashUrl = `https://mithril.fun/payment?id=${hash}`;
+  const hashUrl = `http://localhost:3000/payment?id=${hash}`;
 
   const mailOptions = {
     from: {
@@ -313,22 +313,26 @@ const sendPaymentEmail = async (toEmail, paymentId, productId, hash) => {
     html: `
       <div style="font-family: 'Arial', sans-serif; max-width: 600px; margin: 40px auto; background-color: #f9f9f9; color: #222222; border-radius: 8px; overflow: hidden; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);">
         <div style="padding: 20px 20px 10px 20px; position: relative;">
-          <img src="https://mithril.fun/images/icon.png" alt="Mithril Icon" width="48" height="48" style="position: absolute; top: 12px; right: 12px; border-radius: 6px;" />
-          <div style="position: absolute; top: 12px; right: 70px; font-size: 12px; color: #888;">#${paymentId}</div>
-          <h2 style="color: #222222; font-size: 22px; margin: 0 0 10px;">Здравствуйте!</h2>
-          <p style="font-size: 15px; color: #333333; margin: 0 0 8px;">Вы создали платёж на нашем сайте <strong style="color: #000000;">MITHRIL.FUN</strong>.</p>
-          <p style="font-size: 15px; color: #333333; margin: 0 0 14px;">Для просмотра деталей платежа перейдите по ссылке ниже:</p>
-          <a href="${hashUrl}" target="_blank" style="color: #83c916; word-break: break-word; font-size: 14px;">${hashUrl}</a>
+        <img src="https://mithril.fun/images/icon.png" alt="Mithril Icon" width="48" height="48" style="position: absolute; top: 12px; right: 12px; border-radius: 6px;" />
+        <div style="position: absolute; top: 12px; right: 70px; font-size: 12px; color: #888;">#${paymentId}</div>
+        <h2 style="color: #222222; font-size: 22px; margin: 0 0 10px;">Здравствуйте!</h2>
+        <p style="font-size: 15px; color: #333333; margin: 0 0 8px;">Вы создали платёж на нашем сайте <strong style="color: #000000;">MITHRIL.FUN</strong>.</p>
+        <p style="font-size: 15px; color: #333333; margin: 0 0 14px;">Для просмотра деталей платежа перейдите по ссылке ниже:</p>
+        <a href="${hashUrl}" target="_blank" style="color: #83c916; word-break: break-word; font-size: 14px;">${hashUrl}</a>
+        <p style="font-size: 14px; color: #666666; margin-top: 20px;">Если ссылка больше не действительна, нажмите на кнопку ниже для разблокировки доступа:</p>
+        <div style="text-align: center; margin-top: 12px; margin-bottom: 12px;">
+            <a href="http://localhost:3000/api/shop/payment/unlock/${paymentId}" target="_blank" style="background-color: #83c916; color: white; padding: 10px 18px; text-decoration: none; border-radius: 6px; font-size: 14px;">РАЗБЛОКИРОВАТЬ ПЛАТЁЖ</a>
+        </div>
         </div>
         <div style="background-color: #eeeeee; padding: 16px; text-align: center; font-size: 13px; color: #666666; border-top: 1px solid #dddddd;">
-          <p style="margin-bottom: 10px;">Наши социальные сети:</p>
-          <a href="https://mithril.fun/tg" style="margin: 0 8px; color: #83c916;">Телеграм канал</a>
-          |
-          <a href="https://mithril.fun//dsc" style="margin: 0 8px; color: #83c916;">Дискорд</a>
-          |
-          <a href="https://mithril.fun/vk" style="margin: 0 8px; color: #83c916;">ВКонтакте</a>
+        <p style="margin-bottom: 10px;">Наши социальные сети:</p>
+        <a href="https://mithril.fun/tg" style="margin: 0 8px; color: #83c916;">Телеграм канал</a>
+        |
+        <a href="https://mithril.fun//dsc" style="margin: 0 8px; color: #83c916;">Дискорд</a>
+        |
+        <a href="https://mithril.fun/vk" style="margin: 0 8px; color: #83c916;">ВКонтакте</a>
         </div>
-      </div>
+    </div>
     `
   };
 
@@ -362,6 +366,66 @@ app.get('/api/shop/payment/:id', async (req, res) => {
         console.error('Ошибка получения данных о платеже:', error);
         res.status(500).json({ error: 'Ошибка получения информации о платеже' });
     }
+});
+
+app.get('/api/shop/payment/unlock/:id', async (req, res) => {
+  const paymentId = req.params.id;
+  try {
+    const data = await fetchWithRetry(`https://easydonate.ru/api/v3/shop/payment/${paymentId}`, {
+      method: 'GET',
+      headers: { 'Shop-Key': shopKey }
+    });
+
+    if (data?.success && data?.response?.hash) {
+      await addPaymentHash(paymentId, data.response.hash);
+      return res.send(`
+        <html>
+          <head>
+            <meta charset="UTF-8">
+            <title>Разблокировано</title>
+            <style>
+              body {
+                background-color: #f9f9f9;
+                font-family: Arial, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+              }
+              .message {
+                background: white;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+                text-align: center;
+              }
+              .message h1 {
+                color: #4caf50;
+                font-size: 20px;
+                margin-bottom: 10px;
+              }
+              .message p {
+                color: #555;
+                font-size: 14px;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="message">
+              <h1>Ссылка успешно разблокирована</h1>
+              <p>Вы можете закрыть эту вкладку.</p>
+            </div>
+          </body>
+        </html>
+      `);
+    } else {
+      return res.status(404).send(`<h2>Не удалось разблокировать ссылку.</h2>`);
+    }
+  } catch (err) {
+    console.error('Ошибка при восстановлении связи:', err);
+    return res.status(500).send(`<h2>Внутренняя ошибка сервера.</h2>`);
+  }
 });
 
 app.get('/api/shop/payment/by-any-id/:any', async (req, res) => {
