@@ -102,7 +102,7 @@ function displayCategories(categories) {
             let priceText;
     
             if (id === 83845) {
-                priceText = `ОТ ${category.maxPrice} руб.`;
+                priceText = `ДО ${category.maxPrice} руб.`;
             } else {
                 priceText = category.minPrice === category.maxPrice 
                     ? `ДО ${category.maxPrice} руб.` 
@@ -435,7 +435,7 @@ function buyProduct(id) {
     const coupon = document.getElementById('inputCoupon').value.trim();
 
     let quantity = 1;
-    if ([899640, 899641, 900505, 928805, 978554].includes(id)) {
+    if ([899640, 899641, 900505, 928805, 978554, 987768].includes(id)) {
         quantity = productCounters[id] || 1;
     }
 
