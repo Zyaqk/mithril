@@ -79,7 +79,6 @@ if (!id || !isHash) {
                     <h2 style="color:#83c916;">ИНФОРМАЦИЯ:</h2>
                     <ul class="payment-userinfo">
                         <li>Покупатель: <span>${p.customer || 'Нет'}</span></li>
-                        <li>Почта: <span>${p.email || 'Нет'}</span></li>
                         <li>Сумма: <span>${p.cost || 'Нет'} руб.</span></li>
                         <li>Статус: ${statusText(p.status)}</li>
                         <li>Платёжная система: <span>${p.payment_system || 'Нет'}</span></li>

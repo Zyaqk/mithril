@@ -259,7 +259,7 @@ app.get('/api/shop/payment/create', async (req, res) => {
       return res.status(400).json({ error: 'Неверные параметры для создания оплаты.' });
     }
 
-    const apiUrl = `https://easydonate.ru/api/v3/shop/payment/create?customer=${customer}&server_id=${process.env.SERVER_ID}&products=${products}&coupon=${coupon}&email=mithrilrpg@gmail.com&success_url=https://mithril.fun`;
+    const apiUrl = `https://easydonate.ru/api/v3/shop/payment/create?customer=${customer}&server_id=${process.env.SERVER_ID}&products=${products}&coupon=${coupon}&email=a.bcdf@gmail.com&success_url=https://mithril.fun`;
 
     const response = await fetch(apiUrl, {
       method: 'GET',
