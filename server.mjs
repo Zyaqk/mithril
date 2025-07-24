@@ -74,6 +74,18 @@ app.get('/payment-hashes.json', (req, res) => {
     res.status(403).send('Access denied');
 });
 
+app.get('/arenalegends-rp', async (req, res) => {
+    const filePath = path.join(__dirname, 'static', 'ArenaPack.zip');
+
+    try {
+        await fs.access(filePath);
+        res.download(filePath, 'ArenaPack.zip');
+    } catch (err) {
+        console.error('Файл не найден:', err);
+        res.status(404).send('Файл не найден');
+    }
+});
+
 app.use((req, res, next) => {
     if (req.path.startsWith('/api/') || req.path.startsWith('/payment')) {
         return next();
