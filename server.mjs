@@ -74,6 +74,17 @@ app.get('/payment-hashes.json', (req, res) => {
     res.status(403).send('Access denied');
 });
 
+app.get('/arenalegends-rp', (req, res) => {
+    const filePath = path.join(__dirname, 'static', 'ArenaPack.zip');
+    res.download(filePath, 'arenalegends-rp.zip', (err) => {
+        if (err) {
+            console.error('Ошибка при скачивании файла:', err);
+            res.status(500).send('Ошибка при скачивании файла');
+        }
+    });
+});
+
+
 app.use((req, res, next) => {
     if (req.path.startsWith('/api/') || req.path.startsWith('/payment')) {
         return next();
@@ -187,6 +198,7 @@ app.get('/api/shop/products', async (req, res) => {
             });
         }
         res.json(apiResponse);
+        console.log(apiResponse)
     } catch (error) {
         res.status(500).json({ error: 'Ошибка получения данных с API' });
     }
