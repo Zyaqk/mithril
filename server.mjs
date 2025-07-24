@@ -76,7 +76,7 @@ app.get('/payment-hashes.json', (req, res) => {
 
 app.get('/arenalegends-rp', (req, res) => {
     const filePath = path.join(__dirname, 'static', 'ArenaPack.zip');
-    res.download(filePath, 'arenalegends-rp.zip', (err) => {
+    res.download(filePath, 'ArenaPack-rp.zip', (err) => {
         if (err) {
             console.error('Ошибка при скачивании файла:', err);
             res.status(500).send('Ошибка при скачивании файла');
