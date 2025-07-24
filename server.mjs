@@ -74,6 +74,17 @@ app.get('/payment-hashes.json', (req, res) => {
     res.status(403).send('Access denied');
 });
 
+app.get('/arenalegends-rp', (req, res) => {
+    const filePath = path.join(__dirname, 'static', 'ArenaPack.zip');
+    res.download(filePath, 'ArenaPack-rp.zip', (err) => {
+        if (err) {
+            console.error('Ошибка при скачивании файла:', err);
+            res.status(500).send('Ошибка при скачивании файла');
+        }
+    });
+});
+
+
 app.use((req, res, next) => {
     if (req.path.startsWith('/api/') || req.path.startsWith('/payment')) {
         return next();
