@@ -268,9 +268,8 @@ function processUserData() {
     }
 
     function showSuccessMessage() {
-        img.src = `https://mineskin.eu/helm/${nickname}`;
-        imgHandy.src = `https://mineskin.eu/helm/${nickname}`
-        skin.src = `https://mineskin.eu/armor/body/${nickname}/100.png`
+        img.src = `https://mc-heads.net/avatar`;
+        imgHandy.src = `https://mc-heads.net/avatar`
         notificationDashboard.style.display = 'none';
         showNotification('ДАННЫЕ ОБНОВЛЕНЫ И СОХРАНЕНЫ!', '');
     }
@@ -288,9 +287,8 @@ function loadNickname() {
         const img = document.getElementById('userIMGPC');
         const imgHandy = document.getElementById('userIMGHANDY');
         const skin = document.getElementById('userSkin');
-        img.src = `https://mineskin.eu/helm/${nickname}`;
-        imgHandy.src = `https://mineskin.eu/helm/${nickname}`;
-        skin.src = `https://mineskin.eu/armor/body/${nickname}/100.png`
+        img.src = `https://mc-heads.net/avatar`;
+        imgHandy.src = `https://mc-heads.net/avatar`;
     }
 
     if (nickname) {

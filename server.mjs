@@ -81,8 +81,7 @@ app.get('/arenalegends-rp', async (req, res) => {
         await fs.access(filePath);
         res.download(filePath, 'ArenaPack.zip');
     } catch (err) {
-        console.error('Файл не найден:', err);
-        res.status(404).send('Файл не найден');
+        console.error(err);
     }
 });
 
@@ -104,12 +103,12 @@ async function fetchWithRetry(url, options, retries = 3, delayMs = 1080) {
         try {
             const response = await fetch(url, options);
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(response.status);
             }
             return await response.json();
         } catch (error) {
             attempt++;
-            console.error(`Попытка ${attempt} не удалась:`, error);
+            console.error(error);
             if (attempt === retries) throw error;
             await delay(delayMs);
         }
@@ -163,10 +162,10 @@ app.get('/api/shop/coupon/:code', async (req, res) => {
             } = coupon;
             res.json({ success: true, coupon: filteredCoupon });
         } else {
-            res.status(404).json({ success: false, error: 'Такого купона в магазине не существует' });
+            res.status(404).json({ success: false, error });
         }
     } catch (error) {
-        res.status(500).json({ success: false, error: 'Ошибка получения данных с API' });
+        res.status(500).json({ success: false, error });
     }
 });
 
@@ -199,9 +198,8 @@ app.get('/api/shop/products', async (req, res) => {
             });
         }
         res.json(apiResponse);
-        console.log(apiResponse)
     } catch (error) {
-        res.status(500).json({ error: 'Ошибка получения данных с API' });
+        res.status(500).json({ error });
     }
 });
 
@@ -213,7 +211,7 @@ app.get('/api/shop/custommessages', async (req, res) => {
         });
         res.json(data);
     } catch (error) {
-        res.status(500).json({ error: 'Ошибка получения данных с API' });
+        res.status(500).json({error});
     }
 });
 
@@ -257,11 +255,11 @@ app.get('/api/shop/payments', async (req, res) => {
 
             res.json({ success: true, response: filteredPayments });
         } else {
-            res.status(500).json({ error: 'Unexpected data format' });
+            res.status(500).json({ error });
         }
     } catch (error) {
-        console.error('Ошибка получения данных:', error);
-        res.status(500).json({ error: 'Failed to fetch data' });
+        console.error(error);
+        res.status(500).json({ error });
     }
 });
 
@@ -269,7 +267,7 @@ app.get('/api/shop/payment/create', async (req, res) => {
   try {
     const { customer, products, coupon, email } = req.query;
     if (!customer || !products || !email) {
-      return res.status(400).json({ error: 'Неверные параметры для создания оплаты.' });
+      return res.status(400).json({ error });
     }
 
     const apiUrl = `https://easydonate.ru/api/v3/shop/payment/create?customer=${customer}&server_id=${process.env.SERVER_ID}&products=${products}&coupon=${coupon}&email=a.bcdf@gmail.com&success_url=https://mithril.fun`;
@@ -297,11 +295,11 @@ app.get('/api/shop/payment/create', async (req, res) => {
 
       return res.json({ success: true, url: paymentUrl });
     } else {
-      return res.status(500).json({ error: 'Ошибка создания оплаты.' });
+      return res.status(500).json({ error });
     }
   } catch (error) {
-    console.error('Ошибка при создании оплаты:', error);
-    res.status(500).json({ error: 'Внутренняя ошибка сервера.' });
+    console.error(error);
+    res.status(500).json({ error });
   }
 });
 
@@ -351,9 +349,8 @@ const sendPaymentEmail = async (toEmail, paymentId, productId, hash) => {
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log('Письмо отправленно!')
   } catch (err) {
-    console.error('Ошибка отправки письма:', err);
+    console.error(err);
   }
 };
 
@@ -361,7 +358,7 @@ const sendPaymentEmail = async (toEmail, paymentId, productId, hash) => {
 app.get('/api/shop/payment/:id', async (req, res) => {
     const paymentId = req.params.id;
     if (!paymentId) {
-        return res.status(400).json({ error: 'Не указан ID платежа' });
+        return res.status(400).json({ error });
     }
     try {
         const data = await fetchWithRetry(
@@ -376,8 +373,8 @@ app.get('/api/shop/payment/:id', async (req, res) => {
         }
         res.json(data);
     } catch (error) {
-        console.error('Ошибка получения данных о платеже:', error);
-        res.status(500).json({ error: 'Ошибка получения информации о платеже' });
+        console.error(error);
+        res.status(500).json({ error });
     }
 });
 
@@ -436,7 +433,7 @@ app.get('/api/shop/payment/unlock/:id', async (req, res) => {
       return res.status(404).send(`<h2>Не удалось разблокировать ссылку.</h2>`);
     }
   } catch (err) {
-    console.error('Ошибка при восстановлении связи:', err);
+    console.error(err);
     return res.status(500).send(`<h2>Внутренняя ошибка сервера.</h2>`);
   }
 });
@@ -450,7 +447,7 @@ app.get('/api/shop/payment/by-any-id/:any', async (req, res) => {
         if (mappings[any]) {
             id = mappings[any];
         } else {
-            return res.status(404).json({ error: 'Платёж не найден (hash)' });
+            return res.status(404).json({ error });
         }
     }
 
@@ -478,8 +475,8 @@ app.get('/api/shop/payment/by-any-id/:any', async (req, res) => {
         }
         res.json(data);
     } catch (error) {
-        console.error('Ошибка получения данных о платеже:', error);
-        res.status(500).json({ error: 'Ошибка получения информации о платеже' });
+        console.error(error);
+        res.status(500).json({error});
     }
 });
 

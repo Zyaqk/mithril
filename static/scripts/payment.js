@@ -321,7 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const itemHTML = `
                 <div class="lastPurchasesItem" id="purchase-${i}">
                     <div class="PurchasesOne">
-                        <img src="https://mineskin.eu/helm/Ar" alt="Avatar">
+                        <img src="https://mc-heads.net/avatar" alt="Avatar">
                     </div>
                     <div class="PurchasesTwo">
                         <ul>
@@ -358,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const purchaseElement = document.getElementById(`purchase-${index}`);
 
                         if (purchaseElement) {
-                            purchaseElement.querySelector('img').src = `https://mineskin.eu/helm/${payment.customer}`;
+                            purchaseElement.querySelector('img').src = `https://mc-heads.net/avatar`;
                             purchaseElement.querySelector('ul li:nth-child(1)').textContent = payment.customer;
                             purchaseElement.querySelector('ul li:nth-child(2)').textContent = productName;
                             purchaseElement.querySelector('ul li:nth-child(3)').textContent = formattedDate;
